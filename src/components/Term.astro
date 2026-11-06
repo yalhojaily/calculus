@@ -1,0 +1,6 @@
+---
+/** مصطلح عربي ومعه الإنجليزي — لأن الكتاب بالإنجليزية والشرح بالعربية */
+interface Props { en: string }
+const { en } = Astro.props;
+---
+<span class="term" title={en}><slot /></span><span class="term-en">({en})</span>

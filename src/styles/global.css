@@ -1,0 +1,184 @@
+/* نظام الألوان مأخوذ من فكرة Strang الأساسية:
+   الدالة (1) — الارتفاع/المسافة — أزرق.  الدالة (2) — الميل/السرعة — برتقالي.  المساحة/التراكم — أخضر.
+   هذه الألوان ثابتة في كل الرسوم والمعادلات على الموقع. */
+@import '@fontsource/ibm-plex-sans-arabic/400.css';
+@import '@fontsource/ibm-plex-sans-arabic/500.css';
+@import '@fontsource/ibm-plex-sans-arabic/600.css';
+@import '@fontsource/ibm-plex-sans-arabic/700.css';
+@import '@fontsource-variable/noto-kufi-arabic';
+@import '@fontsource/jetbrains-mono/400.css';
+@import 'katex/dist/katex.min.css';
+
+:root {
+  --paper: #f7f5f0;
+  --paper-2: #eeeae0;
+  --card: #ffffff;
+  --ink: #18202c;
+  --ink-2: #4c5563;
+  --ink-3: #848b96;
+  --line: #e0dbcf;
+  --grid: rgb(29 59 110 / 6%);
+  --f1: #2457c5;
+  --f1-soft: #e6edfb;
+  --f2: #e0751b;
+  --f2-soft: #fcefe2;
+  --area: #1f8a5b;
+  --area-soft: #e0f2e9;
+  --red: #c93a3a;
+  --red-soft: #fbe6e5;
+  --violet: #7547c2;
+  --violet-soft: #efe8fa;
+  --teal: #0f8a94;
+  --teal-soft: #ddf2f3;
+  --navy: #1d3b6e;
+  --shadow: 0 1px 2px rgb(20 30 50 / 6%), 0 6px 20px rgb(20 30 50 / 7%);
+  --radius: 14px;
+  --font-sans: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-head: 'Noto Kufi Arabic Variable', 'IBM Plex Sans Arabic', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #12151b;
+    --paper-2: #1a1e26;
+    --card: #1d222b;
+    --ink: #eef0f3;
+    --ink-2: #b4bac4;
+    --ink-3: #7d8591;
+    --line: #2f3540;
+    --grid: rgb(140 170 230 / 6%);
+    --f1: #6f9dff;
+    --f1-soft: #1c2945;
+    --f2: #ffa04d;
+    --f2-soft: #3a2817;
+    --area: #4fd39a;
+    --area-soft: #173427;
+    --red: #ff7070;
+    --red-soft: #3b1e20;
+    --violet: #b391f7;
+    --violet-soft: #2c2340;
+    --teal: #4fd0d9;
+    --teal-soft: #15343a;
+    --navy: #8fb0ea;
+    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 28%);
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --paper: #12151b;
+  --paper-2: #1a1e26;
+  --card: #1d222b;
+  --ink: #eef0f3;
+  --ink-2: #b4bac4;
+  --ink-3: #7d8591;
+  --line: #2f3540;
+  --grid: rgb(140 170 230 / 6%);
+  --f1: #6f9dff;
+  --f1-soft: #1c2945;
+  --f2: #ffa04d;
+  --f2-soft: #3a2817;
+  --area: #4fd39a;
+  --area-soft: #173427;
+  --red: #ff7070;
+  --red-soft: #3b1e20;
+  --violet: #b391f7;
+  --violet-soft: #2c2340;
+  --teal: #4fd0d9;
+  --teal-soft: #15343a;
+  --navy: #8fb0ea;
+  --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 28%);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.85;
+}
+a { color: var(--f1); text-underline-offset: 4px; }
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.45; }
+h1 { font-size: clamp(1.8rem, 4.5vw, 2.6rem); font-weight: 700; margin: 0.2em 0 0.3em; }
+h2 { font-size: 1.5rem; font-weight: 650; margin: 2.2em 0 0.6em; }
+h3 { font-size: 1.15rem; font-weight: 650; margin: 1.6em 0 0.4em; }
+code { font-family: var(--font-mono); font-size: 0.85em; background: var(--paper-2); padding: 0.1em 0.35em; border-radius: 5px; direction: ltr; unicode-bidi: isolate; }
+button { font: inherit; }
+:focus-visible { outline: 3px solid var(--f1); outline-offset: 2px; }
+
+/* المعادلات تُكتب دائماً من اليسار إلى اليمين داخل النص العربي */
+.katex { direction: ltr; unicode-bidi: isolate; font-size: 1.05em; }
+.katex .katex-mathml { left: 0; top: 0; }
+.katex-display { direction: ltr; margin: 1.1em 0; overflow-x: auto; overflow-y: hidden; padding: 6px 0; }
+.ltr { direction: ltr; unicode-bidi: isolate; }
+bdi[dir='ltr'] { white-space: nowrap; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+
+/* ---------- الأزرار ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink);
+  border-radius: 10px; padding: 7px 15px; font-weight: 600; cursor: pointer; text-decoration: none;
+  transition: transform 0.08s ease, background 0.15s ease, border-color 0.15s;
+}
+.btn:hover { border-color: var(--ink-3); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+:root[data-theme='dark'] .btn-primary { color: #0d1118; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme='light']) .btn-primary { color: #0d1118; } }
+.btn-primary:hover { background: var(--f2); border-color: var(--f2); }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--ink-2); }
+.btn-ghost:hover { background: var(--paper-2); }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+/* ---------- الصناديق ---------- */
+.callout { border-radius: var(--radius); padding: 14px 20px; margin: 1.4em 0; border-inline-start: 5px solid; }
+.callout > :first-child { margin-top: 0; }
+.callout > :last-child { margin-bottom: 0; }
+.callout-title { font-family: var(--font-head); font-weight: 700; font-size: 0.86rem; margin-bottom: 4px; display: flex; gap: 8px; align-items: center; }
+.callout.big { background: var(--f1-soft); border-color: var(--f1); }
+.callout.big .callout-title { color: var(--f1); }
+.callout.definition { background: var(--violet-soft); border-color: var(--violet); }
+.callout.definition .callout-title { color: var(--violet); }
+.callout.warning { background: var(--red-soft); border-color: var(--red); }
+.callout.warning .callout-title { color: var(--red); }
+.callout.key { background: var(--area-soft); border-color: var(--area); }
+.callout.key .callout-title { color: var(--area); }
+.callout.strang { background: var(--f2-soft); border-color: var(--f2); }
+.callout.strang .callout-title { color: var(--f2); }
+.callout.strang blockquote { margin: 0.4em 0; font-family: Georgia, serif; font-style: italic; direction: ltr; text-align: left; color: var(--ink-2); }
+
+/* ألوان تربط الكلمات بالرموز */
+.f1 { color: var(--f1); font-weight: 650; }
+.f2 { color: var(--f2); font-weight: 650; }
+.area { color: var(--area); font-weight: 650; }
+.vi { color: var(--violet); font-weight: 650; }
+
+/* مصطلح عربي مع الإنجليزي بجانبه */
+.term { border-bottom: 1.5px dotted var(--ink-3); cursor: help; }
+.term-en { font-size: 0.78em; color: var(--ink-3); font-family: var(--font-sans); direction: ltr; unicode-bidi: isolate; margin-inline-start: 6px; }
+
+.tag { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 1px 10px; border-radius: 99px; background: var(--paper-2); color: var(--ink-2); }
+
+table.nice { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.95rem; }
+table.nice th, table.nice td { text-align: start; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.nice th { font-size: 0.82rem; color: var(--ink-3); }
+.table-scroll { max-width: 100%; overflow-x: auto; }
+
+@media (max-width: 640px) {
+  body { font-size: 17px; }
+}
+
+/* جداول Markdown داخل الدروس */
+.prose table { border-collapse: collapse; width: 100%; margin: 0.8em 0; font-size: 0.96rem; }
+.prose th, .prose td { text-align: start; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.prose th { font-family: var(--font-head); font-size: 0.86rem; border-bottom-width: 2px; }
+.callout table th, .callout table td { border-bottom-color: color-mix(in srgb, var(--ink-3) 30%, transparent); }

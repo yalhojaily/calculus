@@ -1,0 +1,161 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import LessonStatus from '../../components/LessonStatus.tsx';
+import BookPanel from '../../components/BookPanel.tsx';
+import { renderMathText } from '../../components/MathText.tsx';
+import { bidiHtml } from '../../lib/bidi';
+import { OCW_VIDEOS, PDF_OFFSET, allSections, chapterOf, neighbors, sectionById, sectionHref } from '../../data/curriculum';
+
+// كل قسم في الكتاب له صفحة: الأقسام المشروحة تعرض الدرس، والباقي تعرض صفحات الكتاب مع «قريباً».
+export async function getStaticPaths() {
+  const entries = await getCollection('lessons');
+  for (const e of entries) if (!sectionById(e.data.id)) throw new Error(`Lesson ${e.data.id} is not in src/data/curriculum.ts`);
+  return allSections.map((s) => ({ params: { slug: s.slug }, props: { id: s.id, entry: entries.find((e) => e.data.id === s.id) } }));
+}
+
+const { id, entry } = Astro.props;
+const rendered = entry ? await render(entry) : null;
+const Content = rendered?.Content;
+const base = import.meta.env.BASE_URL;
+const baseNoSlash = base.replace(/\/$/, '');
+const section = sectionById(id)!;
+const chapter = chapterOf(id);
+const available = new Set((await getCollection('lessons')).map((e) => e.data.id));
+const { prev, next } = neighbors(id);
+const href = (sid: string) => sectionHref(base, sectionById(sid)!);
+const toc = (rendered?.headings ?? []).filter((h) => h.depth === 2);
+const [p0, p1] = section.pages;
+---
+
+<Base title={`${section.id} ${section.titleAr} · التفاضل والتكامل`} description={entry?.data.summary}>
+  <div class="lesson-grid">
+    <aside class="lesson-side">
+      <div class="side-block">
+        <div class="side-label">الفصل {chapter.number}</div>
+        <div class="side-ch">{chapter.titleAr}</div>
+        <ol class="side-lessons">
+          {chapter.sections.map((s) => (
+            <li class={s.id === id ? 'current' : available.has(s.id) ? '' : 'soon'}>
+              <a href={href(s.id)}><span class="ltr">{s.id}</span><Fragment set:html={bidiHtml(s.titleAr)} /></a>
+            </li>
+          ))}
+        </ol>
+      </div>
+      {toc.length > 0 && (
+        <nav class="side-block side-toc" aria-label="في هذه الصفحة">
+          <div class="side-label">في هذا الدرس</div>
+          <ol>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+        </nav>
+      )}
+    </aside>
+
+    <main class="lesson-main">
+      <header class="lesson-head">
+        <div class="lesson-kicker">
+          <span class="lesson-num ltr">{section.id}</span>
+          <span>الفصل {chapter.number} · {chapter.titleAr}</span>
+        </div>
+        <h1><Fragment set:html={bidiHtml(section.titleAr)} /></h1>
+        <div class="lesson-en ltr">{section.titleEn}</div>
+        {entry && <p class="lesson-summary">{entry.data.summary}</p>}
+        <div class="lesson-meta">
+          {entry && <LessonStatus client:load lesson={id} />}
+          {entry && <span class="tag">≈ {entry.data.minutes} دقيقة</span>}
+          <button class="tag bookref-tag" data-book-page={p0} type="button">📖 الكتاب ص <span class="ltr">{p0}–{p1}</span></button>
+          {entry?.data.video && (
+            <a class="tag video-tag" href={OCW_VIDEOS} target="_blank" rel="noopener">🎬 محاضرة Strang: <span class="ltr">{entry.data.video}</span></a>
+          )}
+        </div>
+        {section.prereqs.length > 0 && (
+          <div class="lesson-pre">يبني على:
+            {section.prereqs.map((p) => <a href={href(p)}><span class="ltr">{p}</span> <Fragment set:html={bidiHtml(sectionById(p)!.titleAr)} /></a>)}
+          </div>
+        )}
+        {entry && (
+          <div class="objectives">
+            <div class="objectives-title">بنهاية هذا الدرس ستستطيع أن</div>
+            <ul>{entry.data.objectives.map((o) => <li set:html={renderMathText(o)} />)}</ul>
+          </div>
+        )}
+      </header>
+
+      {Content ? (
+        <article class="prose">
+          <Content />
+        </article>
+      ) : (
+        <div class="soon-box card">
+          <h2>شرح هذا القسم قادم</h2>
+          <p>إلى أن يجهز، يمكنك قراءة القسم من الكتاب مباشرة: صفحات <span class="ltr">{p0}–{p1}</span>.</p>
+          <button class="btn btn-primary" data-book-page={p0} type="button">📖 افتح القسم في الكتاب</button>
+        </div>
+      )}
+
+      {entry && <LessonStatus client:load lesson={id} variant="big" />}
+
+      <nav class="pager">
+        {prev ? <a class={`pager-link ${available.has(prev.id) ? '' : 'dim'}`} href={href(prev.id)}><span>→ السابق</span><b class="ltr">{prev.id}</b> <Fragment set:html={bidiHtml(prev.titleAr)} /></a> : <span />}
+        {next && <a class={`pager-link next ${available.has(next.id) ? '' : 'dim'}`} href={href(next.id)}><span>التالي ←{available.has(next.id) ? '' : ' · قريباً'}</span><b class="ltr">{next.id}</b> <Fragment set:html={bidiHtml(next.titleAr)} /></a>}
+      </nav>
+    </main>
+  </div>
+  <BookPanel client:idle src={`${baseNoSlash}/book.pdf`} pagesDir={`${baseNoSlash}/pages`} pages={section.pages} offset={PDF_OFFSET} sectionId={id} />
+</Base>
+
+<style>
+  .lesson-grid { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 44px; padding: 28px 16px 0; max-width: 1200px; margin: 0 auto; }
+  :global(html.book-open) .lesson-grid { grid-template-columns: minmax(0, 1fr); margin-inline-start: 0; margin-inline-end: min(48vw, 860px); max-width: none; }
+  :global(html.book-open) .lesson-side { display: none; }
+  .lesson-side { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow-y: auto; font-size: 0.88rem; }
+  .side-block + .side-block { margin-top: 24px; }
+  .side-label { font-size: 0.78rem; font-weight: 700; color: var(--ink-3); }
+  .side-ch { font-family: var(--font-head); font-weight: 650; margin-bottom: 8px; line-height: 1.5; }
+  .side-lessons, .side-toc ol { list-style: none; margin: 0; padding: 0; }
+  .side-lessons li a { display: flex; gap: 8px; padding: 4px 8px; border-radius: 8px; text-decoration: none; color: var(--ink-2); line-height: 1.5; }
+  .side-lessons li a span { font-family: var(--font-mono); font-size: 0.78rem; color: var(--f2); min-width: 28px; padding-top: 2px; }
+  .side-lessons li.current a { background: var(--card); color: var(--ink); font-weight: 650; box-shadow: var(--shadow); }
+  .side-lessons li.soon a { color: var(--ink-3); }
+  .side-lessons li.soon a span { color: var(--ink-3); }
+  .side-toc li a { display: block; padding: 3px 10px; border-inline-start: 2px solid var(--line); color: var(--ink-2); text-decoration: none; }
+  .side-toc li a:hover { border-inline-start-color: var(--f2); color: var(--ink); }
+
+  .lesson-main { max-width: 800px; min-width: 0; overflow-x: clip; }
+  :global(html.book-open) .lesson-main { margin: 0 auto; }
+  .lesson-kicker { display: flex; align-items: center; gap: 12px; color: var(--ink-3); font-size: 0.9rem; font-weight: 550; }
+  .lesson-num { font-family: var(--font-mono); font-size: 1.25rem; font-weight: 700; color: var(--f2); background: var(--f2-soft); padding: 0 12px; border-radius: 10px; }
+  .lesson-head h1 { margin-bottom: 0; }
+  .lesson-en { color: var(--ink-3); font-family: Georgia, serif; font-style: italic; text-align: right; margin-bottom: 10px; }
+  .lesson-summary { font-size: 1.12rem; color: var(--ink-2); margin: 0 0 14px; }
+  .lesson-meta { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; font-size: 0.86rem; }
+  .bookref-tag { border: 0; cursor: pointer; background: var(--f1-soft); color: var(--f1); }
+  .video-tag { text-decoration: none; background: var(--f2-soft); color: var(--f2); }
+  .lesson-pre { color: var(--ink-3); font-size: 0.88rem; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .objectives { margin-top: 20px; padding: 14px 20px; border-radius: var(--radius); background: var(--paper-2); border: 1px solid var(--line); }
+  .objectives-title { font-family: var(--font-head); font-weight: 700; font-size: 0.86rem; color: var(--navy); }
+  .objectives ul { margin: 4px 0 0; padding-inline-start: 22px; }
+
+  .prose :global(h2) { padding-top: 16px; border-top: 1px solid var(--line); scroll-margin-top: 80px; }
+  .prose :global(h3) { scroll-margin-top: 80px; }
+  .prose :global(ul), .prose :global(ol) { padding-inline-start: 1.4em; }
+  .prose :global(li) { margin: 0.25em 0; }
+
+  .soon-box { margin-top: 32px; padding: 24px 26px; }
+  .soon-box h2 { margin-top: 0; }
+
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 40px; }
+  .pager-link { display: flex; flex-direction: column; padding: 12px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); text-decoration: none; color: var(--ink); font-weight: 600; line-height: 1.6; }
+  .pager-link span { font-size: 0.78rem; color: var(--ink-3); font-weight: 650; }
+  .pager-link b { color: var(--f2); font-family: var(--font-mono); font-size: 0.9rem; }
+  .pager-link.next { text-align: left; grid-column: 2; }
+  .pager-link.dim { color: var(--ink-3); background: transparent; border-style: dashed; }
+  a.pager-link:hover { border-color: var(--f2); }
+
+  @media (max-width: 960px) {
+    .lesson-grid { grid-template-columns: 1fr; gap: 0; }
+    .lesson-side { display: none; }
+  }
+  @media (max-width: 1099px) {
+    :global(html.book-open) .lesson-grid { margin-inline-end: auto; }
+  }
+</style>

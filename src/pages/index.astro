@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CourseMap from '../components/CourseMap.tsx';
+import { allSections, curriculum, sectionById, sectionHref } from '../data/curriculum';
+
+const base = import.meta.env.BASE_URL;
+const entries = await getCollection('lessons');
+const available = Object.fromEntries(entries.map((e) => [e.data.id, sectionHref(base, sectionById(e.data.id)!)]));
+const hrefs = Object.fromEntries(allSections.map((s) => [s.id, sectionHref(base, s)]));
+const first = allSections.find((s) => available[s.id])!;
+---
+
+<Base title="التفاضل والتكامل مع Strang">
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <div class="hero-kicker">كتاب <span class="ltr">Calculus</span> لـ <span class="ltr">Gilbert Strang</span> · MIT · {curriculum.length} فصلاً · {allSections.length} قسماً</div>
+        <h1>كل التفاضل والتكامل يبدأ من <em>دالتين</em>.</h1>
+        <p class="hero-lede">
+          الدالة <b class="f1">(1)</b> هي المسافة أو الارتفاع، والدالة <b class="f2">(2)</b> هي السرعة أو الميل.
+          <b>التفاضل</b> ينقلك من (1) إلى (2)، و<b>التكامل</b> يعيدك من (2) إلى (1) بجمع التغيّرات الصغيرة.
+          كل درس هنا يشرح قسماً من الكتاب بالعربية، مع محاكاة تحرّكها بيدك، وصفحات الكتاب الأصلية بجانبك.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href={available[first.id]}>ابدأ من {first.id} · {first.titleAr} ←</a>
+          <a class="btn" href="#map">خريطة الكتاب</a>
+        </div>
+      </div>
+      <div class="hero-pair card" aria-hidden="true">
+        <svg viewBox="0 0 320 218" direction="ltr">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="currentColor"/></marker>
+          </defs>
+          <g fill="none" stroke-width="3" stroke-linecap="round">
+            <path d="M24 92 C 80 92, 110 40, 136 16" stroke="var(--f1)"/>
+            <path d="M184 92 L300 92 L300 22 Z" fill="var(--area)" fill-opacity=".22" stroke="none"/>
+            <path d="M184 92 L 300 22" stroke="var(--f2)" />
+          </g>
+          <g font-size="13" font-weight="700" text-anchor="middle">
+            <text x="80" y="118" fill="var(--f1)">(1) المسافة</text>
+            <text x="242" y="118" fill="var(--f2)">(2) السرعة</text>
+          </g>
+          <g style="color: var(--ink-3)" stroke="currentColor" stroke-width="1.8" fill="none">
+            <path d="M96 142 H 224" marker-end="url(#ah)"/>
+            <path d="M224 186 H 96" marker-end="url(#ah)"/>
+          </g>
+          <g font-size="12.5" font-weight="650" text-anchor="middle" fill="var(--ink)">
+            <text x="160" y="164">التفاضل: الميل</text>
+            <text x="160" y="208">التكامل: المساحة</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="map">
+    <h2 class="map-title">خريطة الكتاب</h2>
+    <CourseMap client:load chapters={curriculum} available={available} hrefs={hrefs} />
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 52px 0 36px; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 28px 28px; border-bottom: 1px solid var(--line); }
+  .hero-inner { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 44px; align-items: center; }
+  .hero-kicker { color: var(--f2); font-weight: 650; font-size: 0.9rem; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0.25em 0 0.35em; }
+  .hero h1 em { font-style: normal; color: var(--f1); }
+  .hero-lede { font-size: 1.1rem; color: var(--ink-2); max-width: 38em; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .hero-pair { padding: 14px; }
+  .hero-pair svg { width: 100%; height: auto; display: block; font-family: var(--font-sans); }
+  .map-title { margin-top: 1.4em; }
+  @media (max-width: 860px) { .hero-inner { grid-template-columns: 1fr; gap: 24px; } }
+</style>

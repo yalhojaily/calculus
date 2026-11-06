@@ -1,0 +1,6 @@
+---
+/** زر داخل النص يفتح صفحة الكتاب في اللوحة الجانبية */
+interface Props { page: number; label?: string }
+const { page, label } = Astro.props;
+---
+<button class="bookref" data-book-page={page} type="button">📖 {label ?? `ص ${page} في الكتاب`}</button>

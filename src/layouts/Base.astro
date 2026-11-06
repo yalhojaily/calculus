@@ -1,0 +1,74 @@
+---
+import '../styles/global.css';
+import '../styles/widgets.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'شرح عربي تفاعلي لكتاب Calculus لـ Gilbert Strang من MIT.' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <title>{title}</title>
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('calculus:theme');
+        if (t) document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="brand" href={`${base}/`}>
+          <span class="brand-mark ltr">∫</span>
+          <span class="brand-name">التفاضل والتكامل<span class="brand-sub"> · مع Strang</span></span>
+        </a>
+        <nav class="site-nav">
+          <a href={`${base}/`}>خريطة الكتاب</a>
+          <a href={`${base}/book.pdf`} target="_blank" rel="noopener">الكتاب كاملاً</a>
+          <button class="theme-btn" id="theme-btn" aria-label="الوضع الليلي" title="الوضع الليلي"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
+        </nav>
+      </div>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <div class="container">
+        موقع مرافق لكتاب <span class="ltr">Calculus</span> (الطبعة الثالثة) لـ <span class="ltr">Gilbert Strang</span>، المنشور مجاناً على
+        <a href="https://ocw.mit.edu" target="_blank" rel="noopener">MIT OpenCourseWare</a> بترخيص <span class="ltr">CC BY-NC-SA</span>. تقدّمك محفوظ في هذا المتصفح.
+      </div>
+    </footer>
+    <script is:inline>
+      document.getElementById('theme-btn')?.addEventListener('click', () => {
+        const root = document.documentElement;
+        const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        root.dataset.theme = dark ? 'light' : 'dark';
+        try { localStorage.setItem('calculus:theme', root.dataset.theme); } catch {}
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .site-header { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .site-header-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 16px; max-width: 1200px; margin: 0 auto; }
+  html.book-open .site-header-inner { max-width: none; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brand-mark { font-family: Georgia, serif; font-style: italic; font-size: 1.4rem; background: var(--navy); color: var(--f2); width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; }
+  .brand-name { font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; }
+  .brand-sub { color: var(--ink-3); font-weight: 400; font-family: var(--font-sans); }
+  .site-nav { display: flex; align-items: center; gap: 16px; }
+  .site-nav a { color: var(--ink-2); text-decoration: none; font-weight: 550; font-size: 0.92rem; }
+  .site-nav a:hover { color: var(--ink); }
+  .theme-btn { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; width: 34px; height: 34px; cursor: pointer; display: grid; place-items: center; }
+  .site-footer { border-top: 1px solid var(--line); margin-top: 80px; padding: 28px 0 calc(64px + env(safe-area-inset-bottom)); color: var(--ink-3); font-size: 0.85rem; }
+  @media (max-width: 560px) { .brand-sub, .site-nav a + a { display: none; } }
+</style>
