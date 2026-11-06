@@ -4,7 +4,7 @@
 
 الكتاب منشور مجاناً على [MIT OpenCourseWare](https://ocw.mit.edu) بترخيص CC BY-NC-SA.
 
-**الحالة:** الفصول 0 إلى 7 مكتملة (50 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
+**الحالة:** الفصول 0 إلى 8 مكتملة (56 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
 
 ## فكرة كل درس
 
@@ -43,7 +43,8 @@ src/
     ExpSlope, LogPaper, SlopeField, MoneyFlow, LogArea, SCurve,
     EulerSteps, HyperbolaCircle,
     PartsArea, DeltaSpike, Orthogonal, Mercator, CircleSub,
-    PartialFrac, ImproperArea    ← محاكاة قابلة لإعادة الاستخدام
+    PartialFrac, ImproperArea, AreaBetween, Revolution, ArcLength,
+    Distributions, CentralLimit, Centroid, RollingRace, ForceWork    ← محاكاة قابلة لإعادة الاستخدام
   lib/plot.ts             محرك رسم صغير على canvas (محاور، منحنيات، مساحات، مماسات، أسهم، منحنيات بارامترية)
   lib/bidi.ts             عزل المقاطع اللاتينية (y = x²) داخل العناوين العربية
   lib/progress.ts         التقدّم في localStorage
