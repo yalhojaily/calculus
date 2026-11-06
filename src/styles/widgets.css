@@ -136,3 +136,9 @@
 .cm-soon { margin-top: 8px; font-size: 0.78rem; color: var(--ink-3); }
 .diff-input { display: flex; gap: 10px; align-items: center; margin: 4px 0 6px; font-size: 0.92rem; }
 .diff-input input { flex: 1; font-family: var(--font-mono); font-size: 0.95rem; padding: 6px 10px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); }
+.pascal { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 0; font-family: var(--font-mono); font-size: 0.9rem; }
+.pascal-row { display: flex; gap: 6px; color: var(--ink-3); }
+.pascal-row span { min-width: 30px; text-align: center; padding: 1px 4px; border-radius: 6px; }
+.pascal-row.on { color: var(--ink); font-weight: 700; }
+.pascal-row.on span { background: var(--paper-2); }
+.pascal-row.on span.key { background: var(--f2); color: #fff; }
