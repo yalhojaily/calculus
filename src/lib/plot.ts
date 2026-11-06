@@ -222,6 +222,45 @@ export class Plot {
     this.line(xMin, y0 + m * (xMin - x0), xMax, y0 + m * (xMax - x0), color, opts);
   }
 
+  /** منحنى بارامتري (x(s), y(s)) مثل الدائرة */
+  curve(fx: (s: number) => number, fy: (s: number) => number, s0: number, s1: number, color: string, { width = 2, dash = [] as number[], n = 200 } = {}) {
+    this.clip(() => {
+      const { ctx } = this;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      ctx.setLineDash(dash);
+      ctx.beginPath();
+      for (let i = 0; i <= n; i++) {
+        const s = s0 + ((s1 - s0) * i) / n;
+        const X = this.X(fx(s));
+        const Y = this.Y(fy(s));
+        if (i) ctx.lineTo(X, Y); else ctx.moveTo(X, Y);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    });
+  }
+
+  /** سهم من (x1,y1) إلى (x2,y2) */
+  arrow(x1: number, y1: number, x2: number, y2: number, color: string, { width = 2.4, head = 9 } = {}) {
+    const { ctx } = this;
+    const a = this.X(x1), b = this.Y(y1), c = this.X(x2), d = this.Y(y2);
+    const ang = Math.atan2(d - b, c - a);
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.lineWidth = width;
+    ctx.beginPath();
+    ctx.moveTo(a, b);
+    ctx.lineTo(c - Math.cos(ang) * head * 0.6, d - Math.sin(ang) * head * 0.6);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(c, d);
+    ctx.lineTo(c - head * Math.cos(ang - 0.4), d - head * Math.sin(ang - 0.4));
+    ctx.lineTo(c - head * Math.cos(ang + 0.4), d - head * Math.sin(ang + 0.4));
+    ctx.closePath();
+    ctx.fill();
+  }
+
   point(x: number, y: number, color: string, r = 5) {
     const { ctx } = this;
     if (!Number.isFinite(y)) return;

@@ -16,12 +16,16 @@ const trips: Record<string, Trip> = {
   const: { label: 'سرعة ثابتة', s: () => 2, f: (t) => 2 * t, T: 4, sView: [-0.5, 3], fView: [-0.5, 9], note: 'سرعة ثابتة $s = 2$: المسافة خط مستقيم $f = 2t$، والمساحة تحت $s$ مستطيل $2 \\times t$.' },
   accel: { label: 'سرعة متزايدة', s: (t) => 2 * t, f: (t) => t * t, T: 4, sView: [-0.5, 9], fView: [-1, 17], note: 'السرعة $s = 2t$ تزيد: المساحة تحت $s$ مثلث $\\tfrac12 \\cdot t \\cdot 2t = t^2$، وهي بالضبط المسافة $f = t^2$. (الكتاب يستخدم $s = 20t$ و $f = 10t^2$: نفس الفكرة.)' },
   back: { label: 'السيارة للخلف', s: () => -1, f: (t) => 4 - t, T: 4, sView: [-2, 1.5], fView: [-0.5, 5], note: 'السرعة سالبة $s = -1$: المسافة تنزل من $4$ إلى $0$، والمساحة «تحت» $s$ تقع تحت المحور فهي سالبة.' },
+  fwdback: { label: 'ذهاب ثم إياب', s: (t) => (t < 3 ? 2 : -2), f: (t) => (t < 3 ? 2 * t : 2 * (6 - t)), T: 6, sView: [-3, 3], fView: [-0.5, 7], note: 'السرعة $+V$ حتى $t = 3$ ثم $-V$: المسافة تصعد إلى $3V$ ثم تعود إلى $0$ عند $t = 6$. المساحة الموجبة والسالبة تلغي إحداهما الأخرى. السرعة تقفز عند $t = 3$ فلا قيمة لها هناك، ورسم المسافة له **زاوية**.' },
+  delayed: { label: 'تتأخر في الانطلاق', s: (t) => (t < 1 ? 0 : 2 * (t - 1)), f: (t) => (t < 1 ? 0 : (t - 1) ** 2), T: 4, sView: [-0.5, 7], fView: [-0.5, 10], note: 'السيارة لا تتحرك حتى $t = 1$، ثم $v = 2(t - 1)$ و $f = (t - 1)^2$. التأخير الزمني يُزيح الرسمين إلى اليمين بمقدار $1$.' },
   updown: { label: 'تذهب وتعود', s: (t) => (t - 1) * (t - 3), f: (t) => t ** 3 / 3 - 2 * t * t + 3 * t, T: 4, sView: [-1.5, 3.5], fView: [-0.5, 2], note: 'عندما يكون الميل صفراً ($t = 1$ و $t = 3$) تكون $f$ في قمة أو قاع. حيث $s < 0$ تنقص المسافة.' },
 };
 
 /** 0.1 — الدالة (1) والدالة (2) معاً: الميل في الأعلى = الارتفاع في الأسفل، والمساحة = المسافة. */
-export default function DistanceSpeed() {
-  const [key, setKey] = useState<keyof typeof trips>('accel');
+type TripKey = keyof typeof trips;
+
+export default function DistanceSpeed({ show, initial = 'accel' }: { show?: TripKey[]; initial?: TripKey }) {
+  const [key, setKey] = useState<TripKey>(initial);
   const trip = trips[key];
   const clock = useClock(8);
   const t = clock.t * trip.T;
@@ -47,7 +51,7 @@ export default function DistanceSpeed() {
   const area = trip.f(t) - trip.f(0);
   return (
     <Widget title="الدالة (1) والدالة (2): عدّاد المسافة وعدّاد السرعة" hint={trip.note}>
-      <Choice value={key} onChange={(k) => { setKey(k); clock.reset(); }} options={Object.entries(trips).map(([v, tr]) => ({ v: v as keyof typeof trips, label: tr.label }))} />
+      <Choice value={key} onChange={(k) => { setKey(k); clock.reset(); }} options={(show ?? (Object.keys(trips) as TripKey[])).map((v) => ({ v, label: trips[v].label }))} />
       <div className="cv-row">
         <div>
           <Canvas refEl={fRef} ratio={0.75} label="المسافة f(t)" />

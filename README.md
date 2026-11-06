@@ -4,7 +4,7 @@
 
 الكتاب منشور مجاناً على [MIT OpenCourseWare](https://ocw.mit.edu) بترخيص CC BY-NC-SA.
 
-**الحالة:** الفصل 0 (Highlights of Calculus) مكتمل، 5 دروس. خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
+**الحالة:** الفصلان 0 و 1 مكتملان (11 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
 
 ## فكرة كل درس
 
@@ -28,8 +28,10 @@ src/
     BookPanel.tsx         لوحة صفحات الكتاب
     QuickCheck, StepReveal, Callout, Term, BookRef
     GrowthRace, DistanceSpeed, SecantTangent, ExpSeries, Compound,
-    MaxMin, RiemannSum, Newton, ZoomIn, ChainCalc   ← محاكاة قابلة لإعادة الاستخدام
-  lib/plot.ts             محرك رسم صغير على canvas (محاور، منحنيات، مساحات، مماسات)
+    MaxMin, RiemannSum, Newton, ZoomIn, ChainCalc,
+    FunctionShift, Differences, TaxBrackets, InstantVelocity,
+    CircleShadow, UnitCircle, SinN                  ← محاكاة قابلة لإعادة الاستخدام
+  lib/plot.ts             محرك رسم صغير على canvas (محاور، منحنيات، مساحات، مماسات، أسهم، منحنيات بارامترية)
   lib/bidi.ts             عزل المقاطع اللاتينية (y = x²) داخل العناوين العربية
   lib/progress.ts         التقدّم في localStorage
 scripts/render_pages.py   يحوّل public/book.pdf إلى صور صفحات (public/pages/, غير محفوظة في git)
@@ -47,6 +49,12 @@ tests/                    اختبارات خريطة الكتاب
 1. اكتب `src/content/lessons/<id>-<slug>.mdx` بنفس frontmatter الدروس الموجودة (`id` يطابق `curriculum.ts`).
 2. استخدم المحاكاة الموجودة أو أضف مكوّناً جديداً بـ `usePlot` و `useClock`.
 3. الدرس يظهر في الخريطة تلقائياً.
+
+### ملاحظات للكتابة في MDX
+
+- ضع `summary` و `objectives` في frontmatter بين علامتي اقتباس مفردتين، لأن النقطتين `:` تكسران YAML.
+- لا تكتب `\$` داخل الرياضيات (مثل `$\$20$`)، فهي تُربك محلّل الرياضيات. اكتب المبالغ بالعربية: «20,350 دولار».
+- لا تكتب جملة عربية كاملة داخل معادلة `$$...$$`، لأن المعادلات تُعرض من اليسار لليمين.
 
 ## الأوامر
 
