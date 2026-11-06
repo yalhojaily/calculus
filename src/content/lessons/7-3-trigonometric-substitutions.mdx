@@ -1,0 +1,164 @@
+---
+id: "7.3"
+summary: 'أقوى أداة للتكامل بالقلم والورقة هي التعويض. وأنفع مجموعة منه ثلاث: $x = a\sin\theta$ لـ $a^2 - x^2$، و $x = a\tan\theta$ لـ $a^2 + x^2$، و $x = a\sec\theta$ لـ $x^2 - a^2$. كل منها يزيل الجذر. وإكمال المربع يجهّز أي تربيعية لها.'
+minutes: 45
+objectives:
+  - 'تعوّض $x = \sin\theta$ في $\sqrt{1 - x^2}$، ولا تنسى $dx = \cos\theta\,d\theta$.'
+  - 'تختار بين $a\sin\theta$ و $a\tan\theta$ و $a\sec\theta$ بحسب صورة التربيعية.'
+  - 'تغيّر الحدود إلى $\theta$ في التكاملات المحددة، وتنتبه للحدود التي يصير عندها التكامل لانهائياً.'
+  - 'تعرف البدائل الزائدية $a\tanh\theta$ و $a\sinh\theta$ و $a\cosh\theta$.'
+  - 'تكمل المربع لتزيل الحد الخطي: $x^2 + 2bx + c = (x + b)^2 + (c - b^2)$.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import CircleSub from '../../components/CircleSub.tsx';
+
+<Callout type="big">
+أقوى أداة لدينا للتكامل بالقلم والورقة والدماغ هي **التعويض**. ولكي تعمل علينا أن نفكر في تعويضات جيدة تجعل التكامل أبسط. *يركّز هذا القسم على أثمن مجموعة من التعويضات. إنها الوحيدة التي يجب أن تحفظها.*
+</Callout>
+
+## x = sin θ
+
+لتكامل $\sqrt{1 - x^2}$ **عوّض $x = \sin\theta$**. (*لا تضع $u = 1 - x^2$: فـ $du$ مفقود.*)
+
+$$
+\int\sqrt{1 - x^2}\,dx \;\longrightarrow\; \int(\cos\theta)(\cos\theta\,d\theta)
+$$
+
+العبارة $\sqrt{1 - x^2}$ خرقاء دالةً في $x$، **وتصير رشيقة دالةً في $\theta$**. *نحن مدعوون عملياً إلى استعمال $1 - \sin^2\theta = \cos^2\theta$*، فالجذر ببساطة $\cos\theta$ (بشرط أن يكون موجباً).
+
+<Callout type="warning" title="لاحظ التغيّر في dx">
+حين يكون $x = \sin\theta$ يكون $dx = \cos\theta\,d\theta$. الشكل يُظهر المساحة الأصلية بحروف جديدة، ومساحة مساوية بعد إعادة كتابتها $\int\cos^2\theta\,d\theta$: **ارتفاع جديد وقاعدة جديدة، ولا تغيّر في المساحة**. هذه فكرة التعويض.
+
+*بصراحة: إذا انتقلنا من $\sqrt{1 - x^2}$ إلى $\cos\theta$، ونسينا الفرق بين $dx$ و $d\theta$، وحسبنا $\int\cos\theta\,d\theta$ فقط، فالجواب خطأ تماماً.*
+</Callout>
+
+<StepReveal
+  client:visible
+  title="المثال 1: ∫ √(1 − x²) dx"
+  problem="بعد التعويض، ثم العودة إلى x."
+  steps={[
+    { show: "$\\displaystyle\\int\\cos^2\\theta\\,d\\theta = \\tfrac12\\sin\\theta\\cos\\theta + \\tfrac12\\theta$", why: "المثال 3 في التكامل بالتجزئة، أو صيغة الزاوية المضاعفة. *يستحق الحفظ.*" },
+    { show: "عُد إلى $x$: $\\sin\\theta = x$، و $\\cos\\theta = \\sqrt{1 - x^2}$، و $\\theta = \\sin^{-1} x$" },
+    { show: "$\\displaystyle\\int\\sqrt{1 - x^2}\\,dx = \\tfrac12 x\\sqrt{1 - x^2} + \\tfrac12\\sin^{-1} x + C$", why: "*الجواب أصعب مما قد تتوقع لمساحة تحت قوس دائري.* القطعتان: **مثلث وقطاع على شكل فطيرة**." },
+  ]}
+/>
+
+<CircleSub client:visible />
+
+**المثال 2:** $\displaystyle\int\frac{dx}{\sqrt{1 - x^2}} = \int\frac{\cos\theta\,d\theta}{\cos\theta} = \int d\theta = \theta = \sin^{-1} x + C$. *نعرف $\sin^{-1} x$ مسبقاً، فمشتقته حُسبت في 4.4. لكن بدل أن نطابق هذه المسألة بذكرى من الفصل 4، يجعل التعويض $x = \sin\theta$ الحل تلقائياً.*
+
+## التعويضات المثلثية
+
+بعد $\sqrt{1 - x^2}$ تأتي $\sqrt{4 - x^2}$. التعويض $x = \sin\theta$ لا يفعل شيئاً لها: $4 - \sin^2\theta$ غير مألوف. **لكن عاملاً قدره 2 يجعل كل شيء يعمل**: $x = 2\sin\theta$ يعطي $\sqrt{4 - 4\sin^2\theta} = 2\cos\theta$ و $dx = 2\cos\theta\,d\theta$.
+
+<Callout type="key" title="انتبه جيداً">
+**المثال 3:** $\int\sqrt{4 - x^2}\,dx = 4\int\cos^2\theta\,d\theta = 2\sin\theta\cos\theta + 2\theta$. **لاحظ العاملين 2.** وهذا **ليس** أربعة أمثال الجواب السابق: بما أن $x = 2\sin\theta$ فإن $\theta = \sin^{-1}(x/2)$:
+$$
+\int\sqrt{4 - x^2}\,dx = x\sqrt{1 - (x/2)^2} + 2\sin^{-1}(x/2) + C
+$$
+</Callout>
+
+<StepReveal
+  client:visible
+  title="المثال 4: ∫₀⁴ dx/√(16 − x²)"
+  problem="a² = 16، فـ a = 4 و x = 4 sin θ."
+  steps={[
+    { show: "$\\sqrt{16 - 16\\sin^2\\theta} = 4\\cos\\theta$ و $dx = 4\\cos\\theta\\,d\\theta$: **$4\\cos\\theta$ فوق وتحت**، فالتكامل $d\\theta$" },
+    { show: "الحدود: $x = 0$ تعني $\\theta = 0$، و $x = 4$ تعني $\\sin\\theta = 1$، أي $\\theta = \\pi/2$" },
+    { show: "$\\displaystyle\\int_0^{\\pi/2} d\\theta = \\frac\\pi2$", why: "*جدول التكاملات كان سيخفي هذا التعويض، ولا يعطي إلا $\\sin^{-1}(x/4)$.*" },
+  ]}
+/>
+
+**لكن ماذا لو تغيّر $16 - x^2$ إلى $x^2 - 16$؟** المثال 4 بقي داخل الفترة $|x| \le 4$ حيث لـ $16 - x^2$ جذر. أما $x^2 - 16$ فله جذر **خارجها**، ولا يصلح $x = 4\sin\theta$ لأننا لا نريد جذر $-\cos^2\theta$. **التعويض الجديد $x = 4\sec\theta$** يحوّل الجذر إلى $4\tan\theta$:
+
+$$
+\int_4^8\frac{dx}{\sqrt{x^2 - 16}} = \int_0^{\pi/3}\frac{4\sec\theta\tan\theta\,d\theta}{4\tan\theta} = \int_0^{\pi/3}\sec\theta\,d\theta = \ln(2 + \sqrt3)
+$$
+
+*أريد أن أؤكد الخطوات الثلاث:* التعويض، ثم الحدود الجديدة ($\theta = 0$ عند $x = 4$، و $\theta = \pi/3$ عند $x = 8$)، ثم التكامل.
+
+<Callout type="warning" title="تحذير مضاعف">
+**المثال 6:** $\displaystyle\int_8^\infty\frac{16\,dx}{(x^2 - 16)^{3/2}} = \int_{\pi/3}^{\pi/2}\frac{\cos\theta\,d\theta}{\sin^2\theta} = \left[-\frac{1}{\sin\theta}\right]_{\pi/3}^{\pi/2} = -1 + \frac{2}{\sqrt3}$. **لو كان الحد الأدنى $\theta = 0$** (أو $x = 4$) **لكان هذا التكامل كارثة**: يقسم على $\sin 0 = 0$، والمساحة لانهائية.
+
+**التحذير²:** المثال 5 انفجر أيضاً عند $x = 4$، **لكن المساحة لم تكن لانهائية**. قارن $x^{-1/2}$ بـ $x^{-3/2}$: كلاهما ينفجر عند $x = 0$، لكن للأول مساحة منتهية ($\int_0^1 dx/\sqrt x = 2$) والثاني لا. القسم 7.5 يفصل المساحات المنتهية (النمو البطيء لـ $1/\sqrt x$) عن اللانهائية (النمو السريع لـ $x^{-3/2}$).
+</Callout>
+
+**التعويض الأخير:** مع $16 - x^2$ و $x^2 - 16$ يأتي احتمال $16 + x^2$. (*قد تسأل عن $-16 - x^2$، لكن لأسباب واضحة لا نأخذ جذره.*) هذه الصورة الثالثة تتطلب **$x = 4\tan\theta$**، فـ $16 + x^2 = 16\sec^2\theta$:
+
+$$
+\int_0^\infty\frac{dx}{16 + x^2} = \int_0^{\pi/2}\frac{4\sec^2\theta\,d\theta}{16\sec^2\theta} = \frac\pi8
+$$
+
+<div class="table-scroll">
+
+| التعويض | يستبدل | بـ | و $dx$ بـ |
+|---|---|---|---|
+| $x = a\sin\theta$ | $a^2 - x^2$ | $a^2\cos^2\theta$ | $a\cos\theta\,d\theta$ |
+| $x = a\tan\theta$ | $a^2 + x^2$ | $a^2\sec^2\theta$ | $a\sec^2\theta\,d\theta$ |
+| $x = a\sec\theta$ | $x^2 - a^2$ | $a^2\tan^2\theta$ | $a\sec\theta\tan\theta\,d\theta$ |
+
+</div>
+
+<Callout type="key" title="فرق دقيق: طريقة جديدة وطريقة قديمة">
+- في المثال 1 **استُبدل** $dx$ بـ $\cos\theta\,d\theta$ (الطريقة الجديدة).
+- في المثال 6 كان $\cos\theta\,d\theta$ **موجوداً أصلاً** وصار $du$ (الطريقة القديمة).
+
+*الفصل 5 احتاج $du/dx$ داخل التكامل. الآن ليس ضرورياً أن نرى إلى هذا البعد. نستطيع تجربة أي تعويض، فإن نجح فزنا.* **وفي هذا القسم، $x = \sin\theta$ أو $\sec\theta$ أو $\tan\theta$ لا بد أن ينجح.**
+</Callout>
+
+### التعويضات الزائدية
+
+<div class="table-scroll">
+
+| التعويض | يستبدل | بـ | و $dx$ بـ |
+|---|---|---|---|
+| $x = a\tanh\theta$ | $a^2 - x^2$ | $a^2\,\mathrm{sech}^2\theta$ | $a\,\mathrm{sech}^2\theta\,d\theta$ |
+| $x = a\sinh\theta$ | $a^2 + x^2$ | $a^2\cosh^2\theta$ | $a\cosh\theta\,d\theta$ |
+| $x = a\cosh\theta$ | $x^2 - a^2$ | $a^2\sinh^2\theta$ | $a\sinh\theta\,d\theta$ |
+
+</div>
+
+**المثال 8:** $\int dx/\sqrt{x^2 - 1}$ مع $x = \cosh\theta$ يصير $\int d\theta = \cosh^{-1} x$. *الجزء السيئ $\cosh^{-1} x$ في النهاية.* ومع $x = \sec\theta$: $\ln(\sec\theta + \tan\theta) = \ln\left(x + \sqrt{x^2 - 1}\right) + C$. *هذا الطريق يبدو أصعب، لكن معظم الجداول تفضّل ذلك اللوغاريتم الأخير.*
+
+## إكمال المربع
+
+لم نقل ماذا نفعل مع $\sqrt{x^2 - 2x + 2}$ أو $\sqrt{2x - x^2}$. **فيهما حد خطي** (مضاعف لـ $x$). *الأداة لإزالة الحدود الخطية جديرة بأن تُعرف:* <Term en="completing the square">إكمال المربع</Term>.
+
+$$
+x^2 - 2x + 2 = (x - 1)^2 + 1 = u^2 + 1 \qquad\qquad -x^2 + 2x = -(x - 1)^2 + 1 = 1 - u^2
+$$
+
+<Callout type="definition" title="ثلاث خطوات">
+1. اجمع حدَّي $x^2$ و $x$ في مربع واحد (هنا $(x - 1)^2 = x^2 - 2x + 1$).
+2. صحّح الحد الثابت (هنا بإضافة 1).
+3. ضع $u = x - 1$ فلا يبقى حد خطي.
+
+وعموماً: $x^2 + 2bx + c = (x + b)^2 + C$ مع $C = c - b^2$. **مثال:** $x^2 + 10x + 16 = (x + 5)^2 - 9$. وإذا بدأت التربيعية بـ $5x^2$ **فأخرج 5 أولاً**: $5x^2 - 10x + 25 = 5\big[(x - 1)^2 + 4\big]$.
+</Callout>
+
+**الحد الفاصل:** لـ $u^2 + a^2$ نعوّض $u = a\tan\theta$، ولـ $u^2 - a^2$ نعوّض $u = a\sec\theta$. *هذا الخط الفاصل الكبير يعتمد على كون الثابت $C$ (بعد إكمال المربع) موجباً أم سالباً.* وفي التربيعية الأصلية يقع الفاصل بين $c \gt b^2$ و $c \lt b^2$. **وبينهما، $c = b^2$ يعطي مربعاً كاملاً $(x + b)^2$، ولا تعويض مثلثياً على الإطلاق.**
+
+<QuickCheck
+  client:visible
+  id="7.3-choose"
+  question="أي تعويض يناسب $\int\dfrac{dx}{(1 + x^2)^{3/2}}$؟"
+  options={["$x = \\sin\\theta$", "$x = \\tan\\theta$", "$x = \\sec\\theta$", "$u = 1 + x^2$"]}
+  answer={1}
+  explain="$1 + x^2$ صورة $a^2 + x^2$. مع $x = \tan\theta$: $(\sec^2\theta)^{3/2} = \sec^3\theta$ و $dx = \sec^2\theta\,d\theta$، فالتكامل $\int\cos\theta\,d\theta = \sin\theta = \dfrac{x}{\sqrt{1 + x^2}} + C$. (التمرين 13)"
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={359} label="ص 359" />
+
+كامل بالتعويض، ثم أعد $\theta$ إلى $x$:
+
+- **(7)** $\displaystyle\int\frac{dx}{(1 + x^2)^2}$
+- **(13)** $\displaystyle\int\frac{dx}{(1 + x^2)^{3/2}}$
+- **(15)** $\displaystyle\int\frac{dx}{(x^2 - 9)^{3/2}}$
+- **(35)** (أ) $x = $ ______ يعطي $\int dx/\sqrt{x^2 - 1} = \ln(\sec\theta + \tan\theta)$. (ب) من المثلث، هذا الجواب $f = \ln\left(x + \sqrt{x^2 - 1}\right)$. تحقق أن $df/dx = 1/\sqrt{x^2 - 1}$. (ج) تحقق أن $\cosh f = \tfrac12(e^f + e^{-f}) = x$.
