@@ -12,15 +12,18 @@ export function tex(src: string, display = false) {
 
 /** Renders a string containing inline math ($...$) and **bold** text. */
 export function renderMathText(src: string) {
-  return src
+  // ** تبدّل الخط العريض عبر الأجزاء كلها، فيصح أن يحيط الخط العريض بمعادلة.
+  let bold = false;
+  const out = src
     .split(/(\$[^$]+\$)/g)
     .map((part) => {
       if (part.startsWith('$') && part.endsWith('$') && part.length > 1) return tex(part.slice(1, -1));
       return esc(part)
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*\*/g, () => ((bold = !bold) ? '<strong>' : '</strong>'))
         .replace(/\n\n/g, '<br/><br/>');
     })
     .join('');
+  return bold ? out + '</strong>' : out;
 }
 
 export function MathText({ children, as: Tag = 'span', className }: { children: string; as?: 'span' | 'div' | 'p'; className?: string }) {

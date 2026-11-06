@@ -4,7 +4,7 @@
 
 الكتاب منشور مجاناً على [MIT OpenCourseWare](https://ocw.mit.edu) بترخيص CC BY-NC-SA.
 
-**الحالة:** الفصول 0 إلى 4 مكتملة (30 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
+**الحالة:** الفصول 0 إلى 5 مكتملة (38 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
 
 ## فكرة كل درس
 
@@ -37,7 +37,9 @@ src/
     LinearApprox, Expressway, Profit, QuadApprox, GraphAnatomy,
     SquareWave, Conics, Cobweb, Logistic, NewtonChaos,
     MeanValue, LHopital,
-    ChainRule, Implicit, RelatedRates, InverseMirror, InverseTrig    ← محاكاة قابلة لإعادة الاستخدام
+    ChainRule, Implicit, RelatedRates, InverseMirror, InverseTrig,
+    Telescope, IncomeRect, AreaFunction, SumPowers, Substitution,
+    UpperLower, AverageValue, Rings, NumericalRules    ← محاكاة قابلة لإعادة الاستخدام
   lib/plot.ts             محرك رسم صغير على canvas (محاور، منحنيات، مساحات، مماسات، أسهم، منحنيات بارامترية)
   lib/bidi.ts             عزل المقاطع اللاتينية (y = x²) داخل العناوين العربية
   lib/progress.ts         التقدّم في localStorage
