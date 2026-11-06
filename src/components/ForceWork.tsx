@@ -74,7 +74,7 @@ export default function ForceWork() {
           <Slider label="عمق الماء (قدم)" value={depth} min={1} max={20} step={0.5} onChange={setDepth} show={(v) => fmt(v, 1)} color="var(--f1)" />
         </div>
         <Readout items={[
-          { label: 'طول السد عند العمق $h$', value: '$l = 60 - \\tfrac12 h$' },
+          { label: 'طول السد عند العمق $h$: $l = 60 - \\tfrac12 h$', value: fmt(60 - depth / 2, 1) },
           { label: 'القوة الكلية (رطل)', value: fmt(F, 0), color: 'var(--f1)' },
         ]} />
         <MathText as="div" className="verdict">{'المثال 4: سدّ شبه منحرف، عرضه 60 عند السطح و 50 عند عمق 20. **الشرائح الأعمق أغمق لأن الضغط $wh$ أكبر هناك.** القوة $\\int_0^{20} wh\\left(60 - \\tfrac12 h\\right)dh = 12000w - \\tfrac16(8000)w$، مع $w = 62$ رطلاً للقدم المكعب.'}</MathText>
