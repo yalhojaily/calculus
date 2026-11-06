@@ -1,0 +1,148 @@
+---
+id: "6.7"
+summary: 'تركيبتان من $e^x$ و $e^{-x}$ لهما اسمان: $\cosh x$ و $\sinh x$. كل حقيقة عن الجيب وجيب التمام لها مقابل زائدي، وكثيراً ما يكون الفرق إشارة واحدة. النقطة $(\cosh t, \sinh t)$ تسير على قطع زائد، والسلسلة المعلقة على شكل $\cosh$.'
+minutes: 35
+objectives:
+  - 'تعرّف $\cosh x = \tfrac12(e^x + e^{-x})$ و $\sinh x = \tfrac12(e^x - e^{-x})$ وتعرف زوجيتهما وفرديتهما.'
+  - 'تبرهن $\cosh^2 x - \sinh^2 x = 1$، وتشتق $\cosh$ و $\sinh$ وتكاملهما.'
+  - 'ترى أن $(\cosh t, \sinh t)$ على القطع الزائد $x^2 - y^2 = 1$، والمساحة $\tfrac12 t$.'
+  - 'تكتب الدوال الزائدية العكسية لوغاريتمات، ومنها $\tanh^{-1} x = \tfrac12\ln\dfrac{1 + x}{1 - x}$.'
+  - 'تتعرف على السلسلة المعلقة $y = a\cosh(x/a)$، وعلى معادلة أويلر $e^{ix} = \cos x + i\sin x$.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import HyperbolaCircle from '../../components/HyperbolaCircle.tsx';
+
+<Callout type="big">
+هذا القسم يجمع $e^x$ مع $e^{-x}$. حتى الآن سلكت الدالتان طريقين منفصلين: إحداهما تتزايد والأخرى تتناقص. **لكن تركيبتين خاصتين استحقتا اسمين خاصين**:
+$$
+\cosh x = \frac{e^x + e^{-x}}{2} \qquad\qquad \sinh x = \frac{e^x - e^{-x}}{2}
+$$
+<Term en="hyperbolic cosine">جيب التمام الزائدي</Term> و<Term en="hyperbolic sine">الجيب الزائدي</Term>.
+</Callout>
+
+الرسمان يُظهران أن $\cosh x \gt \sinh x$. **للقيم الكبيرة لـ $x$ تقترب الدالتان كثيراً من $\tfrac12 e^x$.** وحين يكون $x$ كبيراً سالباً يهيمن $e^{-x}$: $\cosh x$ ما زال يصعد إلى $+\infty$، بينما $\sinh x$ ينزل إلى $-\infty$ (لأن أمام $e^{-x}$ إشارة سالبة فيه).
+
+- $\cosh(-x) = \cosh x$ و $\cosh 0 = 1$: **زوجية، مثل جيب التمام**.
+- $\sinh(-x) = -\sinh x$ و $\sinh 0 = 0$: **فردية، مثل الجيب**.
+
+<Callout type="strang" title="السلسلة المعلقة وقوس سانت لويس">
+رسم $\cosh x$ يقابل **سلسلة (كابلاً) معلقة تحت ثقلها**. مقلوباً، له شكل **قوس البوابة في سانت لويس**. *لا بد أنه أكبر دالة $\cosh$ مقلوبة بُنيت على الإطلاق.* بناء الكابل أسهل من بناء القوس، لأن الجاذبية تقوم بالعمل. ارتفاع الكابل دالة $\cosh$ ممطوطة تسمى <Term en="catenary">السلسلية</Term>:
+$$
+y = a\cosh(x/a) \qquad (a = \text{شدّ الكابل} / \text{كثافته})
+$$
+*وملعب بوش في سانت لويس فيه 96 منحنى سلسلياً، ليطابق القوس.*
+</Callout>
+
+## الخواص
+
+*هناك خواص أكثر من أن تُحفظ، ولا سبب لحفظها!* **قاعدة واحدة هي الأهم: كل حقيقة عن الجيب وجيب التمام تنعكس في حقيقة مقابلة عن $\sinh x$ و $\cosh x$. وكثيراً ما يكون الفرق الوحيد إشارة سالبة.**
+
+<div class="table-scroll">
+
+| زائدي | دائري |
+|---|---|
+| $\cosh^2 x - \sinh^2 x = 1$ | $\cos^2 x + \sin^2 x = 1$ |
+| $\dfrac{d}{dx}\cosh x = \sinh x$ | $\dfrac{d}{dx}\cos x = -\sin x$ |
+| $\dfrac{d}{dx}\sinh x = \cosh x$ | $\dfrac{d}{dx}\sin x = \cos x$ |
+| $\int\sinh x\,dx = \cosh x + C$ | $\int\sin x\,dx = -\cos x + C$ |
+
+</div>
+
+<StepReveal
+  client:visible
+  title="تحقق: cosh² x − sinh² x = 1"
+  problem="من التعريفين مباشرةً."
+  steps={[
+    { show: "$\\left(\\dfrac{e^x + e^{-x}}{2}\\right)^2 = \\dfrac{e^{2x} + 2 + e^{-2x}}{4}$" },
+    { show: "$\\left(\\dfrac{e^x - e^{-x}}{2}\\right)^2 = \\dfrac{e^{2x} - 2 + e^{-2x}}{4}$" },
+    { show: "الفرق $\\dfrac{2 - (-2)}{4} = 1$", why: "الحدان $e^{2x}$ و $e^{-2x}$ يلغيان بعضهما، ويبقى $\\tfrac44$." },
+  ]}
+/>
+
+<Callout type="key" title="لماذا «زائدي»؟">
+الخاصية 1 هي الصلة بالقطوع الزائدة، **وهي سبب الحرف «h» في cosh و sinh**. تذكّر أن $\cos^2 x + \sin^2 x = 1$ يضع النقطة $(\cos x, \sin x)$ على **دائرة** الوحدة: الجيب وجيب التمام «دالتان دائريتان». والآن $\cosh^2 x - \sinh^2 x = 1$ يضع النقطة $(\cosh x, \sinh x)$ على **قطع زائد** الوحدة.
+</Callout>
+
+<HyperbolaCircle client:visible />
+
+### الدوال الأربع الأخرى
+
+$$
+\tanh x = \frac{\sinh x}{\cosh x} = \frac{e^x - e^{-x}}{e^x + e^{-x}} \qquad \operatorname{sech} x = \frac{1}{\cosh x} = \frac{2}{e^x + e^{-x}}
+$$
+
+*أظن أن «tanh» قابلة للنطق، و«sech» سهلة. الأخريان أصعب.* وخواصها تأتي مباشرةً من $\cosh^2 x - \sinh^2 x = 1$ بالقسمة على $\cosh^2 x$:
+
+$$
+1 - \tanh^2 x = \operatorname{sech}^2 x \qquad (\tanh x)' = \operatorname{sech}^2 x \qquad \int\tanh x\,dx = \ln(\cosh x) + C
+$$
+
+## الدوال الزائدية العكسية
+
+تذكّر $\sin^{-1} x$ و $\tan^{-1} x$ و $\sec^{-1} x$ من 4.4: التطبيق الرئيسي كان **التكاملات**. إذا التقينا $dx/(1 + x^2)$ فهو $\tan^{-1} x + C$. *والوضع لـ $\sinh^{-1}$ و $\tanh^{-1}$ و $\operatorname{sech}^{-1}$ هو نفسه، ما عدا تغييرات إشارة، وهي متوقعة للدوال الزائدية*:
+
+$$
+\frac{d}{dx}\sinh^{-1} x = \frac{1}{\sqrt{x^2 + 1}} \qquad \frac{d}{dx}\tanh^{-1} x = \frac{1}{1 - x^2} \qquad \frac{d}{dx}\operatorname{sech}^{-1} x = \frac{-1}{x\sqrt{1 - x^2}}
+$$
+
+<Callout type="definition" title="العكسيات لوغاريتمات">
+بما أن $\ln x$ معكوس $e^x$، يمكن التعبير عن الدوال الزائدية العكسية **باللوغاريتمات**:
+$$
+\sinh^{-1} x = \ln\left[x + \sqrt{x^2 + 1}\right] \qquad \cosh^{-1} x = \ln\left[x + \sqrt{x^2 - 1}\right] \qquad \tanh^{-1} x = \frac12\ln\frac{1 + x}{1 - x}
+$$
+</Callout>
+
+<StepReveal
+  client:visible
+  title="من أين جاء اللوغاريتم في tanh⁻¹ x؟"
+  problem="ليكن x = tanh y."
+  steps={[
+    { show: "اضرب البسط والمقام في $\\cosh y$: $\\dfrac{1 + x}{1 - x} = \\dfrac{1 + \\tanh y}{1 - \\tanh y} = \\dfrac{\\cosh y + \\sinh y}{\\cosh y - \\sinh y}$" },
+    { show: "$\\cosh y + \\sinh y = e^y$ و $\\cosh y - \\sinh y = e^{-y}$، فالنسبة $\\dfrac{e^y}{e^{-y}} = e^{2y}$" },
+    { show: "فـ $2y = \\ln\\dfrac{1 + x}{1 - x}$، أي $y = \\tfrac12\\ln\\dfrac{1 + x}{1 - x}$", why: "ومشتقة $\\tfrac12\\ln(1 + x) - \\tfrac12\\ln(1 - x)$ هي $\\dfrac{1}{2(1 + x)} + \\dfrac{1}{2(1 - x)} = \\dfrac{1}{1 - x^2}$. *لا جديد إلا الجواب.*" },
+  ]}
+/>
+
+*هذه مدرجة للمرجع فقط. إن أمكن فلا تحفظها.* وغلاف الكتاب يعطي $\displaystyle\int\frac{dx}{1 - x^2} = \frac12\ln\left|\frac{1 + x}{1 - x}\right| + C$ بدل $\tanh^{-1} x + C$.
+
+## السر
+
+*قد تتساءل: لماذا لم نرَ لوغاريتمات لـ $\sin^{-1} x$ و $\tan^{-1} x$؟ كيف يُعبَّر عن $\tanh^{-1} x$ باللوغاريتمات، بينما الصيغة الموازية لـ $\tan^{-1} x$ مفقودة؟* **الجواب: لا بد أن هناك صيغة موازية.** ولعرضها عليّ أن أكشف سراً أُخفي طوال هذا القسم:
+
+<Callout type="strang" title="معادلة أويلر">
+صيغتا $\cos x$ و $\sin x$ موجودتان، **لكنهما تتضمنان أعداداً تخيلية**:
+$$
+\cos x = \frac{e^{ix} + e^{-ix}}{2} \qquad\qquad \sin x = \frac{e^{ix} - e^{-ix}}{2i}
+$$
+*الأسس التخيلية هي التي أبقت هذه المتطابقات مخفية.* بضرب $\sin x$ في $i$ وإضافته إلى $\cos x$ نحصل على **معادلة أويلر الجميلة بشكل لا يُصدَّق**:
+$$
+e^{ix} = \cos x + i\sin x
+$$
+وهي موازية للمعادلة الزائدية غير الجميلة $\cosh x + \sinh x = e^x$. *عليّ أن أقول إن معادلة أويلر أهم بلا حدود من أي شيء زائدي سيكون أبداً. الجيب وجيب التمام أنفع بكثير من sinh و cosh.* (الفصل 9 يبرهن $e^{i\pi} = -1$.)
+</Callout>
+
+<QuickCheck
+  client:visible
+  id="6.7-ode"
+  question="أي من هذه يحقق $y'' = y$؟"
+  options={["$\\sin x$ و $\\cos x$", "$\\sinh x$ و $\\cosh x$", "$\\sinh x$ فقط", "$\\tanh x$"]}
+  answer={1}
+  explain="$(\sinh x)'' = (\cosh x)' = \sinh x$، و $(\cosh x)'' = \cosh x$. أما الجيب وجيب التمام فيحققان $y'' = -y$. **هنا الإشارة الواحدة التي تفصل العالمين.** (التمرين 3)"
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={339} label="ص 339" />
+
+- **(3)** بيّن أن الدالتين $\cosh x$ و $\sinh x$ تحققان $y'' = y$.
+- **(5)** اشتق $\cosh^2 x + \sinh^2 x = \cosh 2x$ من التعريفين.
+- **(8)** برهن $\sinh(x + y) = \sinh x\cosh y + \cosh x\sinh y$ بالتحويل إلى أُسّيات. ثم مشتقة الطرفين بالنسبة لـ $x$ تعطي $\cosh(x + y) = $ ______.
+- **(9–10)** اشتق $\cosh(3x + 1)$ و $\sinh x^2$.
+- **(33)** المثلث في الشكل 6.20 مساحته $\tfrac12\cosh t\sinh t$. (أ) كامل لتجد المساحة المظللة تحت القطع الزائد. (ب) للمساحة $A$ بالأحمر تحقق أن $dA/dt = \tfrac12$. (ج) استنتج أن $A = \tfrac12 t + C$ وبيّن أن $C = 0$.
+- **(41)** (أ) ضرب $x = \sinh y = \tfrac12(e^y - e^{-y})$ في $2e^y$ يعطي $(e^y)^2 - 2x(e^y) - 1 = 0$. حلّها معادلةً تربيعية في $e^y$. (ب) خذ اللوغاريتم لتجد $y = \sinh^{-1} x$ وقارن بالنص.
+- **(54)** جسم ساقط مع احتكاك يساوي مربع السرعة يحقق $dv/dt = g - v^2$. (أ) بيّن أن $v(t) = \sqrt g\tanh\sqrt g\,t$ يحقق المعادلة. (ج) كامل $v(t)$ لتجد المسافة $f(t)$.
