@@ -4,7 +4,7 @@
 
 الكتاب منشور مجاناً على [MIT OpenCourseWare](https://ocw.mit.edu) بترخيص CC BY-NC-SA.
 
-**الحالة:** الفصول 0 و 1 و 2 مكتملة (18 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
+**الحالة:** الفصول 0 إلى 3 مكتملة (26 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
 
 ## فكرة كل درس
 
@@ -33,7 +33,10 @@ src/
     CircleShadow, UnitCircle, SinN,
     DerivativeGraph, Pascal, Elasticity, TangentNormal, RedLight,
     SineSlope, SineSqueeze, ProductArea, RuleCheck,
-    SequenceLimit, EpsilonDelta, Discontinuities    ← محاكاة قابلة لإعادة الاستخدام
+    SequenceLimit, EpsilonDelta, Discontinuities,
+    LinearApprox, Expressway, Profit, QuadApprox, GraphAnatomy,
+    SquareWave, Conics, Cobweb, Logistic, NewtonChaos,
+    MeanValue, LHopital    ← محاكاة قابلة لإعادة الاستخدام
   lib/plot.ts             محرك رسم صغير على canvas (محاور، منحنيات، مساحات، مماسات، أسهم، منحنيات بارامترية)
   lib/bidi.ts             عزل المقاطع اللاتينية (y = x²) داخل العناوين العربية
   lib/progress.ts         التقدّم في localStorage
