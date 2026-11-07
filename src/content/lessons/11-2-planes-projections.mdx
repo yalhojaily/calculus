@@ -1,0 +1,104 @@
+---
+id: "11.2"
+summary: 'المستوى يحدده متجه عمودي $\mathbf N = (a, b, c)$ ونقطة، ومعادلته $ax + by + cz = d$. تغيير $d$ يعطي مستوى موازياً، والزاوية بين مستويين هي الزاوية بين عمودييهما. وإسقاط $\mathbf B$ على $\mathbf A$ هو $\mathbf P = (\mathbf A\cdot\mathbf B/|\mathbf A|^2)\mathbf A$، والجزء الباقي $\mathbf B - \mathbf P$ عمودي. وأقرب نقطة على المستوى إلى الأصل $t\mathbf N$ مع $t = d/|\mathbf N|^2$.'
+minutes: 40
+objectives:
+  - 'تكتب معادلة المستوى من متجه عمودي ونقطة، وتقرأ $\mathbf N$ من المعاملات.'
+  - 'تحسب الزاوية بين مستويين، وتعرف أن المستقيم في الفضاء يحتاج معادلتين.'
+  - 'تحسب إسقاط متجه على متجه $\mathbf P = (\mathbf A\cdot\mathbf B/|\mathbf A|^2)\mathbf A$ والجزء العمودي $\mathbf B - \mathbf P$.'
+  - 'تجد أقرب نقطة على مستوى إلى الأصل، والبعد $|d|/|\mathbf N|$.'
+  - 'تجد البعد من أي نقطة $Q$ إلى مستوى.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import PlaneNormal from '../../components/PlaneNormal.tsx';
+import DotProject from '../../components/DotProject.tsx';
+
+<Callout type="big">
+أهم «المنحنيات» الخطوط المستقيمة، وأهم الدوال الخطية. هاتان الجملتان تعيداننا إلى بداية الكتاب: رسم $mx + b$ خط. الهدف الآن الانتقال إلى ثلاثة أبعاد، حيث الرسوم **سطوح**. ستنحني السطوح في النهاية، لكن التفاضل والتكامل يبدأ بالسطوح المسطحة المقابلة للخطوط: **ما أهم السطوح؟ المستويات. وما أهم الدوال؟ ما زالت الخطية.**
+</Callout>
+
+## معادلة المستوى
+
+الخط تحدده نقطة $(x_0, y_0)$ وميل $m$. وللمستوى نبدأ بنقطة $(x_0, y_0, z_0)$، **لكن ميل المستوى ليس بهذه البساطة**: مستويات كثيرة تصعد بزاوية $45°$. نصف اتجاه المستوى بمتجه $\mathbf N$ **ليس فيه بل عمودي عليه**. في المستوى اتجاهات كثيرة، أما العمودي فاتجاه واحد: هذا **المتجه العمودي** (الناظم).
+
+المتجه من $P_0$ إلى أي نقطة أخرى $P = (x, y, z)$ في المستوى يقع فيه، فضربه النقطي مع $\mathbf N = (a, b, c)$ صفر:
+
+<Callout type="definition" title="المستوى عبر P₀ عمودياً على N">
+$$
+a(x - x_0) + b(y - y_0) + c(z - z_0) = 0 \qquad\text{أو}\qquad ax + by + cz = ax_0 + by_0 + cz_0 = d
+$$
+قيمة أخرى لـ $d$ تعطي مستوى **موازياً**، و $d = 0$ يعطي مستوى عبر الأصل.
+</Callout>
+
+**المثال 1:** المستوى عبر $P_0 = (1, 2, 3)$ عمودياً على $\mathbf N = (1, 1, 1)$: $(x - 1) + (y - 2) + (z - 3) = 0$، أي $x + y + z = 6$. لاحظ ثلاثة أمور: $P_0$ على المستوى لأن $1 + 2 + 3 = 6$؛ و **$\mathbf N$ يُقرأ من معاملات $x, y, z$**؛ ويمكن تغيير $\mathbf N$ إلى $(2, 2, 2)$ و $P_0$ إلى $(8, 2, -4)$ لأن $8 + 2 - 4 = 6$.
+
+<PlaneNormal client:visible />
+
+**المثال 4:** الزاوية بين مستويين هي الزاوية بين عمودييهما. $x - y + 3z = 0$ و $3y + z = 0$ متعامدان لأن $(1, -1, 3)\cdot(0, 3, 1) = 0$. و $x + y = 0$ و $x + z = 0$ بينهما $60°$، لأن $\cos\theta = (1, 1, 0)\cdot(1, 0, 1)/\sqrt2\sqrt2 = \tfrac12$.
+
+<Callout type="key" title="المستقيم في الفضاء أصعب من المستوى">
+في ثلاثة أبعاد يحتاج المستقيم **معادلتين**: كل معادلة مستوى، والمستقيم تقاطع مستويين. $x + y + z = 3$ و $2x + 3y + z = 6$ تحددان مستقيماً يمر بـ $P_0 = (1, 1, 1)$ و $Q = (3, 0, 0)$، في اتجاه $\mathbf V = 2\mathbf i - \mathbf j - \mathbf k$. أو بوسيط: $\mathbf P = \mathbf P_0 + t\mathbf V$. *بعد تجربة طريقة التفاصيل الكاملة، أعتقد أن تلك التفاصيل يجب أن تنتظر: المعادلات الوسيطية موضوع الفصل 12.*
+</Callout>
+
+## إسقاط متجه
+
+ما إسقاط $\mathbf B$ على $\mathbf A$؟ **جزء من $\mathbf B$ يسير على $\mathbf A$: هذا الإسقاط $\mathbf P$. والجزء الآخر $\mathbf B - \mathbf P$ عمودي على $\mathbf A$.** في التطبيقات قد يكون $\mathbf B$ سرعة أو قوة: طائرة تتجه شمالاً شرقياً وريح شرقية سرعتها 100 ميل في الساعة؛ الإسقاط على اتجاه الطيران ريح خلفية، والباقي ريح جانبية.
+
+في الهندسة يعطي الإسقاط $\cos\theta$: طول $\mathbf P$ هو $|\mathbf B|\cos\theta$. وفي الجبر يحسبه الضرب النقطي تلقائياً، **بلا جيب تمام**:
+
+<Callout type="definition" title="11D الإسقاط">
+$$
+\text{طول } \mathbf P = |\mathbf B|\cos\theta = \frac{\mathbf A\cdot\mathbf B}{|\mathbf A|} \qquad \mathbf P = \frac{\mathbf A\cdot\mathbf B}{|\mathbf A|^2}\,\mathbf A
+$$
+$\mathbf A$ عمودي على الجزء الباقي $\mathbf B - \mathbf P$. ضاعِف $\mathbf A$: لا يتغير $\mathbf P$. ضاعِف $\mathbf B$: يتضاعف.
+</Callout>
+
+<DotProject client:visible initial="proj" />
+
+**المثال 6:** الجاذبية $\mathbf F = (0, 0, -mg)$ تُدحرج كرة على السطح $2x + 2y + z = 0$. إسقاط $\mathbf F$ على العمودي $\mathbf N = (2, 2, 1)$ هو $\dfrac{\mathbf N\cdot\mathbf F}{|\mathbf N|^2}\mathbf N = \dfrac{-mg}{9}(2, 2, 1)$. **هذا الجزء لا يحرك الكرة**؛ الذي يحركها الفرق $\mathbf F - \mathbf P$ الموازي للسطح.
+
+<StepReveal
+  client:visible
+  title="المثال 7: B = i − j بجزأين"
+  problem="جزء موازٍ لـ A = 3i + j وجزء عمودي عليه."
+  steps={[
+    { show: "$\\mathbf A\\cdot\\mathbf B = 3 - 1 = 2$ و $|\\mathbf A|^2 = 10$" },
+    { show: "$\\mathbf P = \\tfrac{2}{10}(3\\mathbf i + \\mathbf j) = \\tfrac{6}{10}\\mathbf i + \\tfrac{2}{10}\\mathbf j$" },
+    { show: "$\\mathbf B - \\mathbf P = \\tfrac{4}{10}\\mathbf i - \\tfrac{12}{10}\\mathbf j$، و $\\mathbf P\\cdot(\\mathbf B - \\mathbf P) = \\tfrac{24}{100} - \\tfrac{24}{100} = 0$" },
+    { show: "**فيثاغورس:** $|\\mathbf P|^2 + |\\mathbf B - \\mathbf P|^2 = 0.4 + 1.6 = 2 = |\\mathbf B|^2$", why: "ومتى يكون $\\mathbf P = \\mathbf 0$؟ حين يتعامد $\\mathbf A$ و $\\mathbf B$." },
+  ]}
+/>
+
+## أقرب نقطة والبعد
+
+**المثال 8:** أقرب نقطة على $x + 2y + 2z = 5$ إلى الأصل. أقصر طريق يسير على العمودي $\mathbf N$، فالنقطة $t\mathbf N = (t, 2t, 2t)$ لعدد مجهول $t$. تقع على المستوى إذا $t + 4t + 4t = 5$، أي $t = \tfrac59$. **البعد $\tfrac59|\mathbf N| = \tfrac53$.** هذا المثال مهم بما يكفي لنحفظه بالحروف:
+
+<Callout type="definition" title="11E">
+على المستوى $ax + by + cz = d$، أقرب نقطة إلى $(0, 0, 0)$ هي $\dfrac{(da, db, dc)}{a^2 + b^2 + c^2}$، والبعد $\dfrac{|d|}{\sqrt{a^2 + b^2 + c^2}}$.
+
+**ومن أي نقطة $Q = (x_1, y_1, z_1)$:** البعد $\dfrac{|d - ax_1 - by_1 - cz_1|}{\sqrt{a^2 + b^2 + c^2}}$. وهو صفر حين تكون $Q$ على المستوى.
+</Callout>
+
+<QuickCheck
+  client:visible
+  id="11.2-dist"
+  question="ما بعد المستوى $2x + y - 2z = 9$ عن الأصل؟"
+  options={["9", "3", "$9/\\sqrt5$", "1"]}
+  answer={1}
+  explain="$|\mathbf N| = \sqrt{4 + 1 + 4} = 3$، والبعد $|d|/|\mathbf N| = 9/3 = 3$. وأقرب نقطة $t\mathbf N$ مع $t = d/|\mathbf N|^2 = 1$: النقطة $(2, 1, -2)$."
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={483} label="ص 483" />
+
+- أوجد نقطتين $P$ و $P_0$ على المستويات ومتجهاً عمودياً $\mathbf N$، وتحقق أن $\mathbf N\cdot(\mathbf P - \mathbf P_0) = 0$: **(1)** $x + 2y + 3z = 0$ **(2)** $x + 2y + 3z = 6$ **(3)** المستوى $yz$ **(4)** المستوى عبر $(0, 0, 0)$ عمودياً على $\mathbf i + \mathbf j - \mathbf k$
+- أوجد معادلة $x, y, z$ للمستوى: **(7)** عبر $P_0 = (1, 2, -1)$ عمودياً على $\mathbf N = \mathbf i + \mathbf j$ **(9)** عبر $(1, 0, 1)$ موازياً لـ $x + 2y + z = 0$ **(10)** عبر $(x_0, y_0, z_0)$ موازياً لـ $x + y + z = 1$
+- **(11)** متى يكون مستوى عموده $\mathbf N$ موازياً للمتجه $\mathbf V$؟ ومتى يكون عمودياً عليه؟
+- **(12)** (أ) إذا تعامد مستويان (جدار أمامي وجانبي)، فهل كل خط في أحدهما عمودي على كل خط في الآخر؟
+- **(13)** اشرح لماذا لا يستطيع مستوى أن: (ب) يكون عمودياً على $\mathbf N = \mathbf i + \mathbf j$ وموازياً لـ $\mathbf V = \mathbf i + \mathbf k$ (ج) يحوي $(1, 0, 0)$ و $(0, 1, 0)$ و $(0, 0, 1)$ و $(1, 1, 1)$.

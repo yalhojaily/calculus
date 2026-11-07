@@ -4,7 +4,7 @@
 
 الكتاب منشور مجاناً على [MIT OpenCourseWare](https://ocw.mit.edu) بترخيص CC BY-NC-SA.
 
-**الحالة:** الفصول 0 إلى 10 مكتملة (65 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
+**الحالة:** الفصول 0 إلى 11 مكتملة (70 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
 
 ## فكرة كل درس
 
@@ -48,9 +48,11 @@ src/
     PolarCoords, PolarGraph, MarsLoop, PolarConic, PolarArea,
     ComplexPlane, ComplexSpiral, GeometricSeries, SeriesRace,
     IntegralTest, ConvergenceLab, Rearrange, TaylorPoly, EulerSeries,
-    ConvergenceRadius    ← محاكاة قابلة لإعادة الاستخدام
+    ConvergenceRadius, VectorCombo, DotProject, PlaneNormal, CrossBox,
+    TwoLines, MatrixMap, ThreePlanes    ← محاكاة قابلة لإعادة الاستخدام
   lib/plot.ts             محرك رسم صغير على canvas (محاور، منحنيات، مساحات، مماسات، أسهم، منحنيات بارامترية)
   lib/polar.ts            مقياس متساوٍ للمحورين، شبكة قطبية، ورسم r = F(θ) بلون للجزء السالب
+  lib/three.ts            إسقاط ثلاثي الأبعاد ودوران بالسحب، وعمليات المتجهات (dot، cross)
   lib/bidi.ts             عزل المقاطع اللاتينية (y = x²) داخل العناوين العربية
   lib/progress.ts         التقدّم في localStorage
 scripts/render_pages.py   يحوّل public/book.pdf إلى صور صفحات (public/pages/, غير محفوظة في git)

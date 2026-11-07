@@ -1,0 +1,122 @@
+---
+id: "11.1"
+summary: 'المتجه له طول واتجاه، ويُكتب بمركّباته $(v_1, v_2)$ أو $(V_1, V_2, V_3)$. نجمع المتجهات رأساً لذيل ومركّبةً مركّبة، ونضربها في أعداد. والضرب النقطي عدد له صيغتان: $\mathbf V\cdot\mathbf W = |\mathbf V||\mathbf W|\cos\theta = V_1W_1 + V_2W_2 + V_3W_3$، ويساوي صفراً حين يتعامد المتجهان.'
+minutes: 40
+objectives:
+  - 'تجمع المتجهات رأساً لذيل وبالمركّبات، وتكوّن تركيبات خطية $s\mathbf v + t\mathbf w$.'
+  - 'تحسب الطول $|\mathbf V| = \sqrt{V_1^2 + V_2^2 + V_3^2}$ ومتجه الوحدة $\mathbf u = \mathbf V/|\mathbf V|$.'
+  - 'تحسب الضرب النقطي بصيغتيه، وتثبت تساويهما بقانون جيب التمام.'
+  - 'تجد الزاوية بين متجهين من $\cos\theta = \mathbf V\cdot\mathbf W/|\mathbf V||\mathbf W|$، وتختبر التعامد.'
+  - 'تعرف متباينة كوشي–شفارتز $|\mathbf V\cdot\mathbf W| \le |\mathbf V||\mathbf W|$ ومتباينة المثلث.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import VectorCombo from '../../components/VectorCombo.tsx';
+import DotProject from '../../components/DotProject.tsx';
+
+<Callout type="big">
+في المستوى، كل نقطة يصفها عددان: $x$ عرضاً و $y$ ارتفاعاً. أريد أن أصف هذه **الحركة** بمتجه: الخط المستقيم الذي يبدأ عند $(0, 0)$ وينتهي عند $(x, y)$. للمتجه $\mathbf v$ اتجاه، من $(0, 0)$ إلى $(x, y)$ لا العكس. في الرسم هو سهم، وفي الجبر تعطيه **مركّبتاه**:
+$$
+\mathbf v = \begin{bmatrix} x \\ y \end{bmatrix} \qquad -\mathbf v = \begin{bmatrix} -x \\ -y \end{bmatrix} \qquad \mathbf v + (-\mathbf v) = \mathbf 0
+$$
+</Callout>
+
+المتجه يُطبع بخط عريض $\mathbf v$، ومركّباته $x$ و $y$ بخط عادي. والمتجه الصفري $\mathbf 0$ (عريض) غير العدد صفر. **الجمع والطرح يتمان على $x$ وحدها وعلى $y$ وحدها**: إذا كان $\mathbf v = (3, 1)$ و $\mathbf w = (-1, 2)$ فـ $\mathbf v + \mathbf w = (2, 3)$.
+
+## متجهات بلا إحداثيات
+
+لنرسم الجمع، **نضع بداية $\mathbf w$ عند نهاية $\mathbf v$**. نقلنا $\mathbf w$ بعيداً عن الأصل، لكن طوله واتجاهه لم يتغيرا: السهم الجديد موازٍ للقديم، والمتجه هو نفسه. **يمكن تعريف المتجه بلا أصل وبلا محاور.** المحاور تعطينا المركّبات اللازمة للحساب، لكنها ليست لازمة للجمع رأساً لذيل، ولا للمطّ $2\mathbf v$، ولا للتركيبات الخطية $2\mathbf v + 3\mathbf w$.
+
+<VectorCombo client:visible />
+
+عموماً، **الفيزياء تعمل بلا محاور**: للسرعة اتجاه ومقدار لكنها غير مربوطة بنقطة، وللقوة كذلك وتؤثر في أي مكان. أما متجه أسعار خمسة أسهم فلا يطفو في الفضاء: لكل مركّبة معنى، وهناك خمسة محاور.
+
+<StepReveal
+  client:visible
+  title="المثال 1: النقاط الوسطى تصنع متوازي أضلاع"
+  problem="خذ أي شكل رباعي في الفضاء وصل منتصفات أضلاعه الأربعة. حقيقة مدهشة: المنتصفات الأربع في مستوى واحد، وتصنع متوازي أضلاع."
+  steps={[
+    { show: "سمِّ الأضلاع متجهات: $\\mathbf A, \\mathbf B$ من جهة و $\\mathbf C, \\mathbf D$ من الأخرى، يصل كلا الزوجين من نقطة إلى نقطة $R$ المقابلة" },
+    { show: "الضلع $\\mathbf V$ يبدأ في منتصف $\\mathbf A$ وينتهي في منتصف $\\mathbf B$: $\\mathbf V = \\tfrac12\\mathbf A + \\tfrac12\\mathbf B$. وبالمثل $\\mathbf W = \\tfrac12\\mathbf C + \\tfrac12\\mathbf D$" },
+    { show: "$\\mathbf A + \\mathbf B$ و $\\mathbf C + \\mathbf D$ كلاهما يصل إلى $R$، فهما متساويان", why: "**إذن $\\mathbf V = \\mathbf W$**: ضلعان متقابلان متساويان ومتوازيان. لاحظ كم بسهولة وصفنا الأضلاع بمتجهات دون أن نهتم بمحاور أو أصل." },
+  ]}
+/>
+
+**المثال 3 (الطب):** تخطيط القلب يُظهر مجموع متجهات صغيرة كثيرة، هي الجهود في جدار القلب. **في النوبة القلبية** تموت خلايا فلا تساهم، فينحرف المجموع $\mathbf V$ **بعيداً** عن الجزء الميت. **وفي التضخم** تساهم الخلايا أكثر، فينحرف $\mathbf V$ **نحو** الجزء السميك. الجهاز يُسقط $\mathbf V$ على اثني عشر اتجاهاً (الأقطاب)، والقسم 11.2 يشرح الإسقاط.
+
+## متجهات الإحداثيات والطول
+
+للحساب نحتاج محاور. متجهات الوحدة على المحاور $\mathbf i, \mathbf j$ في المستوى و $\mathbf i, \mathbf j, \mathbf k$ في الفضاء:
+
+$$
+\mathbf v = 3\mathbf i + \mathbf j = (3, 1) \qquad \mathbf V = \mathbf i + 2\mathbf j - 2\mathbf k = (1, 2, -2)
+$$
+
+لاحظ كم بسهولة انتقلنا إلى ثلاثة أبعاد! التغيير الوحيد أن للمتجه ثلاث مركّبات. **أما $\mathbf v + \mathbf V$ فبلا معنى**: المتجهان يعيشان في بعدين مختلفين. ومن فيثاغورس الطول:
+
+$$
+|\mathbf v| = \sqrt{3^2 + 1^2} = \sqrt{10} \qquad |\mathbf V| = \sqrt{1^2 + 2^2 + (-2)^2} = 3
+$$
+
+<Callout type="definition" title="11A">
+لكل متجه غير صفري طول موجب $|\mathbf v|$. **واتجاهه يعطيه متجه وحدة** $\mathbf u = \mathbf v/|\mathbf v|$. الطول ضرب الاتجاه يساوي $\mathbf v$. ومتجه الوحدة في المستوى تحدده زاويته: $\mathbf u = (\cos\theta)\mathbf i + (\sin\theta)\mathbf j$، و $|\mathbf u|^2 = \cos^2\theta + \sin^2\theta = 1$.
+</Callout>
+
+في الفضاء، مركّبات متجه الوحدة «جيوب تمام الاتجاه» $(\cos\alpha, \cos\beta, \cos\gamma)$ مع الزوايا مع المحاور الثلاثة، و $\cos^2\alpha + \cos^2\beta + \cos^2\gamma = 1$. *نحن نجري الجبر بالأعداد ونحن نجري الهندسة بالمتجهات. كان إسهام ديكارت العظيم أن يرى كيف ندرس الجبر والهندسة في آن واحد.*
+
+## الضرب النقطي
+
+هناك عمليتان أساسيتان: الجمع ($\mathbf v + \mathbf w$) والضرب في عدد ($7\mathbf v$). يبقى سؤال طبيعي: **كيف نضرب متجهين؟** الجواب الرئيسي: **لا نضربهما.** لكن هناك عملية بالغة الأهمية تبدأ بمتجهين وتنتج **عدداً**، ونكتبها بنقطة بينهما:
+
+<Callout type="definition" title="التعريفان">
+**التعريف 1:** $\mathbf v\cdot\mathbf w = |\mathbf v||\mathbf w|\cos\theta$، حيث $\theta$ الزاوية بين $\mathbf v$ و $\mathbf w$.
+
+**التعريف 2:** $\mathbf v\cdot\mathbf w = v_1w_1 + v_2w_2$ (اضرب مركّبةً في مركّبة واجمع). وفي ثلاثة أبعاد **11B:** $\mathbf V\cdot\mathbf W = V_1W_1 + V_2W_2 + V_3W_3$.
+</Callout>
+
+**مثال:** $(3, 0)$ طوله 3 و $(2, 2)$ طوله $\sqrt8$، والزاوية $45°$: $(3)(\sqrt8)(1/\sqrt2) = 6$. **الجذور في الأطوال «تُلغيها» الجذور في جيب التمام.** وبالتعريف الثاني بلا جذور أصلاً: $(3)(2) + (0)(2) = 6$. الأول بلا إحداثيات، والثاني يحسب بها.
+
+<DotProject client:visible initial="dot" />
+
+<Callout type="key" title="ملاحظات">
+- **الطول:** حين $\mathbf V = \mathbf W$ الزاوية صفر لكن جيب التمام ليس صفراً بل 1: $\mathbf V\cdot\mathbf V = |\mathbf V|^2$.
+- **المحاور متعامدة:** $\mathbf i\cdot\mathbf j = \mathbf i\cdot\mathbf k = \mathbf j\cdot\mathbf k = 0$، و $\mathbf i\cdot\mathbf i = \mathbf j\cdot\mathbf j = \mathbf k\cdot\mathbf k = 1$.
+- **القواعد:** $\mathbf V\cdot\mathbf W = \mathbf W\cdot\mathbf V$ و $(c\mathbf V)\cdot\mathbf W = c(\mathbf V\cdot\mathbf W)$ و $(\mathbf U + \mathbf V)\cdot\mathbf W = \mathbf U\cdot\mathbf W + \mathbf V\cdot\mathbf W$. بتقسيم $\mathbf V$ و $\mathbf W$ إلى مركّبات $\mathbf i, \mathbf j, \mathbf k$ تصير الحدود التسعة ستة أصفار وثلاثة حدود: هذا هو التعريف 2.
+</Callout>
+
+**لماذا التعريفان متساويان؟** احسب $|\mathbf V - \mathbf W|^2$ مرتين. بالإحداثيات: $(V_1 - W_1)^2 + (V_2 - W_2)^2 + (V_3 - W_3)^2$. وبقانون جيب التمام: $|\mathbf V|^2 + |\mathbf W|^2 - 2|\mathbf V||\mathbf W|\cos\theta$. المربعات في السطر الأول تطابق $|\mathbf V|^2$ و $|\mathbf W|^2$، **فالحدود المضروبة في $-2$ متساوية**: $V_1W_1 + V_2W_2 + V_3W_3 = |\mathbf V||\mathbf W|\cos\theta$. *هذه لحظة المجد القصيرة لقانون جيب التمام.*
+
+<Callout type="definition" title="الزاوية ومتباينة كوشي–شفارتز">
+$$
+\cos\theta = \frac{\mathbf V\cdot\mathbf W}{|\mathbf V||\mathbf W|} \qquad\qquad |\mathbf V\cdot\mathbf W| \le |\mathbf V||\mathbf W|
+$$
+الطرف الأيسر $|\mathbf V||\mathbf W||\cos\theta|$ لا يتجاوز الأيمن أبداً. **ومنها تتبع متباينات كثيرة:** الوسط الهندسي $\sqrt{xy} \le$ الوسط الحسابي $\tfrac12(x + y)$، **ومتباينة المثلث** $|\mathbf V + \mathbf W| \le |\mathbf V| + |\mathbf W|$.
+</Callout>
+
+**الضرب النقطي والشغل:** قوة $\mathbf F$ تحرك جسماً مسافة $\mathbf D$. الجزء من القوة في اتجاه الحركة هو ما يبذل الشغل: $W = |\mathbf F||\mathbf D|\cos\theta = \mathbf F\cdot\mathbf D$. القوة العمودية على الحركة لا تبذل شغلاً.
+
+<QuickCheck
+  client:visible
+  id="11.1-perp"
+  question="ما قيمة $d$ التي تجعل $\mathbf A = 2\mathbf i + 3\mathbf j$ عمودياً على $\mathbf B = 9\mathbf i + d\,\mathbf j$؟"
+  options={["$d = 6$", "$d = -6$", "$d = -\\tfrac{27}{2}$", "$d = 3$"]}
+  answer={1}
+  explain="التعامد يعني $\mathbf A\cdot\mathbf B = 0$: $(2)(9) + (3)(d) = 18 + 3d = 0$، فـ $d = -6$. (التمرين 21)"
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={473} label="ص 473" />
+
+- **(5)** (أ) أوجد متجهاً عمودياً على $(v_1, v_2)$. (ب) أوجد متجهين عموديين على $(v_1, v_2, v_3)$.
+- **(6)** أوجد متجهين عموديين على $(1, 1, 0)$ وعلى بعضهما.
+- **(12)** من $\mathbf W = (1, 2, 3)$ اطرح مضاعفاً لـ $\mathbf V = (1, 1, 1)$ بحيث يكون $\mathbf W - c\mathbf V$ عمودياً على $\mathbf V$. ارسم $\mathbf V$ و $\mathbf W$ و $\mathbf W - c\mathbf V$.
+- **(13)** (أ) ما مجموع $\mathbf V$ للمتجهات الاثني عشر من مركز الساعة إلى الساعات؟ (ب) إذا حُذف متجه الساعة 4، أوجد $\mathbf V$ للأحد عشر الباقية. (ج) إذا قُطعت المتجهات إلى 1، 2، 3 إلى النصف، أوجد $\mathbf V$.
+- **(15)** أوجد الزاوية $POQ$ بطرق المتجهات إذا كان $P = (1, 1, 0)$ و $O = (0, 0, 0)$ و $Q = (1, 2, 2)$.
+- **(16)** (أ) ارسم متجهي الوحدة $\mathbf u_1 = (\cos\theta, \sin\theta)$ و $\mathbf u_2 = (\cos\alpha, \sin\alpha)$. بالضرب النقطي أوجد صيغة $\cos(\theta - \alpha)$.
+- **(17)** صف كل النقاط $(x, y)$ التي تجعل $\mathbf v = x\mathbf i + y\mathbf j$ يحقق: (أ) $|\mathbf v| = 2$ (ب) $|\mathbf v - \mathbf i| = 2$ (ج) $\mathbf v\cdot\mathbf i = 2$ (د) $\mathbf v\cdot\mathbf i = |\mathbf v|$.
+- **(21)** (أ) اختر $d$ بحيث يكون $\mathbf A = 2\mathbf i + 3\mathbf j$ عمودياً على $\mathbf B = 9\mathbf i + d\,\mathbf j$.

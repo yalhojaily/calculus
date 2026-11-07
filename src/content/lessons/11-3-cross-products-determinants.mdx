@@ -1,0 +1,111 @@
+---
+id: "11.3"
+summary: 'الضرب الاتجاهي $\mathbf A\times\mathbf B$ متجه طوله $|\mathbf A||\mathbf B||\sin\theta|$ (مساحة متوازي الأضلاع) واتجاهه عمودي على الاثنين حسب قاعدة اليد اليمنى. وهو غير تبديلي: $\mathbf B\times\mathbf A = -\mathbf A\times\mathbf B$. والضرب الثلاثي $\mathbf A\cdot(\mathbf B\times\mathbf C)$ حجم الصندوق، وهو محدد $3\times 3$.'
+minutes: 40
+objectives:
+  - 'تعرف طول $\mathbf A\times\mathbf B$ واتجاهه بقاعدة اليد اليمنى، وأنه صفر للمتوازيين.'
+  - 'تحسب $\mathbf A\times\mathbf B$ بالمركّبات بالنمط الدوري $(2, 3)$، $(3, 1)$، $(1, 2)$.'
+  - 'تستخدم الضرب الاتجاهي للمساحات، وللعزم، ولإيجاد مستوى عبر ثلاث نقاط.'
+  - 'تحسب حجم الصندوق بالضرب الثلاثي، وتربطه بمحدد $3\times 3$.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import CrossBox from '../../components/CrossBox.tsx';
+
+<Callout type="big">
+بعد أن قلنا إن المتجهات لا تُضرب، قدّمنا الضرب النقطي. **والآن نناقض أنفسنا أكثر بتعريف الضرب الاتجاهي.** حيث كان $\mathbf A\cdot\mathbf B$ عدداً، فـ $\mathbf A\times\mathbf B$ **متجه**:
+
+طوله $|\mathbf A||\mathbf B||\sin\theta|$، واتجاهه عمودي على $\mathbf A$ و $\mathbf B$.
+</Callout>
+
+الضرب الاتجاهي معرّف في ثلاثة أبعاد فقط. $\mathbf A$ و $\mathbf B$ في مستوى عبر الأصل، و $\mathbf A\times\mathbf B$ على العمودي $\mathbf N$. **الضرب النقطي يكافئ التوازي** ($\cos 0 = 1$)، **والاتجاهي يكافئ التعامد** ($\sin\tfrac\pi2 = 1$). وفي كل زاوية:
+
+$$
+|\mathbf A\times\mathbf B|^2 + |\mathbf A\cdot\mathbf B|^2 = |\mathbf A|^2|\mathbf B|^2\sin^2\theta + |\mathbf A|^2|\mathbf B|^2\cos^2\theta = |\mathbf A|^2|\mathbf B|^2
+$$
+
+لاحظ أن $\mathbf A\times\mathbf A = \mathbf 0$ (المتجه الصفري لا العدد صفر): **المتوازيان ضربهما الاتجاهي صفر.**
+
+## أربعة أمثلة تقود إليه
+
+**المثال 1 (الهندسة):** مساحة متوازي الأضلاع القاعدة $|\mathbf A|$ ضرب الارتفاع العمودي $|\mathbf B||\sin\theta|$، **وهي طول الضرب الاتجاهي**. ومساحة المثلث نصفها.
+
+**المثال 2 (الفيزياء):** متجه العزم $\mathbf T = \mathbf R\times\mathbf F$ يُحدث الدوران. القوة الموازية لـ $\mathbf R$ تدفع إلى الخارج (لا دوران)، والعمودية تُدير. والعزم $|\mathbf R||\mathbf F|\sin\theta$، واتجاه $\mathbf T$ على محور الدوران.
+
+**المثال 3: هل يتجه إلى أعلى أم أسفل؟ قاعدة اليد اليمنى.** $\mathbf A\times\mathbf B$ يتجه مع إبهامك الأيمن حين تلتف أصابعك من $\mathbf A$ إلى $\mathbf B$. من $\mathbf i$ إلى $\mathbf j$ يشير الإبهام إلى $\mathbf k$: **$\mathbf i\times\mathbf j = \mathbf k$**. والعكس من $\mathbf j$ إلى $\mathbf i$ يشير إلى أسفل: $\mathbf j\times\mathbf i = -\mathbf k$.
+
+<Callout type="key" title="الضرب الاتجاهي غير تبديلي">
+$$
+\mathbf B\times\mathbf A = -(\mathbf A\times\mathbf B)
+$$
+اكتشاف هاملتون لهذا أحدث ثورة فكرية في جبر القرن التاسع عشر، الذي اعتاد تماماً أن $AB = BA$. *قانون التبديل قديم وممل للأعداد (وجديد وممل للضرب النقطي). وهنا نرى نقيضه. ولا يصح أي القانونين لضرب المصفوفات.*
+
+$\mathbf i\times\mathbf j = \mathbf k$ و $\mathbf j\times\mathbf k = \mathbf i$ و $\mathbf k\times\mathbf i = \mathbf j$: **الترتيب الدوري موجب، وعكسه سالب.**
+</Callout>
+
+**المثال 4:** برغي يدخل الجدار أو يخرج منه حسب قاعدة اليد اليمنى. الجدار المستوى $xz$، والبرغي في اتجاه $y$. الدوران من $x$ نحو $z$ يُدخله في الاتجاه السالب لـ $y$: $\mathbf i\times\mathbf k = -\mathbf j$.
+
+<CrossBox client:visible />
+
+## صيغة الضرب الاتجاهي
+
+**في المستوى $xy$ (11F):** $(a_1\mathbf i + a_2\mathbf j)\times(b_1\mathbf i + b_2\mathbf j) = (a_1b_2 - a_2b_1)\mathbf k$. ومتوازي الأضلاع مساحته $|a_1b_2 - a_2b_1|$. **المثال 5:** $\mathbf A = \mathbf i + 2\mathbf j$ و $\mathbf B = 4\mathbf i + 5\mathbf j$: الضرب $(5 - 8)\mathbf k = -3\mathbf k$. المساحة 3 (الإشارة السالبة تغيب عن المساحات).
+
+**وفي ثلاثة أبعاد:** بتقسيم كل متجه إلى مركّباته نحصل على تسعة ضروب. $\mathbf i\times\mathbf i = \mathbf j\times\mathbf j = \mathbf k\times\mathbf k = \mathbf 0$ تختفي، والستة الباقية أزواج بنمط دوري:
+
+<Callout type="definition" title="الصيغة (6)">
+$$
+\mathbf A\times\mathbf B = (a_2b_3 - a_3b_2)\mathbf i + (a_3b_1 - a_1b_3)\mathbf j + (a_1b_2 - a_2b_1)\mathbf k = \begin{vmatrix} \mathbf i & \mathbf j & \mathbf k \\ a_1 & a_2 & a_3 \\ b_1 & b_2 & b_3 \end{vmatrix}
+$$
+مركّبة $\mathbf i$ من الدليلين 2 و 3، و $\mathbf j$ من 3 و 1، و $\mathbf k$ من 1 و 2.
+</Callout>
+
+**المثال 6:** $(\mathbf i + 2\mathbf j + 3\mathbf k)\times(4\mathbf i + 5\mathbf j + 6\mathbf k) = (12 - 15)\mathbf i + (12 - 6)\mathbf j + (5 - 8)\mathbf k = -3\mathbf i + 6\mathbf j - 3\mathbf k$. **لا تجمع $-3$ و $6$ و $-3$ أبداً.** وتحقق: $(1, 2, 3)\cdot(-3, 6, -3) = -3 + 12 - 9 = 0$.
+
+<StepReveal
+  client:visible
+  title="المثالان 7 و 8: مستوى عبر ثلاث نقاط"
+  problem="P = (1, 0, 0) و Q = (0, 1, 0) و R = (0, 0, 1). أوجد المستوى ومساحة المثلث."
+  steps={[
+    { show: "متجهان في المستوى: $\\mathbf A = Q - P = \\mathbf j - \\mathbf i$ و $\\mathbf B = R - P = \\mathbf k - \\mathbf i$" },
+    { show: "العمودي $\\mathbf N = \\mathbf A\\times\\mathbf B = (\\mathbf j - \\mathbf i)\\times(\\mathbf k - \\mathbf i) = \\mathbf i + \\mathbf j + \\mathbf k$" },
+    { show: "المستوى $x + y + z = d$، ومع $P$ عليه: $d = 1$" },
+    { show: "مساحة المثلث $\\tfrac12|\\mathbf A\\times\\mathbf B| = \\tfrac12\\sqrt3$", why: "امتداد جميل لفيثاغورس: مساقط المثلث على المستويات الثلاثة مثلثات مساحتها $\\tfrac12$، و $\\left(\\tfrac12\\right)^2 + \\left(\\tfrac12\\right)^2 + \\left(\\tfrac12\\right)^2 = \\left(\\tfrac{\\sqrt3}{2}\\right)^2$." },
+  ]}
+/>
+
+## المحددات والحجم
+
+ثلاثة متجهات $\mathbf A, \mathbf B, \mathbf C$ من الأصل تصنع صندوقاً. **مساحة القاعدة** (من $\mathbf B$ و $\mathbf C$) هي $|\mathbf B\times\mathbf C|$، **والارتفاع** مركّبة $\mathbf A$ على العمودي $\mathbf B\times\mathbf C$. الحجم القاعدة ضرب الارتفاع:
+
+<Callout type="definition" title="الضرب الثلاثي = المحدد">
+$$
+\text{حجم الصندوق} = |\mathbf A\cdot(\mathbf B\times\mathbf C)| \qquad \mathbf A\cdot(\mathbf B\times\mathbf C) = \begin{vmatrix} a_1 & a_2 & a_3 \\ b_1 & b_2 & b_3 \\ c_1 & c_2 & c_3 \end{vmatrix}
+$$
+$= a_1(b_2c_3 - b_3c_2) + a_2(b_3c_1 - b_1c_3) + a_3(b_1c_2 - b_2c_1)$: **ستة حدود**، ثلاثة بإشارة موجبة وثلاثة بسالبة، وفي كل حد يظهر كل صف وكل عمود مرة واحدة.
+</Callout>
+
+- **المحدد صفر** حين تقع المتجهات الثلاثة في مستوى واحد: الصندوق مسطّح.
+- **الترتيب الدوري لا يغير الحجم:** $\mathbf A\cdot(\mathbf B\times\mathbf C) = \mathbf B\cdot(\mathbf C\times\mathbf A) = \mathbf C\cdot(\mathbf A\times\mathbf B)$. وتبديل صفين يقلب الإشارة.
+- الصفوف $(1, 0, 0)$ و $(0, 0, 1)$ و $(0, 1, 0)$ محددها $-1$: الصندوق مكعب الوحدة، لكن أضلاعه ثلاثي **يساري** بهذا الترتيب.
+
+<QuickCheck
+  client:visible
+  id="11.3-cross"
+  question="ما $\mathbf A\times\mathbf B$ لـ $\mathbf A = \mathbf i + \mathbf j + \mathbf k$ و $\mathbf B = \mathbf i + \mathbf j$؟"
+  options={["$\\mathbf 0$", "$-\\mathbf i + \\mathbf j$", "$\\mathbf i - \\mathbf j$", "$2\\mathbf k$"]}
+  answer={1}
+  explain="بالنمط الدوري: $\mathbf i$: $a_2b_3 - a_3b_2 = 0 - 1 = -1$. $\mathbf j$: $a_3b_1 - a_1b_3 = 1 - 0 = 1$. $\mathbf k$: $a_1b_2 - a_2b_1 = 1 - 1 = 0$. تحقق: $(-1, 1, 0)$ عمودي على $(1, 1, 1)$ وعلى $(1, 1, 0)$."
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={493} label="ص 493" />
+
+- احسب بالصيغة (6) أو بالمحدد، ونفّذ مثالاً واحداً بالطريقتين: **(2)** $(\mathbf i - \mathbf j)\times\mathbf i$ **(3)** $(2\mathbf i + 3\mathbf j)\times(\mathbf i + \mathbf k)$ **(4)** $(2\mathbf i + 3\mathbf j + \mathbf k)\times(2\mathbf i + 3\mathbf j - \mathbf k)$ **(6)** $(\mathbf i + \mathbf j - \mathbf k)\times(\mathbf i - \mathbf j + \mathbf k)$ **(8)** $(\mathbf i\cos\theta + \mathbf j\sin\theta)\times(\mathbf i\sin\theta - \mathbf j\cos\theta)$
+- **(9)** متى يكون $|\mathbf A\times\mathbf B| = |\mathbf A||\mathbf B|$؟ ومتى يكون $|\mathbf A\cdot(\mathbf B\times\mathbf C)| = |\mathbf A||\mathbf B||\mathbf C|$؟
+- **من الأسئلة التمهيدية:** للمتجهين $\mathbf A = \mathbf i + \mathbf j + \mathbf k$ و $\mathbf B = \mathbf i + \mathbf j$، أوجد $\mathbf A\times\mathbf B$. وأوجد العمودي على المستوى المار بـ $(0, 0, 0)$ و $(1, 1, 1)$ و $(1, 1, 0)$، ومساحة المثلث الذي رؤوسه هذه النقاط.
