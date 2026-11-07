@@ -1,0 +1,119 @@
+---
+id: "12.1"
+summary: 'متجه الموضع $\mathbf R(t) = x(t)\mathbf i + y(t)\mathbf j + z(t)\mathbf k$ يتحرك مع الزمن ويرسم منحنى. مشتقته السرعة $\mathbf v = d\mathbf R/dt$، وهي مماسية للمنحنى، وطولها الانطلاق $ds/dt$. والتسارع $\mathbf a = d\mathbf v/dt$. المستقيم $\mathbf R_0 + t\mathbf v$ سرعته ثابتة، والدائرة سرعتها مماسية وتسارعها إلى المركز.'
+minutes: 35
+objectives:
+  - 'تحسب السرعة $\mathbf v = d\mathbf R/dt$ وتعرف أنها مماسية للمنحنى.'
+  - 'تكتب معادلة مستقيم بوسيط $\mathbf R_0 + t\mathbf v$ وبدونه، وتعرف ما يضيع بحذف $t$.'
+  - 'تحسب الانطلاق $|\mathbf v| = ds/dt$ والمسافة $s = \int|\mathbf v|\,dt$ ومتجه المماس $\mathbf T = \mathbf v/|\mathbf v|$.'
+  - 'تحسب التسارع للحركة الدائرية المنتظمة: $|\mathbf a| = \omega^2 r$ نحو المركز.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import SpaceCurve from '../../components/SpaceCurve.tsx';
+
+<Callout type="big">
+هذا الفصل عن **«الدوال المتجهية»**. المتجه $2\mathbf i + 4\mathbf j + 8\mathbf k$ ثابت. أما $\mathbf R(t) = t\mathbf i + t^2\mathbf j + t^3\mathbf k$ فيتحرك: دالة في الوسيط $t$، الذي يمثل الزمن غالباً. عند كل لحظة يحدد **متجه الموضع** مكان الجسم المتحرك، ومع تغير $t$ ترسم النقاط منحنى في الفضاء. الوسيط يخبرنا **متى** يمر الجسم بكل نقطة.
+</Callout>
+
+ما الأسئلة التي تُطرح؟ كل طالب تفاضل يعرف السؤال الأول: **أوجد المشتقة.** *إذا تحرك شيء، فإن البحرية تحييه ونحن نشتقه.* عند كل لحظة للجسم انطلاق واتجاه، وهذه المعلومات في دالة متجهية أخرى: **متجه السرعة**:
+
+$$
+\mathbf v(t) = \frac{d\mathbf R}{dt} = \frac{dx}{dt}\mathbf i + \frac{dy}{dt}\mathbf j + \frac{dz}{dt}\mathbf k
+$$
+
+$\mathbf i, \mathbf j, \mathbf k$ ثابتة فمشتقاتها صفر. (في الإحداثيات القطبية تحل محلهما متجهات متحركة، وتأتي حدود أكثر من قاعدة الضرب: القسم 12.4.) هذه قاعدة الحساب، لا التعريف. التعريف يعود إلى الأساس ولا يعتمد على إحداثيات:
+
+$$
+\mathbf v(t) = \lim_{\Delta t\to 0}\frac{\Delta\mathbf R}{\Delta t} = \lim_{\Delta t\to 0}\frac{\mathbf R(t + \Delta t) - \mathbf R(t)}{\Delta t}
+$$
+
+<Callout type="key" title="السرعة مماسية للمنحنى">
+$\Delta\mathbf R$ يذهب من نقطة على المنحنى إلى نقطة قريبة. القسمة على $\Delta t$ تغيّر طوله لا اتجاهه. **وذلك الاتجاه يصطف مع المماس حين تقترب النقطتان.**
+</Callout>
+
+<SpaceCurve client:visible />
+
+**المثال 1:** $\mathbf R(t) = t\mathbf i + t^2\mathbf j + t^3\mathbf k$ و $\mathbf v(t) = \mathbf i + 2t\mathbf j + 3t^2\mathbf k$. يتأرجح المنحنى إلى أعلى مع زيادة $t$. عند $t = 0$ تكون $\mathbf v = \mathbf i$: المماس على المحور $x$. ولظل المنحنى على المستوى $xy$ نحذف مركّبة $\mathbf k$: الموضع $t\mathbf i + t^2\mathbf j$ والسرعة $\mathbf i + 2t\mathbf j$. **الظل منحنى مستوٍ.**
+
+## الحركة المنتظمة على مستقيم
+
+**المثال 2:** متجه السرعة ثابت، فالانطلاق والاتجاه لا يتغيران:
+
+$$
+\mathbf R(t) = \mathbf R_0 + t\mathbf v \qquad x = x_0 + tv_1,\quad y = y_0 + tv_2,\quad z = z_0 + tv_3
+$$
+
+الانطلاق $|\mathbf v| = \sqrt{v_1^2 + v_2^2 + v_3^2}$، والاتجاه $\mathbf v/|\mathbf v|$. وبحذف $t$ تبقى معادلتان:
+
+$$
+\frac{x - x_0}{v_1} = \frac{y - y_0}{v_2} = \frac{z - z_0}{v_3}
+$$
+
+مثلاً $x = y/2 = z/3$ يمر بالأصل وبـ $(2, 4, 6)$. **لكن لأن $t$ ذهب، لا نستطيع أن نقول متى نصل إلى تلك النقطة ولا بأي سرعة.** و $x/4 = y/8 = z/12$ المستقيم نفسه.
+
+<StepReveal
+  client:visible
+  title="المثال 3: المستقيم عبر P = (0, 2, 1) و Q = (1, 3, 3)"
+  problem="لدينا خيارات! R₀ أي نقطة على المستقيم، و v أي مضاعف للمتجه من P إلى Q."
+  steps={[
+    { show: "المتجه من $P$ إلى $Q$ هو $\\mathbf i + \\mathbf j + 2\\mathbf k$ (اطرح الإحداثيات)" },
+    { show: "$\\mathbf R(t) = (2\\mathbf j + \\mathbf k) + t(\\mathbf i + \\mathbf j + 2\\mathbf k)$، أي $x = t$، $y = 2 + t$، $z = 1 + 2t$" },
+    { show: "**أقرب نقطة إلى الأصل:** مشتقة $x^2 + y^2 + z^2 = t^2 + (2 + t)^2 + (1 + 2t)^2$ هي $8 + 12t$، صفر عند $t = -\\tfrac23$", why: "النقطة $\\left(-\\tfrac23, \\tfrac43, -\\tfrac13\\right)$. تحقق: المتجه إليها عمودي على $\\mathbf v$، لأن $-\\tfrac23 + \\tfrac43 - \\tfrac23 = 0$." },
+    { show: "**أين يقطع المستوى $x + y + z = 11$؟** $3 + 4t = 11$ فـ $t = 2$، والنقطة $(2, 4, 5)$" },
+  ]}
+/>
+
+**توأمان على المستقيم نفسه:** $\mathbf R^*(t) = (\mathbf i + 3\mathbf j + 3\mathbf k) + t(2\mathbf i + 2\mathbf j + 4\mathbf k)$ يبدأ من $Q$ بسرعة مضاعفة. المسار نفسه، لكن «التوأمين» يسيران بانطلاقين مختلفين، ويلتقيان حين $\mathbf R(t) = \mathbf R^*(t)$: عند $t = -1$ في النقطة $(-1, 1, -1)$. **ولقطعة المستقيم بين $P$ و $Q$ فقط**: اجعل $0 \le t \le 1$.
+
+<Callout type="key" title="مستقيمات ومستويات">
+**المستقيم: وسيط واحد أو معادلتان.** **المستوى: معادلة واحدة أو وسيطان** ($\mathbf R_0 + t\mathbf v + s\mathbf w$). المستوى يبدو أسوأ بالوسائط، والمستقيم أفضل. والمستقيم $\mathbf R_0 + t\mathbf v$ يوازي مستوى عموده $\mathbf N$ إذا $\mathbf v\cdot\mathbf N = 0$، ويتعامد عليه إذا كان $\mathbf v$ مضاعفاً لـ $\mathbf N$.
+</Callout>
+
+## الانطلاق والاتجاه والمسافة والتسارع
+
+$$
+\text{الانطلاق} = |\mathbf v| = \sqrt{(dx/dt)^2 + (dy/dt)^2 + (dz/dt)^2} = \frac{ds}{dt} \qquad s = \int|\mathbf v(t)|\,dt \qquad \mathbf T = \frac{\mathbf v}{|\mathbf v|} = \frac{d\mathbf R}{ds}
+$$
+
+$\mathbf T$ **متجه المماس الوحدة**: ثابت للمستقيمات، ويتغير اتجاهه للمنحنيات. والمسافة على منحنى يرمز لها دائماً بـ $s$ (طول القوس). *لا أعرف لماذا نستعمل $s$: بالتأكيد ليس الحرف الأول من speed.* و $v$ و $s$ و $t$ أعداد؛ متجه الاتجاه هو $\mathbf T$.
+
+**والتسارع** $\mathbf a = d\mathbf v/dt = d^2\mathbf R/dt^2$ معدل تغير **السرعة** (المتجه)، لا الانطلاق. في السيارة تتسارع بدواسة الوقود أو بالمكابح، **وأيضاً بإدارة المقود**: الذي يتغير متجه السرعة لا الانطلاق.
+
+<StepReveal
+  client:visible
+  title="المثالان 5 و 6: الحركة المنتظمة على دائرة"
+  problem="x = r cos ωt، y = r sin ωt، z = 0"
+  steps={[
+    { show: "$\\mathbf v = -\\omega r\\sin\\omega t\\,\\mathbf i + \\omega r\\cos\\omega t\\,\\mathbf j$ (مماسي، لا وحدة)" },
+    { show: "الانطلاق $|\\mathbf v| = \\omega r$: **نصف القطر ضرب السرعة الزاوية**. والمماس $\\mathbf T = -\\sin\\omega t\\,\\mathbf i + \\cos\\omega t\\,\\mathbf j$" },
+    { show: "المسافة $s = \\omega rt$: زاوية $\\omega t$ ضرب نصف القطر. بعد دورة كاملة $s = 2\\pi r$، **لا يعود إلى الصفر**" },
+    { show: "$\\mathbf a = -\\omega^2 r\\cos\\omega t\\,\\mathbf i - \\omega^2 r\\sin\\omega t\\,\\mathbf j = -\\omega^2\\mathbf R$", why: "**عكس اتجاه $\\mathbf R$، نحو المركز**، بطول $\\omega^2 r$ (بأبعاد مسافة/زمن² الصحيحة). كل التسارع من الانعطاف." },
+  ]}
+/>
+
+<QuickCheck
+  client:visible
+  id="12.1-speed"
+  question="ما انطلاق الحلزون $\mathbf R = \cos t\,\mathbf i + \sin t\,\mathbf j + t\mathbf k$؟"
+  options={["$1$", "$\\sqrt2$", "$2$", "$\\sqrt{1 + t^2}$"]}
+  answer={1}
+  explain="$\mathbf v = -\sin t\,\mathbf i + \cos t\,\mathbf j + \mathbf k$، و $|\mathbf v| = \sqrt{\sin^2 t + \cos^2 t + 1} = \sqrt2$، ثابت. فالمسافة $s = \sqrt2\,t$: في نصف لفة يقطع الظل $\pi$ والحلزون $\sqrt2\,\pi$ بسبب ميله $45°$. (المثال 7)"
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={523} label="ص 523" />
+
+- **(1)** ارسم المنحنى $x = t$، $y = t^3$. أوجد $\mathbf v$ و $\mathbf a$ عند $t = 1$.
+- **(3)** على الدائرة $x = \cos t$، $y = \sin t$، اشرح بقاعدة السلسلة وبالهندسة لماذا السرعة عمودية على الموضع.
+- **(12)** أوجد معادلات وسيطية لتدور حول دائرة الوحدة بانطلاق ثابت $|\mathbf v| = 1$، بدءاً من $(1, 0)$.
+- **(13)** المسار $x = 2y = 3z = 6t$ هو ______. ما الانطلاق؟
+- **(17)** أوجد صيغة وسيطية للمستقيم $y = mx + b$.
+- **(21)** أوجد مسارين $\mathbf R(t)$ لهما السرعة نفسها $\mathbf v = \cos t\,\mathbf i + \sin t\,\mathbf j$.
+- **(22)** إذا كان التسارع متجهاً ثابتاً، فالمسار لا بد أن يكون ______ (أو قطعاً مكافئاً، كما في القسم 12.2).
+- **(25)** كرة تدور بحركة $x = \cos 2t$، $y = \sin 2t$ تنطلق على مماس عند $t = \pi/8$. أوجد موضعها لاحقاً.

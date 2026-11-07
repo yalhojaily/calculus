@@ -1,0 +1,109 @@
+---
+id: "12.3"
+summary: 'الانحناء $\kappa = |d\mathbf T/ds|$ يقيس سرعة دوران اتجاه الحركة لكل وحدة طول، والمتجه العمودي $\mathbf N$ يعطي اتجاه الدوران. للدائرة $\kappa = 1/r$ و $\mathbf N$ نحو المركز. الصيغ: $\kappa = |\mathbf v\times\mathbf a|/|\mathbf v|^3$، وللرسم $y(x)$: $\kappa = |y''''|/(1 + y''^2)^{3/2}$. والتسارع $\mathbf a = \tfrac{d^2s}{dt^2}\mathbf T + \kappa\left(\tfrac{ds}{dt}\right)^2\mathbf N$.'
+minutes: 35
+objectives:
+  - 'تعرّف الانحناء $\kappa = |d\mathbf T/ds|$ وتعرف أنه يعتمد على شكل المنحنى لا على السرعة.'
+  - 'تحسب $\kappa$ بالصيغة $|\mathbf v\times\mathbf a|/|\mathbf v|^3$، والصيغة الوسيطية، وصيغة الرسم $y(x)$.'
+  - 'تثبت أن $d\mathbf T/dt$ عمودي على $\mathbf T$، وتجد المتجه العمودي $\mathbf N$.'
+  - 'تقسم التسارع إلى مركّبة مماسية $d^2s/dt^2$ ومركّبة عمودية $\kappa(ds/dt)^2$.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import Osculating from '../../components/Osculating.tsx';
+
+<Callout type="big">
+السائق يُحدث تسارعاً بثلاث طرق: **دواسة الوقود، والمكابح، والمقود.** الأوليان تغيّران الانطلاق، والمقود يغيّر الاتجاه. والثلاث تغيّر متجه السرعة (تعطي تسارعاً). نريد الآن أن نفصل تغيّر الانطلاق $v$ عن تغيّر الاتجاه $\mathbf T$.
+</Callout>
+
+اتجاه الحركة $\mathbf T = \mathbf v/|\mathbf v|$ يعتمد على المسار لا على الانطلاق (لأننا نقسم على $|\mathbf v|$). وللانعطاف نقيس أمرين:
+
+1. **كم بسرعة يدور $\mathbf T$:** هذا الانحناء $\kappa$ (كابا).
+2. **في أي اتجاه يدور:** هذا المتجه العمودي $\mathbf N$.
+
+$\kappa$ و $\mathbf N$، مثل $s$ و $\mathbf T$، **يعتمدان على شكل المنحنى فقط**: تغيير $t$ إلى $2t$ أو $t^2$ لا يغيّرهما. للدائرة نعطي الجواب مسبقاً: $\mathbf N$ يشير إلى المركز، و $\kappa = 1/\text{نصف القطر}$. **دائرة انعطاف أصغر تعني انحناءً أكبر.**
+
+<Callout type="definition" title="التعريف والصيغة">
+$$
+\kappa = \left|\frac{d\mathbf T}{ds}\right| \qquad\qquad \kappa = \frac{|\mathbf v\times\mathbf a|}{|\mathbf v|^3}
+$$
+التعريف لا يحوي الوسيط $t$، لكن الحسابات تحويه. إذا غيرنا $t$ إلى $2t$ تضاعف $\mathbf v$ وتضرب $\mathbf a$ في 4، فيتضرب $\mathbf v\times\mathbf a$ و $|\mathbf v|^3$ كلاهما في 8، **وتبقى النسبة**.
+</Callout>
+
+<StepReveal
+  client:visible
+  title="برهان الصيغة"
+  problem="ابدأ من v = |v| T."
+  steps={[
+    { show: "اشتق بقاعدة الضرب: $\\mathbf a = \\dfrac{d|\\mathbf v|}{dt}\\mathbf T + |\\mathbf v|\\dfrac{d\\mathbf T}{dt}$" },
+    { show: "اضرب ضرباً اتجاهياً في $\\mathbf v = |\\mathbf v|\\mathbf T$، وتذكر $\\mathbf T\\times\\mathbf T = \\mathbf 0$: $\\mathbf v\\times\\mathbf a = |\\mathbf v|\\mathbf T\\times|\\mathbf v|\\dfrac{d\\mathbf T}{dt}$" },
+    { show: "$\\mathbf T$ عمودي على $d\\mathbf T/dt$ (أدناه)، فعامل $\\sin\\theta$ في الطول يساوي 1: $|\\mathbf v\\times\\mathbf a| = |\\mathbf v|^2\\left|\\dfrac{d\\mathbf T}{dt}\\right|$" },
+    { show: "$\\kappa = \\left|\\dfrac{d\\mathbf T}{ds}\\right| = \\dfrac{|d\\mathbf T/dt|}{ds/dt} = \\dfrac{|\\mathbf v\\times\\mathbf a|}{|\\mathbf v|^3}$", why: "قاعدة السلسلة تضع $|ds/dt| = |\\mathbf v|$ إضافياً في المقام." },
+  ]}
+/>
+
+<Callout type="key" title="لماذا dT/dt عمودي على T؟">
+لأن $\mathbf T$ متجه وحدة. اشتق طرفي $\mathbf T\cdot\mathbf T = 1$: $2\mathbf T\cdot\dfrac{d\mathbf T}{dt} = 0$. **فكّر في $\mathbf T$ يتحرك على كرة الوحدة**: ليبقى طوله ثابتاً، يجب أن تكون حركته عمودية على نصف القطر $\mathbf T$.
+</Callout>
+
+## صيغ للمنحنيات المستوية
+
+لمنحنى مستوٍ $(x(t), y(t))$، مركّبة $\mathbf k$ الوحيدة في $\mathbf v\times\mathbf a$ هي $x'y'' - y'x''$، فنحصل على **الصيغة «القاسية لكن القيّمة»**، ومنها حالة الرسم $y(x)$ (الوسيط هو $x$ نفسه):
+
+$$
+\kappa = \frac{|x'y'' - y'x''|}{\big((x')^2 + (y')^2\big)^{3/2}} \qquad\qquad \kappa = \frac{|d^2y/dx^2|}{\big(1 + (dy/dx)^2\big)^{3/2}}
+$$
+
+**المثال 1:** الدائرة $x = a\cos\omega t$، $y = a\sin\omega t$: البسط $\omega^3a^2$ والمقام $\omega^3a^3$، فـ $\kappa = 1/a$. **الانطلاق لا يؤثر.**
+
+**المثال 2:** القطع المكافئ $y = \tfrac12x^2$: $\kappa = 1/(1 + x^2)^{3/2}$. **التقريب الأكثر شيوعاً $\kappa \approx d^2y/dx^2$** (يُحذف المقام). لانحناء العارضة، المعادلة غير الخطية تستعمل $\kappa$ والخطية تستعمل $y''$. هنا $y'' = 1$ يوافق $\kappa$ عند $x = 0$ فقط، حيث يدور القطع الزاوية؛ وبعيداً يقترب الانحناء من الصفر.
+
+<Osculating client:visible />
+
+**المثال 3 (الحلزون):** $\mathbf R = \cos t\,\mathbf i + \sin t\,\mathbf j + t\mathbf k$. $\mathbf v\times\mathbf a = \sin t\,\mathbf i - \cos t\,\mathbf j + \mathbf k$ طوله $\sqrt2$، والانطلاق $\sqrt2$، **فـ $\kappa = \sqrt2/(\sqrt2)^3 = \tfrac12$**. بلا التسلق $t\mathbf k$ لكان الانحناء 1. *هل الحلزون ضعف طول الدائرة؟ لا: طول اللفة يزيد بعامل $\sqrt2$ فقط. والعامل الآخر $\sqrt2$ لأن المماس مائل إلى أعلى: الظل يدور $360°$ كاملة، و $\mathbf T$ يدور أقل.*
+
+## المتجه العمودي N
+
+$\kappa$ يقيس معدل الدوران، **و $\mathbf N$ متجه وحدة في اتجاهه**. في المستوى لا خيار تقريباً: يسار أو يمين. ولمنحنى في الفضاء نتبع $d\mathbf T$:
+
+$$
+\mathbf N = \frac{d\mathbf T/ds}{|d\mathbf T/ds|} = \frac{1}{\kappa}\frac{d\mathbf T}{ds} = \frac{d\mathbf T/dt}{|d\mathbf T/dt|}
+$$
+
+**المثال 4:** للحلزون، $d\mathbf T/dt = (-\cos t\,\mathbf i - \sin t\,\mathbf j)/\sqrt2$، فـ $\mathbf N = -\cos t\,\mathbf i - \sin t\,\mathbf j$: **أفقي**، يشير إلى المحور. *$\mathbf N$ مماسي لمسار المماس!* وهناك اتجاه ثالث عمودي على $\mathbf T$ و $\mathbf N$: **المتجه ثنائي العمودي** $\mathbf B = \mathbf T\times\mathbf N$. المتجهات $\mathbf T, \mathbf N, \mathbf B$ نظام الإحداثيات الطبيعي للمسار.
+
+## مركّبتا التسارع: المماسية والعمودية
+
+<Callout type="definition" title="الصيغة (8)">
+$$
+\mathbf a = \frac{d^2s}{dt^2}\,\mathbf T + \kappa\left(\frac{ds}{dt}\right)^2\mathbf N
+$$
+**الدواسة والمكابح تعطي تسارعاً على $\mathbf T$؛ والانعطاف يعطي تسارعاً على $\mathbf N$.** والقوة اللازمة للانعطاف تعتمد على الانحناء ومربع الانطلاق، كما يعرف كل السائقين.
+</Callout>
+
+البرهان: $\mathbf v = (ds/dt)\mathbf T$، فـ $\mathbf a = \dfrac{d^2s}{dt^2}\mathbf T + \dfrac{ds}{dt}\dfrac{d\mathbf T}{ds}\dfrac{ds}{dt}$، و $d\mathbf T/ds = \kappa\mathbf N$. **المثال 6:** $\mathbf R = \cos t^2\,\mathbf i + \sin t^2\,\mathbf j$ يتسارع على الدائرة: $ds/dt = 2t$ و $d^2s/dt^2 = 2$ و $\kappa = 1$، فـ $\mathbf a = 2\mathbf T + 4t^2\mathbf N$.
+
+<QuickCheck
+  client:visible
+  id="12.3-kappa"
+  question="ما انحناء $y = x^2$ عند الأصل؟"
+  options={["$1$", "$2$", "$\\tfrac12$", "$0$"]}
+  answer={1}
+  explain="$y' = 0$ و $y'' = 2$ عند $x = 0$، فـ $\kappa = 2/(1 + 0)^{3/2} = 2$: الدائرة الملاصقة نصف قطرها $\tfrac12$. وعند الرأس يتطابق $\kappa$ مع التقريب $y''$."
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={535} label="ص 535" />
+
+- أوجد الانحناء: **(1)** $y = e^x$ **(2)** $y = \ln x$ (أين يكون $\kappa$ أكبر؟) **(3)** $x = 2\cos t$، $y = 2\sin t$ **(5)** $x = 1 + t^2$، $y = 3t^2$ (المسار ______) **(8)** $x = t$، $y = \ln\cos t$
+- **(4)** $x = \cos t^2$، $y = \sin t^2$. **(9)** أوجد $\mathbf T$ و $\mathbf N$ في التمرين 4.
+- **(13)** أوجد $\mathbf T$ و $\mathbf v$ و $\kappa$ للحلزون $\mathbf R = 3\cos t\,\mathbf i + 3\sin t\,\mathbf j + 4t\mathbf k$.
+- **(14)** حين $\kappa = 0$ يكون المسار ______.
+- **(16)** إذا نُقلت كل نقاط منحنى إلى ضعف بعدها عن الأصل، ماذا يحدث للانحناء؟
+- **(19)** من نقطة على المنحنى، سِر على المتجه $\mathbf N/\kappa$ لتجد مركز الانحناء، مركز الدائرة الملاصقة.
+- **(24)** إذا كان $\mathbf v$ عمودياً على $\mathbf a$، فأثبت أن الانطلاق ثابت. صح أم خطأ: عندها يكون المسار دائرة.

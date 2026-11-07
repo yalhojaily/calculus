@@ -4,7 +4,7 @@
 
 الكتاب منشور مجاناً على [MIT OpenCourseWare](https://ocw.mit.edu) بترخيص CC BY-NC-SA.
 
-**الحالة:** الفصول 0 إلى 11 مكتملة (70 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
+**الحالة:** الفصول 0 إلى 12 مكتملة (74 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
 
 ## فكرة كل درس
 
@@ -49,7 +49,8 @@ src/
     ComplexPlane, ComplexSpiral, GeometricSeries, SeriesRace,
     IntegralTest, ConvergenceLab, Rearrange, TaylorPoly, EulerSeries,
     ConvergenceRadius, VectorCombo, DotProject, PlaneNormal, CrossBox,
-    TwoLines, MatrixMap, ThreePlanes    ← محاكاة قابلة لإعادة الاستخدام
+    TwoLines, MatrixMap, ThreePlanes, SpaceCurve, Projectile, Cycloid,
+    Osculating, KeplerOrbit    ← محاكاة قابلة لإعادة الاستخدام
   lib/plot.ts             محرك رسم صغير على canvas (محاور، منحنيات، مساحات، مماسات، أسهم، منحنيات بارامترية)
   lib/polar.ts            مقياس متساوٍ للمحورين، شبكة قطبية، ورسم r = F(θ) بلون للجزء السالب
   lib/three.ts            إسقاط ثلاثي الأبعاد ودوران بالسحب، وعمليات المتجهات (dot، cross)

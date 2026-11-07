@@ -1,0 +1,122 @@
+---
+id: "12.4"
+summary: 'في الإحداثيات القطبية نستعمل المتجهين المتحركين $\mathbf u_r$ (إلى الخارج) و $\mathbf u_\theta$ (حول المركز). السرعة $\tfrac{dr}{dt}\mathbf u_r + r\tfrac{d\theta}{dt}\mathbf u_\theta$. تحت قوة مركزية تبقى الحركة في مستوى و $h = r^2\,d\theta/dt$ ثابت، فتُمسح مساحات متساوية في أزمنة متساوية (قانون كبلر الثاني). ومع $q = 1/r$ تصير معادلة نيوتن $q'''' + q = C$، وحلها قطع ناقص (القانون الأول).'
+minutes: 40
+objectives:
+  - 'تعرف المتجهين $\mathbf u_r$ و $\mathbf u_\theta$ ومشتقتيهما بالنسبة إلى $\theta$.'
+  - 'تكتب السرعة والتسارع في الإحداثيات القطبية.'
+  - 'تثبت أن الحركة تحت قوة مركزية تبقى في مستوى، وأن $dA/dt$ ثابت (قانون كبلر الثاني).'
+  - 'تتابع اشتقاق القطع الناقص من $q'''' + q = GM/h^2$ (القانون الأول)، وتستعمل القانون الثالث $T = 2\pi a^{3/2}/\sqrt{GM}$.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import KeplerOrbit from '../../components/KeplerOrbit.tsx';
+
+<Callout type="big">
+لهذا القسم غرض عام: **التفاضل المتجهي في الإحداثيات القطبية.** وغرض خاص: **دراسة القوى المركزية وحركة الكواكب.** القوة الرئيسية على كوكب هي جاذبية الشمس، وهي مركزية لأنها تأتي من الشمس في المركز، فالإحداثيات القطبية طبيعية والغرضان يسيران معاً.
+</Callout>
+
+*قد تشعر أن الكواكب أقدم من أن تدخل هذا المقرر. لكن قوانين كبلر أكثر من مبرهنات: إنها شيء خاص في تاريخ البشرية، «أعظم اكتشاف علمي في كل العصور». وجزء من عظمتها في صعوبتها: عمل كبلر قبل أن يكتشف نيوتن التفاضل والتكامل بستين سنة. سنحاول أن نحفظ العظمة دون الصعوبة.*
+
+## الحركة تحت قوة مركزية تبقى في مستوى
+
+$\mathbf F$ مضاعف لـ $\mathbf R$ (قوة مركزية)، و $\mathbf F = m\mathbf a$ (قانون نيوتن)، فـ $\mathbf R$ و $\mathbf a$ في الاتجاه نفسه و $\mathbf R\times\mathbf a = \mathbf 0$. إذن مشتقة $\mathbf R\times\mathbf v$ صفر:
+
+$$
+\frac{d}{dt}(\mathbf R\times\mathbf v) = \mathbf v\times\mathbf v + \mathbf R\times\mathbf a = \mathbf 0 + \mathbf 0
+$$
+
+**$\mathbf R\times\mathbf v$ متجه ثابت $\mathbf H$، فيبقى $\mathbf R$ في المستوى العمودي على $\mathbf H$.**
+
+## متجهات الوحدة القطبية
+
+عند كل نقطة (إلا الأصل حيث الشمس)، $\mathbf u_r$ متجه الوحدة **إلى الخارج**، و $\mathbf u_\theta$ بزاوية $90°$ منه **حول المركز**:
+
+$$
+\mathbf u_r = \frac{\mathbf R}{r} = \cos\theta\,\mathbf i + \sin\theta\,\mathbf j \qquad \mathbf u_\theta = -\sin\theta\,\mathbf i + \cos\theta\,\mathbf j
+$$
+
+كيف يتغيران حين يتغير $r$ (على شعاع)؟ **لا يتغيران.** وحين يتغير $\theta$:
+
+$$
+\frac{d\mathbf u_r}{d\theta} = \mathbf u_\theta \qquad \frac{d\mathbf u_\theta}{d\theta} = -\mathbf u_r
+$$
+
+الموضع $\mathbf R = r\mathbf u_r$، ومع قاعدة السلسلة $d\mathbf u_r/dt = (d\theta/dt)\mathbf u_\theta$:
+
+<Callout type="definition" title="السرعة والتسارع القطبيان">
+$$
+\mathbf v = \frac{dr}{dt}\mathbf u_r + r\frac{d\theta}{dt}\mathbf u_\theta \qquad \mathbf a = \left(\frac{d^2r}{dt^2} - r\left(\frac{d\theta}{dt}\right)^2\right)\mathbf u_r + \left(r\frac{d^2\theta}{dt^2} + 2\frac{dr}{dt}\frac{d\theta}{dt}\right)\mathbf u_\theta
+$$
+الانطلاق إلى الخارج $dr/dt$ والدائري $r\,d\theta/dt$. *صيغة التسارع مشهورة لكنها غير محبوبة، إلا أنها أوصلتنا إلى القمر.*
+</Callout>
+
+**الحركة المنتظمة على دائرة** $r = 3$، $\theta = 2t$: السرعة $\mathbf v = 6\mathbf u_\theta$ كلها دائرية، والتسارع $-12\mathbf u_r$ كله إلى الداخل. **المثال 2: الحلزون** $r = 3t$، $\theta = 2t$: $\mathbf v = 3\mathbf u_r + 6t\mathbf u_\theta$، والانطلاق $\sqrt{9 + 36t^2}$. *من إلهامات كبلر، بعد صراعات كثيرة، أن يبتعد عن الدوائر.*
+
+## قوانين كبلر
+
+كان كبلر رياضي البلاط عند إمبراطور الإمبراطورية الرومانية المقدسة، الذي أراد غالباً تنبؤات بالحروب. *وحدد كبلر أيضاً تاريخ كل عيد فصح، وهي ليست مسألة صغيرة.* انتصاره أنه اكتشف أنماطاً في أرصاد تيخو براهي. **توقع غاليليو وكوبرنيكوس دوائر، ووجد كبلر قطوعاً ناقصة:**
+
+<Callout type="key" title="القوانين الثلاثة">
+**القانون 1:** كل كوكب يسير في قطع ناقص، والشمس في إحدى بؤرتيه.
+
+**القانون 2:** المتجه من الشمس إلى الكوكب يمسح مساحة بمعدل ثابت: $dA/dt = $ ثابت.
+
+**القانون 3:** طول سنة الكوكب $T = ka^{3/2}$، حيث $a$ نصف المحور الأكبر (من المركز لا من الشمس)، و $k = 2\pi/\sqrt{GM}$ نفسه لكل الكواكب.
+</Callout>
+
+**القانون 2 هو الوحيد السهل.** عوّض $\mathbf R = r\mathbf u_r$ والسرعة القطبية في $\mathbf H = \mathbf R\times\mathbf v$:
+
+$$
+\mathbf H = r\mathbf u_r\times\left(\frac{dr}{dt}\mathbf u_r + r\frac{d\theta}{dt}\mathbf u_\theta\right) = r^2\frac{d\theta}{dt}(\mathbf u_r\times\mathbf u_\theta)
+$$
+
+$\mathbf H$ ثابت، **فطوله $h = r^2\,d\theta/dt$ ثابت**. والمساحة القطبية $dA = \tfrac12r^2\,d\theta$، فـ $dA/dt = \tfrac12h$. *قرب الشمس يكون $r$ صغيراً، فـ $d\theta/dt$ كبير والكواكب تدور أسرع.*
+
+<KeplerOrbit client:visible />
+
+<StepReveal
+  client:visible
+  title="القانون 1: من نيوتن إلى القطع الناقص"
+  problem="الهدف 1/r = C + D cos θ. والحيلة أن نكتب q = 1/r."
+  steps={[
+    { show: "قاعدة السلسلة مع $d\\theta/dt = h/r^2 = hq^2$: $\\dfrac{dr}{dt} = -\\dfrac{1}{q^2}\\dfrac{dq}{d\\theta}\\dfrac{d\\theta}{dt} = -h\\dfrac{dq}{d\\theta}$" },
+    { show: "مرة أخرى: $\\dfrac{d^2r}{dt^2} = -h\\dfrac{d^2q}{d\\theta^2}\\dfrac{d\\theta}{dt} = -h^2q^2\\dfrac{d^2q}{d\\theta^2}$" },
+    { show: "قانون نيوتن بمركّبة $\\mathbf u_r$: $\\dfrac{d^2r}{dt^2} - r\\left(\\dfrac{d\\theta}{dt}\\right)^2 = -\\dfrac{GM}{r^2}$، أي $-h^2q^2\\dfrac{d^2q}{d\\theta^2} - \\dfrac1q(hq^2)^2 = -GMq^2$" },
+    { show: "اقسم على $-h^2q^2$: $\\dfrac{d^2q}{d\\theta^2} + q = \\dfrac{GM}{h^2} = C$", why: "**المعادلة البسيطة التي تمنيناها.** حلها $q = C + D\\cos\\theta$: معادلة القطع المخروطي القطبية من القسم 9.2. والفلكي يحسب $C$ و $D$ من كتلة الشمس وموضع الأرض وسرعتها. **المهم أن $C \\gt D$**، فلا يكون $q$ صفراً ولا $r$ لانهائياً: المدار قطع ناقص." },
+  ]}
+/>
+
+<Callout type="strang" title="قسم الأخطاء الملكية">
+آخر ورقة جنيه أصدرتها دار السكّ الملكية أظهرت نيوتن ينظر من كتابه العظيم «المبادئ». **وهو لا يبتسم، ونرى السبب: وضع الرسام الشمس في المركز!** نيوتن أثبت للتو أنها في البؤرة. سببت تلك الأشعة في المركز صداعاً لا يوصف لدار السك، فسُحبت الورقة. *أعطيت تاجر تحف ثلاثة جنيهات (عملات معدنية) مقابلها.*
+</Callout>
+
+**القانون 3:** المساحة الكلية للقطع الناقص $\pi ab$، وتُمسح بمعدل $\tfrac12h$، فالسنة $T = 2\pi ab/h$. ومع حقائق القطع الناقص ($h^2 = GM\,b^2/a$) نصل إلى $T = 2\pi a^{3/2}/\sqrt{GM}$. *قال كبلر عن 15 مايو 1618: «النسبة الصحيحة تغلّبت على ظلام عقلي، بالبرهان العظيم الذي قدّمه جهدي سبعة عشر عاماً على أرصاد براهي».*
+
+<QuickCheck
+  client:visible
+  id="12.4-law3"
+  question="كوكب نصف محوره الأكبر أربعة أضعاف نصف محور الأرض. كم سنة أرضية تطول سنته؟"
+  options={["4", "8", "16", "2"]}
+  answer={1}
+  explain="$T \propto a^{3/2}$، فـ $T = 4^{3/2} = 8$ سنوات أرضية. القانون الثالث يربط كل الكواكب بثابت واحد $2\pi/\sqrt{GM}$."
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={541} label="ص 541" />
+
+- **(1)** أوجد متجهي الوحدة $\mathbf u_r$ و $\mathbf u_\theta$ عند النقطة $(0, 2)$.
+- **(4)** على القلبية $r = 1 - \cos\theta$ مع $d\theta/dt = 2$، ما السرعة $\mathbf v$؟
+- **(5)** إذا كان $r = e^\theta$ و $\theta = 3t$، فأوجد $\mathbf v$ و $\mathbf a$ عند $t = 1$.
+- **(7)** (مهم) $\mathbf R = 4\cos 5t\,\mathbf i + 4\sin 5t\,\mathbf j = 4\mathbf u_r$ يسير على دائرة نصف قطرها ______ بسرعة زاوية ______. أوجد $\mathbf v$ و $\mathbf a$.
+- **(8)** متى تكتمل الدائرة $r = 4$ إذا كان الانطلاق $8t$؟ أوجد $\mathbf v$ و $\mathbf a$.
+- **(14)** لتجد (وتتذكر) $\mathbf v$ و $\mathbf a$ في الإحداثيات القطبية، ابدأ بـ $re^{i\theta}$ واشتق بقاعدة الضرب.
+- **(15)** إذا كانت السنة $T$، فأوجد من القانون الثالث صيغة لنصف المحور $a$.
+- **(16)** لتبقى فوق نيويورك، ماذا يجب أن تكون سنة القمر الصناعي؟
+- **(18)** إذا كانت سنة القمر 28 يوماً، فاحسب كتلة الأرض من متوسط بعده (التمرين 17).
+- **(29)** حين $\mathbf F = \mathbf 0$ يجب أن يسير الجسم في خط مستقيم. تحقق من ذلك بمعادلات هذا القسم.
