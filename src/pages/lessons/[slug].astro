@@ -28,7 +28,7 @@ const toc = (rendered?.headings ?? []).filter((h) => h.depth === 2);
 const [p0, p1] = section.pages;
 ---
 
-<Base title={`${section.id} ${section.titleAr} · التفاضل والتكامل`} description={entry?.data.summary}>
+<Base title={`${section.id} ${section.titleAr} · التفاضل والتكامل`} description={entry?.data.summary.replace(/\$([^$]*)\$/g, (_, m) => m.replace(/\\[a-zA-Z]+/g, '').replace(/[{}^_]/g, '')).replace(/\*\*/g, '')}>
   <div class="lesson-grid">
     <aside class="lesson-side">
       <div class="side-block">
@@ -58,7 +58,7 @@ const [p0, p1] = section.pages;
         </div>
         <h1><Fragment set:html={bidiHtml(section.titleAr)} /></h1>
         <div class="lesson-en ltr">{section.titleEn}</div>
-        {entry && <p class="lesson-summary">{entry.data.summary}</p>}
+        {entry && <p class="lesson-summary" set:html={renderMathText(entry.data.summary)} />}
         <div class="lesson-meta">
           {entry && <LessonStatus client:load lesson={id} />}
           {entry && <span class="tag">≈ {entry.data.minutes} دقيقة</span>}
