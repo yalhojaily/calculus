@@ -1,0 +1,97 @@
+---
+id: "15.4"
+summary: 'لمساحة سطح نقطّعه رقعاً صغيرة. لسطح $z = f(x, y)$: $dS = \sqrt{1 + f_x^2 + f_y^2}\,dx\,dy$، سقف مائل فوق أرضيته. ولسطح بمعاملين $\mathbf R(u, v)$: الرقعة متوازي أضلاع ضلعاه $\mathbf A\,du$ و $\mathbf B\,dv$، ومساحتها $|\mathbf A\times\mathbf B|\,du\,dv$. والتدفق عبر سطح $\iint\mathbf F\cdot\mathbf n\,dS$: كم يعبر السطح من الحقل.'
+minutes: 40
+objectives:
+  - 'تحسب مساحة سطح $z = f(x, y)$ بالعامل $\sqrt{1 + f_x^2 + f_y^2}$.'
+  - 'تحسب مساحة سطح بمعاملين بـ $|\mathbf A\times\mathbf B|$، مثل المخروط والكرة.'
+  - 'تحسب التدفق $\iint\mathbf F\cdot\mathbf n\,dS$ عبر سطح، وتعرف $\mathbf n\,dS = (-f_x, -f_y, 1)\,dx\,dy$.'
+  - 'تعرف السطوح القابلة للتوجيه، ولماذا لا تُعرَّف تدفقات عبر شريط موبيوس.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import SurfacePatch from '../../components/SurfacePatch.tsx';
+
+<Callout type="big">
+التكامل الثنائي يجمع على منطقة **مستوية**. **التكامل السطحي يجمع على سطح منحنٍ في الفضاء**: قبة، أو كرة، أو مخروط. الخطوة الأولى دائماً: **مساحة رقعة صغيرة $dS$**. بعدها نكامل أي دالة $\iint g\,dS$، أو التدفق $\iint\mathbf F\cdot\mathbf n\,dS$.
+</Callout>
+
+## الطريقة 1: سطح فوق ظله
+
+السطح $z = f(x, y)$ فوق منطقة $R$ في المستوى $xy$. **السقف أكبر مساحة من الغرفة تحته.** الرقعة الصغيرة فوق $dx\,dy$ متوازي أضلاع ضلعاه $(1, 0, f_x)\,dx$ و $(0, 1, f_y)\,dy$، وضربهما الاتجاهي $\mathbf N = (-f_x, -f_y, 1)$:
+$$
+dS = |\mathbf N|\,dx\,dy = \sqrt{1 + \left(\frac{\partial z}{\partial x}\right)^2 + \left(\frac{\partial z}{\partial y}\right)^2}\,dx\,dy
+$$
+
+**المثال 1:** المستوى $z = x + 2y$ فوق مساحة $A$: $dS = \sqrt{1 + 1 + 4}\,dx\,dy = \sqrt6\,dx\,dy$، فمساحة السقف $\sqrt6\,A$. **لسقف بزاوية $45°$ النسبة $\sqrt2$.** وللمستوى الأفقي $f_x = f_y = 0$ والنسبة 1.
+
+<StepReveal
+  client:visible
+  title="المثال 3: مساحة المخروط z = √(x² + y²) حتى الارتفاع a"
+  problem="الظل قرص نصف قطره a."
+  steps={[
+    { show: "$\\dfrac{\\partial z}{\\partial x} = \\dfrac{x}{\\sqrt{x^2 + y^2}}$، $\\dfrac{\\partial z}{\\partial y} = \\dfrac{y}{\\sqrt{x^2 + y^2}}$، فـ $1 + z_x^2 + z_y^2 = 1 + \\dfrac{x^2 + y^2}{x^2 + y^2} = 2$" },
+    { show: "$\\iint\\sqrt2\\,dx\\,dy = \\sqrt2\\times\\text{مساحة الظل} = \\sqrt2\\,\\pi a^2$", why: "كل جوانب المخروط مائلة بزاوية $45°$. **ونصف قطر الجانب المائل** $\\sqrt2\\,a$: المساحة $\\pi\\cdot a\\cdot\\sqrt2\\,a$، الصيغة القديمة $\\pi r\\ell$." },
+  ]}
+/>
+
+## الطريقة 2: معاملان
+
+كثير من السطوح ليست $z = f(x, y)$، أو تكون أسهل بمعاملين $u$ و $v$: $\mathbf R(u, v) = x(u, v)\mathbf i + y(u, v)\mathbf j + z(u, v)\mathbf k$. **تغيير $u$ يحرك النقطة $\mathbf A\,du$، وتغيير $v$ يحركها $\mathbf B\,dv$:**
+$$
+\mathbf A = \frac{\partial\mathbf R}{\partial u} \qquad \mathbf B = \frac{\partial\mathbf R}{\partial v} \qquad dS = |\mathbf A\times\mathbf B|\,du\,dv
+$$
+
+<SurfacePatch client:visible />
+
+**المثال 4 (المخروط بمعاملين):** $x = u\cos v$، $y = u\sin v$، $z = u$. فـ $\mathbf A = (\cos v, \sin v, 1)$ و $\mathbf B = (-u\sin v, u\cos v, 0)$، و $|\mathbf A\times\mathbf B| = \sqrt2\,u$. المساحة $\int_0^{2\pi}\int_0^a\sqrt2\,u\,du\,dv = \sqrt2\,\pi a^2$ ✓.
+
+**المثالان 6 و 7 (الكرة):** بالطريقة 1 تفشل الصيغة على خط الاستواء ($z_x = -x/z$ لانهائي). **بالمعاملين $\phi$ و $\theta$** على كرة نصف قطرها $a$: $|\mathbf A\times\mathbf B| = a^2\sin\phi$، والمساحة $\int_0^{2\pi}\int_0^\pi a^2\sin\phi\,d\phi\,d\theta = 4\pi a^2$.
+
+## التدفق عبر سطح
+
+**كم يعبر من الحقل $\mathbf F$ خلال السطح $S$؟** يهم فقط المكوِّن العمودي $\mathbf F\cdot\mathbf n$، حيث $\mathbf n$ العمودي الوحدة:
+
+<Callout type="definition" title="15I و 15J التدفق">
+عبر السطح $z = f(x, y)$ بعمودي إلى الأعلى:
+$$
+\mathbf n\,dS = \left(-\frac{\partial f}{\partial x}\mathbf i - \frac{\partial f}{\partial y}\mathbf j + \mathbf k\right)dx\,dy \qquad \iint\mathbf F\cdot\mathbf n\,dS = \iint\left(-M\frac{\partial f}{\partial x} - N\frac{\partial f}{\partial y} + P\right)dx\,dy
+$$
+وبمعاملين: $\mathbf n\,dS = \mathbf A\times\mathbf B\,du\,dv$. **لاحظ أن الجذر التربيعي يختفي!** $\mathbf n = \mathbf N/|\mathbf N|$ و $dS = |\mathbf N|\,dx\,dy$، فيتلاشى الطول.
+</Callout>
+
+- **المثال 9:** $\mathbf F = \mathbf k$ عبر المستوى $z = x + 2y$: $\mathbf F\cdot\mathbf n\,dS = 1\,dx\,dy$، فالتدفق **مساحة الظل** $A$، لا مساحة السقف. المطر العمودي يسقط على السقف بقدر ما يسقط على الأرض.
+- **المثال 10:** $\mathbf R = x\mathbf i + y\mathbf j + z\mathbf k$ عبر المخروط: **التدفق صفر**. $\mathbf R$ يشير من الرأس على طول جانب المخروط، موازياً له.
+- **المثال 11:** $\mathbf R$ عبر جانب الأسطوانة $x^2 + y^2 = 1$، $0 \le z \le b$: $\mathbf A\times\mathbf B = \cos u\,\mathbf i + \sin u\,\mathbf j$، و $\mathbf R\cdot\mathbf n\,dS = du\,dv$. التدفق $2\pi b$.
+- **المثال 12:** $\mathbf F = \mathbf k$ خارج النصف العلوي من الكرة: التدفق $\pi a^2$، مساحة القرص تحتها.
+
+<Callout type="warning" title="شريط موبيوس">
+التدفق يحتاج **وجهين** للسطح: «خارج» و«داخل»، والعمودي $\mathbf n$ يتحرك بانسجام. **شريط موبيوس له وجه واحد**: حرّك $\mathbf n$ دورة كاملة حول الشريط، فيعود مقلوباً. السطح **غير قابل للتوجيه**، فلا معنى للتدفق عبره.
+</Callout>
+
+<QuickCheck
+  client:visible
+  id="15.4-area"
+  question="ما مساحة المستوى $z = 2x + 2y$ فوق مربع الوحدة $0 \le x, y \le 1$؟"
+  options={["$3$", "$\\sqrt5$", "$9$", "$\\sqrt8$"]}
+  answer={0}
+  explain="$dS = \sqrt{1 + 2^2 + 2^2}\,dx\,dy = \sqrt9\,dx\,dy = 3\,dx\,dy$، ومساحة الظل 1، فمساحة السطح 3."
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={665} label="ص 665" />
+
+أوجد $\mathbf N$ و $dS = |\mathbf N|\,dx\,dy$ والمساحة $\iint dS$، بالتكامل على الظل في المستوى $xy$:
+
+- **(1)** القطع المكافئ $z = x^2 + y^2$ تحت المستوى $z = 4$. **(2)** القطع المكافئ نفسه بين $z = 4$ و $z = 8$.
+- **(4)** المستوى $z = 3x + 4y$ فوق المربع $0 \le x \le 1$، $0 \le y \le 1$.
+- **(5)** القلنسوة الكروية $x^2 + y^2 + z^2 = 1$ فوق $z = 1/\sqrt2$.
+- **(7)** المستوى $z = 7y$ فوق مثلث مساحته $A$. **(8)** المخروط $z^2 = x^2 + y^2$ بين المستويين $z = a$ و $z = b$.
+- **(13)** مخروط دائري قائم نصف قطره $a$ وارتفاعه $h$. اختر $z = f(x, y)$ أو معاملين $u$ و $v$.
+- **(29)** دائرة الوحدة تدور حول المحور $z$ فتعطي **طارة** (كعكة)، ومركز الدائرة على بعد 3 من المحور: $x = (3 + \cos u)\cos v$، $y = (3 + \cos u)\sin v$، $z = \sin u$. أوجد مساحتها.
+- **(31)** اصنع «شريط موبيوس مزدوجاً» بلفّتين ثم ألصق الطرفين. هل يعود العمودي (قلم) في الاتجاه نفسه بعد دورة؟

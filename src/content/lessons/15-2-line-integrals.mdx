@@ -1,0 +1,106 @@
+---
+id: "15.2"
+summary: 'التكامل الخطي يجمع على منحنى $C$: الكتلة $\int\rho\,ds$، أو الشغل $\int\mathbf F\cdot\mathbf T\,ds = \int M\,dx + N\,dy$. نحوّل كل شيء إلى المعامل $t$. معظم التكاملات الخطية تعتمد على المسار، لكن لحقل تدرّج $\mathbf F = \nabla f$ يكون الشغل $f(Q) - f(P)$ فقط، وصفراً حول أي مسار مغلق. والاختبار: $\partial M/\partial y = \partial N/\partial x$.'
+minutes: 40
+objectives:
+  - 'تحسب تكاملاً خطياً $\int g\,ds$ (كتلة سلك) و $\int\mathbf F\cdot d\mathbf R$ (شغل) بتحويله إلى المعامل $t$.'
+  - 'تعرف أن الشغل في حقل تدرّج يساوي $f(Q) - f(P)$ ولا يعتمد على المسار.'
+  - 'تعرف الخواص الأربع المتكافئة للحقل المحافظ، وتطبق الاختبار $M_y = N_x$.'
+  - 'تبني الجهد $f$ من $M$ و $N$ خطوة خطوة.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import WorkPath from '../../components/WorkPath.tsx';
+
+<Callout type="big">
+التكامل العادي $\int_a^b f(x)\,dx$ يسير على خط مستقيم: المحور $x$. **التكامل الخطي يسير على منحنى $C$**: قطعة صغيرة طولها $ds$، مضروبة في دالة $g(x, y)$، ثم الجمع. سلك منحنٍ كثافته $\rho$ كتلته $\int_C\rho\,ds$. **وأهم تكامل خطي هو الشغل**: قوة $\mathbf F$ تحرك جسماً على $C$.
+</Callout>
+
+## الشغل على مسار
+
+الشغل = القوة × المسافة، لكن **مركبة القوة في اتجاه الحركة فقط**. المماس الوحدة $\mathbf T$ يعطي هذا الاتجاه:
+$$
+W = \int_C\mathbf F\cdot\mathbf T\,ds = \int_C\mathbf F\cdot d\mathbf R = \int_C M\,dx + N\,dy
+$$
+
+<Callout type="definition" title="15C">
+المتجه إلى نقطة على $C$ هو $\mathbf R = x\mathbf i + y\mathbf j$، فـ $d\mathbf R = \mathbf T\,ds = dx\,\mathbf i + dy\,\mathbf j$، و $\mathbf F\cdot d\mathbf R = M\,dx + N\,dy$. **الطريقة العامة:** المسار $x(t)$ و $y(t)$. عوّضهما في $M$ و $N$، واحسب $dx/dt$ و $dy/dt$، وكامِل $M\dfrac{dx}{dt} + N\dfrac{dy}{dt}$ من بداية الزمن إلى نهايته.
+</Callout>
+
+**المثال 1:** رحلة من أتلانتا $(1000, 0)$ إلى لوس أنجلوس $(-1000, 0)$ على نصف دائرة، والريح شرقية $\mathbf F = M\mathbf i$ ثابتة. مع $x = 1000\cos t$ و $y = 1000\sin t$: $\mathbf F\cdot d\mathbf R = M\,dx = -1000M\sin t\,dt$، والشغل $\int_0^\pi = -2000M$. **سالب: الريح تعاكس الحركة.** وعلى الخط المستقيم $-2000M$ أيضاً. **هذه المرة المسار لا يهم.**
+
+**المثال 2:** لكن ضد **رياح القص** $\mathbf F = My\,\mathbf i$ (لا ريح على المحور $x$، وتشتد شمالاً): الخط المستقيم شغله صفر، ونصف الدائرة $-\tfrac\pi2\cdot 10^6M$. **الحقل ليس تدرّجاً، والشغل يعتمد على المسار.**
+
+<StepReveal
+  client:visible
+  title="المثال 4: الشغل في حقل الدوران من (1, 0) إلى (0, 1)"
+  problem="F = −y i + x j. الشغل = ∫ −y dx + x dy على مسارين."
+  steps={[
+    { show: "**الخط المستقيم** $x = 1 - t$، $y = t$: $\\displaystyle\\int_0^1\\big(-t(-dt) + (1 - t)\\,dt\\big) = \\int_0^1 dt = 1$" },
+    { show: "**ربع الدائرة** $x = \\cos t$، $y = \\sin t$: $\\displaystyle\\int_0^{\\pi/2}\\big(\\sin^2t + \\cos^2t\\big)\\,dt = \\frac\\pi2$", why: "الحقل هنا مماس للمسار بطول 1: الشغل = طول القوس." },
+    { show: "**عبر الأصل** (على المحورين): $-y\\,dx = 0$ على $y = 0$، و $x\\,dy = 0$ على $x = 0$. الشغل **صفر**.", why: "ثلاثة مسارات وثلاثة أجوبة: $1$ و $\\pi/2$ و $0$. **$\\mathbf S$ ليس تدرّجاً.** ($\\mathbf S\\cdot\\mathbf R = 0$ لا يعني أن الشغل صفر: القوة عمودية على $\\mathbf R$، لا على تغيره $d\\mathbf R$.)" },
+  ]}
+/>
+
+<WorkPath client:visible />
+
+## حقول التدرّج: المسار لا يهم
+
+<Callout type="definition" title="15B">
+إذا كان $\mathbf F$ تدرّج دالة جهد $f(x, y)$، فالشغل $\int_C\mathbf F\cdot\mathbf T\,ds$ يعتمد على البداية $P$ والنهاية $Q$ فقط:
+$$
+\int_P^Q\frac{\partial f}{\partial x}dx + \frac{\partial f}{\partial y}dy = \int_P^Q df = f(Q) - f(P)
+$$
+</Callout>
+
+**هذا هو المبرهنة الأساسية للتفاضل والتكامل**، على منحنى. $\mathbf F\cdot d\mathbf R = f_x\,dx + f_y\,dy$ هو **التفاضل التام** $df$. وحول مسار مغلق ($Q = P$) **الشغل صفر**. لهذا تسمى هذه الحقول **محافظة**: الطاقة محفوظة، فما تبذله صعوداً تستعيده نزولاً.
+
+<Callout type="key" title="15D الخواص الأربع المتكافئة">
+$\mathbf F = M(x, y)\mathbf i + N(x, y)\mathbf j$ **حقل محافظ** إن حقق خاصية من هذه، فيحققها كلها:
+- **A.** $\oint\mathbf F\cdot d\mathbf R = 0$ حول كل مسار مغلق.
+- **B.** $\int_P^Q\mathbf F\cdot d\mathbf R$ نفسه لكل المسارات من $P$ إلى $Q$.
+- **C.** $\mathbf F$ تدرّج: $M = \partial f/\partial x$ و $N = \partial f/\partial y$.
+- **D.** $\dfrac{\partial M}{\partial y} = \dfrac{\partial N}{\partial x}$ **(الاختبار)**.
+
+**D هو الأسهل للتحقق.** ولماذا يلزم؟ إن كان $M = f_x$ و $N = f_y$ فـ $M_y = f_{xy} = f_{yx} = N_x$: **المشتقتان المختلطتان متساويتان** (القسم 13.2). (شرط: المنطقة بلا ثقوب، كما سنرى في 15.3.)
+</Callout>
+
+**المثال 6:** حقل الدوران $-y\mathbf i + x\mathbf j$: $M_y = -1$ و $N_x = +1$. **يفشل في الاختبار.** أما $y\mathbf i + x\mathbf j$ فـ $M_y = 1 = N_x$: ينجح، وهو تدرّج $xy$.
+
+<StepReveal
+  client:visible
+  title="المثال 5: أوجد f حين F = 2xy i + x² j"
+  problem="الاختبار: M_y = 2x = N_x ✓. فالجهد موجود."
+  steps={[
+    { show: "$\\partial f/\\partial x = 2xy$. كامِل في $x$ مع ثبات $y$: $f = x^2y + C(y)$", why: "**«الثابت» يمكن أن يعتمد على $y$**: مشتقته في $x$ صفر." },
+    { show: "$\\partial f/\\partial y = x^2 + C'(y)$ يجب أن يساوي $N = x^2$، فـ $C'(y) = 0$", why: "لو بقي في المعادلة $x$، لفشل البناء: هذا ما يمنعه الاختبار D." },
+    { show: "$f = x^2y$ (مع أي ثابت). **الشغل من $(0, 0)$ إلى $(1, 2)$ على أي مسار** $= f(1, 2) - f(0, 0) = 2$" },
+  ]}
+/>
+
+<QuickCheck
+  client:visible
+  id="15.2-closed"
+  question="ما الشغل $\oint\mathbf F\cdot d\mathbf R$ للحقل $\mathbf F = 2x\mathbf i + 2y\mathbf j$ حول دائرة الوحدة؟"
+  options={["$0$", "$2\\pi$", "$\\pi$", "$4\\pi$"]}
+  answer={0}
+  explain="$\mathbf F = \nabla(x^2 + y^2)$ حقل تدرّج ($M_y = 0 = N_x$)، فالشغل حول أي مسار مغلق صفر. وعلى الدائرة تحديداً: $\mathbf F$ شعاعي و $d\mathbf R$ مماس، فـ $\mathbf F\cdot d\mathbf R = 0$ عند كل نقطة."
+/>
+
+**المثال 3 (كتلة سلك):** نابض حلزوني $(\cos t, \sin t, t)$ كثافته $\rho = 4$. $ds/dt = \sqrt{\sin^2t + \cos^2t + 1} = \sqrt2$، فكتلة لفتين ($0 \le t \le 4\pi$) هي $\int_0^{4\pi}4\sqrt2\,dt = 16\sqrt2\,\pi$. **هنا تكامل $g\,ds$، بلا اتجاه.**
+
+## تمارين من الكتاب
+
+<BookRef page={643} label="ص 643" />
+
+- **(1)** $\int_C ds$ و $\int_C dy$ حيث $x = t$، $y = 2t$، $0 \le t \le 1$. **(2)** $\int_C x\,ds$ و $\int_C xy\,ds$ حيث $x = \cos t$، $y = \sin t$، $0 \le t \le \pi/2$.
+- **(3)** $\int_C xy\,ds$ على الخط المنكسر من $(0, 0)$ إلى $(1, 1)$ إلى $(1, 0)$.
+- أوجد الشغل من $(1, 0)$ إلى $(0, 1)$. إن كان $\mathbf F$ محافظاً فابنِ $f$: **(11)** $\mathbf F = \mathbf i + y\mathbf j$ **(13)** $\mathbf F = xy^2\mathbf i + yx^2\mathbf j$ **(14)** $\mathbf F = e^y\mathbf i + xe^y\mathbf j$.
+- لأي قوى $n$ يكون **(17)** $\mathbf S/r^n$ **(18)** $\mathbf R/r^n$ تدرّجاً، بالاختبار D؟
+- **(20)** سلك كثافته ثابتة $\rho$ على نصف الدائرة $x^2 + y^2 = a^2$، $y \ge 0$. أوجد كتلته $M$ وعزمه $M_x = \int y\rho\,ds$ ومركز كتلته.
+- **(31)** احسب $\int\mathbf F\cdot d\mathbf R$ للحقل $\mathbf F = 2xy^2\mathbf i + 2yx^2\mathbf j$ على الخط $\mathbf R = t\mathbf i + t\mathbf j$ والقطع $\mathbf R = t\mathbf i + t^2\mathbf j$ من $(0, 0)$ إلى $(1, 1)$.
+- **(35)** لأي عددين $a$ و $b$ يكون $\mathbf F = axy\,\mathbf i + (x^2 + by)\,\mathbf j$ حقل تدرّج؟

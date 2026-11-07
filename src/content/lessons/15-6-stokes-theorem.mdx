@@ -1,0 +1,117 @@
+---
+id: "15.6"
+summary: 'الدوران $\operatorname{curl}\mathbf F = \nabla\times\mathbf F$ متجه يقيس التفاف الحقل: عجلة مجاديف صغيرة تدور بسرعة زاوية $\tfrac12(\operatorname{curl}\mathbf F)\cdot\mathbf n$. مبرهنة ستوكس: $\oint_C\mathbf F\cdot d\mathbf R = \iint_S(\operatorname{curl}\mathbf F)\cdot\mathbf n\,dS$ لأي سطح حده $C$، وهي مبرهنة غرين مرفوعة إلى ثلاثة أبعاد. والمتطابقتان $\operatorname{curl}\operatorname{grad}f = 0$ و $\operatorname{div}\operatorname{curl}\mathbf F = 0$. والحقل محافظ تماماً حين $\operatorname{curl}\mathbf F = 0$.'
+minutes: 45
+objectives:
+  - 'تحسب $\operatorname{curl}\mathbf F$ بمحدد $3\times 3$، وتفسره بعجلة المجاديف.'
+  - 'تعرف المتطابقتين $\operatorname{curl}\operatorname{grad}f = 0$ و $\operatorname{div}\operatorname{curl}\mathbf F = 0$.'
+  - 'تطبق مبرهنة ستوكس، وتعرف لماذا يعطي كل سطح بالحد نفسه الجواب نفسه.'
+  - 'تختبر حقلاً ثلاثي الأبعاد محافظاً بـ $\operatorname{curl}\mathbf F = 0$ وتجد جهده.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import PaddleWheel from '../../components/PaddleWheel.tsx';
+import StokesCap from '../../components/StokesCap.tsx';
+
+<Callout type="big">
+مبرهنة التباعد رفعت **صيغة التدفق** لغرين إلى ثلاثة أبعاد. **مبرهنة ستوكس ترفع صيغة الشغل**: الدوران حول منحنى مغلق يساوي «الالتفاف» على سطح يملؤه. في المستوى كان الالتفاف عدداً، $N_x - M_y$. **في الفضاء هو متجه**، لأن الالتفاف يكون حول محور، والمحور له اتجاه.
+</Callout>
+
+## الدوران curl F
+
+<Callout type="definition" title="الدوران">
+$$
+\operatorname{curl}\mathbf F = \nabla\times\mathbf F = \begin{vmatrix} \mathbf i & \mathbf j & \mathbf k \\ \partial/\partial x & \partial/\partial y & \partial/\partial z \\ M & N & P \end{vmatrix} = \left(\frac{\partial P}{\partial y} - \frac{\partial N}{\partial z}\right)\mathbf i + \left(\frac{\partial M}{\partial z} - \frac{\partial P}{\partial x}\right)\mathbf j + \left(\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y}\right)\mathbf k
+$$
+</Callout>
+
+**المثال 1:** حقل مستوٍ $M(x, y)\mathbf i + N(x, y)\mathbf j$ فيه $P = 0$ ولا يعتمد على $z$. يبقى حدّان: $\operatorname{curl}\mathbf F = (N_x - M_y)\mathbf k$. **عدنا إلى غرين**، والمحور عمودي على المستوى.
+
+**المثال 2:** الضرب الاتجاهي $\mathbf a\times\mathbf R$ حقل دوران حول المتجه الثابت $\mathbf a$:
+$$
+\mathbf a\times\mathbf R = (a_2z - a_3y)\,\mathbf i + (a_3x - a_1z)\,\mathbf j + (a_1y - a_2x)\,\mathbf k \qquad \operatorname{curl}(\mathbf a\times\mathbf R) = 2\mathbf a
+$$
+**الدوران ضعف السرعة الزاوية.** مع $\mathbf a = \mathbf k$: الحقل $-y\mathbf i + x\mathbf j$ ودورانه $2\mathbf k$.
+
+<Callout type="key" title="عجلة المجاديف">
+ضع عجلة مجاديف صغيرة في الماء، ومحورها في اتجاه $\mathbf n$. **تدور بسرعة زاوية $\tfrac12(\operatorname{curl}\mathbf F)\cdot\mathbf n$.** أسرع دوران حين يتجه المحور مع $\operatorname{curl}\mathbf F$. **وإن كان $\operatorname{curl}\mathbf F = 0$ فالحقل «غير دوّار»**: لا تدور أي عجلة في أي اتجاه.
+</Callout>
+
+<PaddleWheel client:visible />
+
+**المثال 5:** $\mathbf V = z\mathbf i$ يجري في اتجاه $x$، **ومع ذلك** $\operatorname{curl}\mathbf V = \mathbf j$. ضع عجلة في المستوى $xz$: السرعة عند قمتها أكبر منها عند قاعها، فتدور حول المحور $y$ بسرعة $\tfrac12$. **الدوران لا يحتاج خطوط انسياب منحنية.**
+
+## متطابقتان
+
+<Callout type="definition" title="15N">
+لكل دالة $f(x, y, z)$ ولكل حقل $\mathbf F$:
+$$
+\operatorname{curl}\operatorname{grad}f = \nabla\times\nabla f = \mathbf 0 \qquad \operatorname{div}\operatorname{curl}\mathbf F = \nabla\cdot(\nabla\times\mathbf F) = 0
+$$
+</Callout>
+
+**المثال 3 (!!):** المركبة $\mathbf i$ من $\operatorname{curl}\nabla f$ هي $f_{zy} - f_{yz} = 0$، وكذلك الأخريان: **المشتقات المختلطة متساوية**. **المثال 4 (توأمه):** $\operatorname{div}\operatorname{curl}\mathbf F = (P_{yx} - N_{zx}) + (M_{zy} - P_{xy}) + (N_{xz} - M_{yz})$، وكل حد يلغي آخر. **وبالرموز:** $\nabla\times\nabla$ كضرب متجه في نفسه اتجاهياً، و $\nabla\cdot(\nabla\times\,)$ كضرب ثلاثي بمتجهين متساويين: كلاهما صفر.
+
+## مبرهنة ستوكس
+
+<Callout type="definition" title="15O مبرهنة ستوكس">
+إذا كان $C$ حد السطح $S$، فالدوران حول $C$ يساوي تدفق $\operatorname{curl}\mathbf F$ عبر $S$:
+$$
+\oint_C\mathbf F\cdot d\mathbf R = \iint_S(\operatorname{curl}\mathbf F)\cdot\mathbf n\,dS
+$$
+**الاتجاه:** امشِ على $C$ ورأسك في اتجاه $\mathbf n$، فيبقى السطح على يسارك (قاعدة اليد اليمنى).
+</Callout>
+
+**لماذا؟** قسّم $S$ رقعاً صغيرة، شبه مستوية. على كل رقعة، مبرهنة غرين تعطي الدوران حول حدها: $(\operatorname{curl}\mathbf F)\cdot\mathbf n\,dS$. **والحواف الداخلية تتلاشى**، كما في القسم 15.3، فلا يبقى إلا $C$.
+
+<StokesCap client:visible />
+
+<Callout type="key" title="كل السطوح لها الجواب نفسه">
+الطرف الأيسر يعتمد على $C$ وحده، **فلكل سطح حده $C$ التدفق نفسه** لـ $\operatorname{curl}\mathbf F$. والدليل الثاني (التمرين 15): سطحان لهما الحد نفسه يحيطان معاً بجسم $V$، **والفرق بين التدفقين $\iiint_V\operatorname{div}\operatorname{curl}\mathbf F\,dV = 0$**. فاختر دائماً أسهل سطح، وكثيراً ما يكون مستوياً.
+</Callout>
+
+**المثال 6: قانون فاراداي.** إن كان $C$ سلكاً، فالحقل المغناطيسي المتغير يولد تياراً فيه. الشغل حول السلك $\oint\mathbf E\cdot d\mathbf R$ هو **القوة الدافعة الكهربائية**، ويساوي $-\tfrac{d}{dt}\iint\mathbf B\cdot\mathbf n\,dS$. بمبرهنة ستوكس، ولأن هذا صحيح لكل سطح: $\operatorname{curl}\mathbf E = -\partial\mathbf B/\partial t$. **إحدى معادلات ماكسويل.**
+
+## الحقول المحافظة في الفضاء
+
+<Callout type="key" title="15P">
+$\mathbf F = M\mathbf i + N\mathbf j + P\mathbf k$ محافظ إن حقق خاصية من هذه، فيحققها كلها: **(A)** $\oint\mathbf F\cdot d\mathbf R = 0$ حول كل مسار مغلق؛ **(B)** $\int_P^Q\mathbf F\cdot d\mathbf R$ لا يعتمد على المسار؛ **(C)** $\mathbf F = \nabla f$؛ **(D)** $\operatorname{curl}\mathbf F = \mathbf 0$، أي **ثلاثة اختبارات**: $P_y = N_z$، $M_z = P_x$، $N_x = M_y$.
+</Callout>
+
+**المثال 7:** $\mathbf F = (z - y)\mathbf i + (x - z)\mathbf j + (y - x)\mathbf k$ هو $\mathbf a\times\mathbf R$ مع $\mathbf a = (1, 1, 1)$، ودورانه $(2, 2, 2) \ne \mathbf 0$. **ليس تدرّجاً**، والبحث عن $f$ محكوم بالفشل.
+
+<StepReveal
+  client:visible
+  title="المثال 8: أي P يجعل F = yz² i + xz² j + P k محافظاً؟"
+  problem="نحتاج curl F = 0."
+  steps={[
+    { show: "$M_y = z^2 = N_x$ ✓. والاختباران الآخران: $P_x = M_z = 2yz$ و $P_y = N_z = 2xz$" },
+    { show: "$P = 2xyz$ يحقق الاثنين", why: "$\\partial(2xyz)/\\partial x = 2yz$ ✓ و $\\partial(2xyz)/\\partial y = 2xz$ ✓." },
+    { show: "الجهد: $f = xyz^2$. تحقق: $f_x = yz^2$، $f_y = xz^2$، $f_z = 2xyz$ ✓", why: "ويمكن البناء خطوة خطوة كما في 15.2: كامِل $M$ في $x$، ثم صحّح بدوال في $y$ و $z$." },
+  ]}
+/>
+
+<QuickCheck
+  client:visible
+  id="15.6-curl"
+  question="ما $\operatorname{curl}\mathbf F$ للحقل $\mathbf F = z\mathbf i + x\mathbf j + y\mathbf k$؟"
+  options={["$(1, 1, 1)$", "$(0, 0, 0)$", "$(1, 0, 1)$", "$(-1, -1, -1)$"]}
+  answer={0}
+  explain="$P_y - N_z = 1 - 0 = 1$، و $M_z - P_x = 1 - 0 = 1$، و $N_x - M_y = 1 - 0 = 1$. فالدوران $(1, 1, 1)$، والحقل ليس محافظاً. وبستوكس، الدوران حول دائرة الوحدة في المستوى $xy$ هو $(1, 1, 1)\cdot\mathbf k\times\pi = \pi$."
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={679} label="ص 679" />
+
+- أوجد $\operatorname{curl}\mathbf F$: **(1)** $\mathbf F = z\mathbf i + x\mathbf j + y\mathbf k$ **(2)** $\mathbf F = \operatorname{grad}(xe^y\sin z)$ **(3)** $\mathbf F = (x + y + z)(\mathbf i + \mathbf j + \mathbf k)$.
+- **(7)** أوجد جهداً $f$ للحقل في التمرين 3.
+- **(11)** احسب $\operatorname{curl}\mathbf F$ للحقل $\mathbf F = x^2\mathbf i + y^2\mathbf k$، وأوجد $\oint_C\mathbf F\cdot d\mathbf R$ بمبرهنة ستوكس، حيث $C$ الدائرة $x^2 + z^2 = 1$، $y = 0$.
+- **(15) (مهم)** السطحان $S$ و $T$ لهما الحد نفسه $C$ والاتجاه نفسه حوله. (a) أثبت أن $\iint_S\operatorname{curl}\mathbf F\cdot\mathbf n\,dS = \iint_T\operatorname{curl}\mathbf F\cdot\mathbf n\,dS$. (b) دليل ثانٍ: الفرق بينهما $\iiint\operatorname{div}(\operatorname{curl}\mathbf F)\,dV$. بأي مبرهنة؟ ولماذا هو صفر؟
+- **(18)** إن كان $\operatorname{curl}\mathbf F = \mathbf 0$ و $\operatorname{div}\mathbf F = 0$: (a) لماذا $\mathbf F$ تدرّج جهد؟ (b) لماذا يحقق الجهد معادلة لابلاس $f_{xx} + f_{yy} + f_{zz} = 0$؟
+- أوجد جهداً $f$ إن وُجد: **(20)** $\mathbf F = 2xyz\,\mathbf i + x^2z\,\mathbf j + x^2y\,\mathbf k$ **(22)** $\mathbf F = yz\,\mathbf i + xz\,\mathbf j + (xy + z^2)\,\mathbf k$.
+- **(23)** أوجد حقلاً دورانه $\operatorname{curl}\mathbf F = (1, 0, 0)$.
