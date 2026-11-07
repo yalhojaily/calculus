@@ -4,7 +4,7 @@
 
 الكتاب منشور مجاناً على [MIT OpenCourseWare](https://ocw.mit.edu) بترخيص CC BY-NC-SA.
 
-**الحالة:** الفصول 0 إلى 13 مكتملة (81 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
+**الحالة:** الفصول 0 إلى 14 مكتملة (85 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
 
 ## فكرة كل درس
 
@@ -51,7 +51,8 @@ src/
     ConvergenceRadius, VectorCombo, DotProject, PlaneNormal, CrossBox,
     TwoLines, MatrixMap, ThreePlanes, SpaceCurve, Projectile, Cycloid,
     Osculating, KeplerOrbit, SurfaceContour, PartialPlane, GradientMap,
-    ChainPath, QuadForm, LagrangeWidget    ← محاكاة قابلة لإعادة الاستخدام
+    ChainPath, QuadForm, LagrangeWidget, StickSum, RegionStrips,
+    JacobianMap, TripleSlices, SphericalBox    ← محاكاة قابلة لإعادة الاستخدام
   lib/plot.ts             محرك رسم صغير على canvas (محاور، منحنيات، مساحات، مماسات، أسهم، منحنيات بارامترية)
   lib/polar.ts            مقياس متساوٍ للمحورين، شبكة قطبية، ورسم r = F(θ) بلون للجزء السالب
   lib/three.ts            إسقاط ثلاثي الأبعاد ودوران بالسحب، المتجهات، رسم السطوح z = f(x, y) وخطوط التساوي

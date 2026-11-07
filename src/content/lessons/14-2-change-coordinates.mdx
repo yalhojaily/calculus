@@ -1,0 +1,89 @@
+---
+id: "14.2"
+summary: 'إحداثيات أنسب تجعل الحدود بسيطة. للدوران $dA = du\,dv$، لكن للقطبية $dA = r\,dr\,d\theta$: المستطيل القطبي أضلاعه $\Delta r$ و $r\,\Delta\theta$. وعموماً $dA = |J|\,du\,dv$ حيث اليعقوبي $J$ محدد مصفوفة المشتقات. وبالقطبية نحسب التكامل الأهم في الاحتمال: $\int_{-\infty}^\infty e^{-x^2}dx = \sqrt\pi$.'
+minutes: 40
+objectives:
+  - 'تختار إحداثيات تجعل حدود التكامل بسيطة.'
+  - 'تستعمل $dA = r\,dr\,d\theta$ وتعرف لماذا ليست $dr\,d\theta$.'
+  - 'تحسب الكتل والعزوم والمراكز بالقطبية، مثل نصف الدائرة.'
+  - 'تحسب $\int e^{-x^2}dx = \sqrt\pi$ بتربيعه وتحويله إلى القطبية.'
+  - 'تستعمل اليعقوبي $J = x_uy_v - x_vy_u$ لأي تغيير متغيرات.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import JacobianMap from '../../components/JacobianMap.tsx';
+
+<Callout type="big">
+التكامل الثنائي على مستطيل سهل الإعداد: حدود ثابتة. أما على دائرة فالحدود $y = \pm\sqrt{1 - x^2}$ مزعجة. **تغيير الإحداثيات يمكن أن يجعل المنطقة «مستطيلاً» في المتغيرات الجديدة.** الثمن: عامل إضافي في $dA$.
+</Callout>
+
+**المثال 1 (دوران):** مربع الوحدة مُدار بزاوية $\alpha$. مع $x = u\cos\alpha - v\sin\alpha$ و $y = u\sin\alpha + v\cos\alpha$ يصير المربع $0 \le u, v \le 1$. **للدوران الصافي $dA = du\,dv$.** فـ $\iint x\,dA = \int_0^1\int_0^1(u\cos\alpha - v\sin\alpha)\,du\,dv = \tfrac12\cos\alpha - \tfrac12\sin\alpha$: النقطة $(\bar x, \bar y)$ مركز المربع، لا لغز. **والتعويض جعل $x$ أسوأ، لكن الحدود 0 و 1 أفضل بكثير.** و $I_x + I_y = \tfrac23$ لا يعتمد على $\alpha$: عزم القصور حول الأصل لا يتغير بالدوران حول ركن المربع.
+
+## الإحداثيات القطبية
+
+$$
+dA = r\,dr\,d\theta \qquad (\text{قطعاً ليس } dr\,d\theta)
+$$
+
+**المساحة تأتي دائماً من ضرب طولين، و $d\theta$ ليس طولاً.** «المستطيل القطبي» يقطعه شعاعان ودائرتان، ومساحته بطريقتين:
+- **تقريباً:** الضلعان المستقيمان طولهما $\Delta r$، والقوسان قرب $r\,\Delta\theta$، والزوايا $90°$. فالمساحة قرب $(\Delta r)(r\,\Delta\theta)$.
+- **بالضبط:** الإسفين مساحته $\tfrac12r^2\Delta\theta$، والفرق بين إسفينين $\tfrac12r_2^2\Delta\theta - \tfrac12r_1^2\Delta\theta = r\,\Delta r\,\Delta\theta$، حيث $r$ في **منتصف** الطريق تماماً.
+
+<JacobianMap client:visible />
+
+**المثال 2: الحلقة** $4 \le r \le 5$. الحدود مثالية في القطبية: المساحة $\int_0^{2\pi}\int_4^5 r\,dr\,d\theta = 2\pi\cdot\tfrac12(5^2 - 4^2) = 9\pi$. والحلقة «مستطيل قطبي» عملاق: $r\,\Delta r\,\Delta\theta = (4.5)(1)(2\pi) = 9\pi$. والتماثل يعطي $\iint x\,dA = 0$. وعزم القصور $\iint x^2\,dA = \int\int r^2\cos^2\theta\,r\,dr\,d\theta = \tfrac14(5^4 - 4^4)\pi$: **تكامل $\theta$ هنا $\pi$ لا $2\pi$**، لأن متوسط $\cos^2\theta$ هو $\tfrac12$.
+
+<StepReveal
+  client:visible
+  title="المثال 3: نصف الدائرة بكثافتين"
+  problem="نصف الدائرة العليا r ≤ 1. الكثافة ρ = 1، ثم ρ = 1 − r."
+  steps={[
+    { show: "$\\rho = 1$: الكتلة $\\int_0^\\pi\\int_0^1 r\\,dr\\,d\\theta = \\tfrac\\pi2$ (المساحة)، والعزم $\\int_0^\\pi\\int_0^1(r\\sin\\theta)\\,r\\,dr\\,d\\theta = \\tfrac13\\cdot 2 = \\tfrac23$" },
+    { show: "$\\bar y = \\dfrac{2/3}{\\pi/2} = \\dfrac{4}{3\\pi}$", why: "كما في القسم 8.5، لكن بلا عناء الشرائح الأفقية. **أي كثافة ثابتة تعطي $\\bar y$ نفسه.**" },
+    { show: "$\\rho = 1 - r$ (مخروط فوق القاعدة): الكتلة $\\int_0^\\pi\\int_0^1(1 - r)\\,r\\,dr\\,d\\theta = \\tfrac\\pi6$، والعزم $\\tfrac1{12}\\cdot 2 = \\tfrac16$" },
+    { show: "$\\bar y = \\dfrac{1/6}{\\pi/6} = \\dfrac1\\pi$", why: "**أقل** من $4/3\\pi$، لأن الكثافة $1 - r$ مركّزة قرب الأصل." },
+  ]}
+/>
+
+## أهم تكامل في الاحتمال
+
+<Callout type="strang" title="المثال 4: ∫ e^(−x²) dx = √π">
+$A = \int_{-\infty}^\infty e^{-x^2}dx$ مساحة تحت **منحنى الجرس**. صعب لأن العامل $2x$ غائب: تكامل $2xe^{-x^2}$ هو $-e^{-x^2}$، أما تكامل $e^{-x^2}$ فمستحيل (إلا تقريبياً). **الحيلة: احسب $A^2$ بدل $A$.**
+$$
+A^2 = \int_{-\infty}^\infty e^{-x^2}dx\int_{-\infty}^\infty e^{-y^2}dy = \iint e^{-(x^2 + y^2)}\,dx\,dy = \int_0^{2\pi}\int_0^\infty e^{-r^2}\,r\,dr\,d\theta
+$$
+**والآن العامل $r$ موجود!** $\int_0^\infty e^{-r^2}r\,dr = \tfrac12$، فـ $A^2 = 2\pi\cdot\tfrac12 = \pi$، **و $A = \sqrt\pi$**. ومن هنا $\sqrt{2\pi}$ في التوزيع الطبيعي (القسم 8.4).
+</Callout>
+
+## الصيغة العامة: اليعقوبي
+
+<Callout type="definition" title="14C">
+إذا كان $x = x(u, v)$ و $y = y(u, v)$، فإن $dx\,dy = |J|\,du\,dv$ حيث **عامل التمطيط** هو اليعقوبي:
+$$
+J = \begin{vmatrix} \partial x/\partial u & \partial x/\partial v \\ \partial y/\partial u & \partial y/\partial v \end{vmatrix} = \frac{\partial x}{\partial u}\frac{\partial y}{\partial v} - \frac{\partial x}{\partial v}\frac{\partial y}{\partial u}
+$$
+</Callout>
+
+**لماذا؟** الرقعة الصغيرة $du\,dv$ تصير متوازي أضلاع تقريباً، ضلعاه $(x_u, y_u)\,du$ و $(x_v, y_v)\,dv$. **ومساحته القيمة المطلقة للضرب الاتجاهي** (القسم 11.3): $|x_uy_v - x_vy_u|\,du\,dv$. **تحقق للقطبية:** $x = r\cos\theta$، $y = r\sin\theta$: $J = \cos\theta\cdot r\cos\theta - (-r\sin\theta)\sin\theta = r$ ✓. وللتحويل الخطي $x = au + bv$، $y = cu + dv$ يكون $J = ad - bc$ ثابتاً.
+
+<QuickCheck
+  client:visible
+  id="14.2-polar"
+  question="ما $\iint_R(x^2 + y^2)\,dA$ على قرص الوحدة؟"
+  options={["$\\pi$", "$\\tfrac\\pi2$", "$2\\pi$", "$\\tfrac\\pi4$"]}
+  answer={1}
+  explain="بالقطبية: $\int_0^{2\pi}\int_0^1 r^2\cdot r\,dr\,d\theta = 2\pi\cdot\tfrac14 = \tfrac\pi2$. **لا تنس العامل $r$ في $dA$**: بدونه ستحصل على $\tfrac{2\pi}{3}$، وهذا خطأ. هذا عزم القصور القطبي $I_0$ للقرص."
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={613} label="ص 613" />
+
+- **(13)** $R$ له أضلاع مستقيمة $y = 2x$، $x = 1$، $y = 1 + 2x$، $x = 0$. حدد شكله، واختر $u, v$ تجعله مربعاً، وأوجد مساحته من $J$.
+- **(14)** اختر $a, b, c, d$ بحيث يحوّل $x = au + bv$، $y = cu + dv$ المربع $0 \le u \le 1$، $0 \le v \le 1$ إلى متوازي أضلاع تختاره. أوجد المساحة من $J = ad - bc$.
+- **(18)** أوجد اليعقوبي لـ $x = 3u + 2v$، $y = u + v$.
+- احسب بالقطبية: $\iint_R e^{-(x^2 + y^2)}\,dA$ على قرص نصف قطره $a$، ثم دع $a \to \infty$.

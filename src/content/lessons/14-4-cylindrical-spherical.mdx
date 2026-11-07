@@ -1,0 +1,95 @@
+---
+id: "14.4"
+summary: 'للأسطوانات نستعمل $(r, \theta, z)$: القطبية في المستوى و $z$ كما هو، و $dV = r\,dr\,d\theta\,dz$. وللكرات نستعمل $(\rho, \phi, \theta)$: البعد عن الأصل، والزاوية من المحور $z$، والزاوية القطبية، و $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$. حجم الكرة يصير $\tfrac13R^3\cdot 2\cdot 2\pi$ في سطر واحد.'
+minutes: 35
+objectives:
+  - 'تحوّل بين الإحداثيات المستطيلة والأسطوانية والكروية.'
+  - 'تشتق $dV = r\,dr\,d\theta\,dz$ و $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$ من الصندوق الصغير.'
+  - 'تحسب الحجوم والكتل وعزوم القصور للأسطوانات والمخاريط والكرات.'
+  - 'تعرف اليعقوبي الثلاثي محدداً $3\times 3$.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import SphericalBox from '../../components/SphericalBox.tsx';
+
+<Callout type="big">
+في المستوى انتقلنا إلى القطبية للدوائر. **وفي الفضاء نظامان طبيعيان:** الأسطوانية للأجسام المتماثلة حول محور، والكروية للأجسام المتماثلة حول نقطة. وفي كليهما عامل إضافي في $dV$ يأتي من **صندوق صغير** بين سطوح الإحداثيات.
+</Callout>
+
+## الإحداثيات الأسطوانية
+
+$$
+x = r\cos\theta \qquad y = r\sin\theta \qquad z = z \qquad dV = r\,dr\,d\theta\,dz
+$$
+
+$r = $ ثابت أسطوانة، و $\theta = $ ثابت نصف مستوى رأسي، و $z = $ ثابت مستوى أفقي. الصندوق الصغير أضلاعه $dr$ و $r\,d\theta$ و $dz$.
+
+**مثال: الجسم تحت $z = 4 - x^2 - y^2$** (من القسم السابق) يصير $z = 4 - r^2$، والظل القرص $r \le 2$:
+
+$$
+V = \int_0^{2\pi}\int_0^2\int_0^{4 - r^2}r\,dz\,dr\,d\theta = 2\pi\int_0^2(4 - r^2)\,r\,dr = 2\pi\Big[2r^2 - \tfrac14r^4\Big]_0^2 = 8\pi
+$$
+
+## الإحداثيات الكروية
+
+$\rho$ («رو») البعد عن الأصل، و $\phi$ («فاي») الزاوية من المحور $z$ نزولاً (من 0 عند القطب الشمالي إلى $\pi$ عند الجنوبي)، و $\theta$ الزاوية القطبية المعتادة حول المحور $z$. **نصف قطر دائرة العرض $r = \rho\sin\phi$**، والارتفاع $z = \rho\cos\phi$:
+
+$$
+x = \rho\sin\phi\cos\theta \qquad y = \rho\sin\phi\sin\theta \qquad z = \rho\cos\phi \qquad \rho^2 = x^2 + y^2 + z^2
+$$
+
+<SphericalBox client:visible />
+
+<Callout type="definition" title="عنصر الحجم الكروي">
+الصندوق الصغير أضلاعه:
+- **$d\rho$** على الشعاع إلى الخارج،
+- **$\rho\,d\phi$** على خط الطول (دائرة نصف قطرها $\rho$)،
+- **$\rho\sin\phi\,d\theta$** على دائرة العرض (نصف قطرها $\rho\sin\phi$).
+
+$$
+dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta
+$$
+</Callout>
+
+<StepReveal
+  client:visible
+  title="حجم الكرة في سطر واحد"
+  problem="الكرة ρ ≤ R: كل الحدود ثابتة."
+  steps={[
+    { show: "$V = \\displaystyle\\int_0^{2\\pi}\\int_0^\\pi\\int_0^R\\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$" },
+    { show: "التكاملات الثلاثة تنفصل: $\\int_0^R\\rho^2d\\rho = \\tfrac13R^3$ و $\\int_0^\\pi\\sin\\phi\\,d\\phi = 2$ و $\\int_0^{2\\pi}d\\theta = 2\\pi$" },
+    { show: "$V = \\tfrac13R^3\\cdot 2\\cdot 2\\pi = \\tfrac43\\pi R^3$", why: "**وبالإحداثيات المستطيلة** الحدود $z = \\pm\\sqrt{R^2 - x^2 - y^2}$ ثم $y = \\pm\\sqrt{R^2 - x^2}$: عمل أكثر بكثير للجواب نفسه." },
+  ]}
+/>
+
+<Callout type="key" title="أمثلة سريعة">
+- **قلنسوة جليد:** المنطقة $\rho \le R$ و $\phi \le \alpha$ (مخروط حول القطب الشمالي): $V = \tfrac13R^3\cdot(1 - \cos\alpha)\cdot 2\pi$. مع $\alpha = \pi$: الكرة كاملة.
+- **عزم قصور الكرة** حول المحور $z$: المسافة المربعة إلى المحور $r^2 = \rho^2\sin^2\phi$، و $I_z = \iiint\rho^2\sin^2\phi\cdot\rho^2\sin\phi\,d\rho\,d\phi\,d\theta = \tfrac{8}{15}\pi R^5$. **مقسوماً على $MR^2 = \tfrac43\pi R^5$: $J = \tfrac25$**، القيمة التي استعملناها في سباق التدحرج (القسم 8.5)!
+- **كتلة كوكب** كثافته تعتمد على $\rho$ وحدها: $M = 4\pi\int_0^R\delta(\rho)\,\rho^2\,d\rho$ (التمرين 24).
+</Callout>
+
+## اليعقوبي الثلاثي
+
+لأي تغيير $x(u, v, w)$، $y(u, v, w)$، $z(u, v, w)$، عامل الحجم **محدد $3\times 3$** للمشتقات الجزئية: $dV = |J|\,du\,dv\,dw$. وهو حجم الصندوق الذي أضلاعه $(x_u, y_u, z_u)$ و $(x_v, y_v, z_v)$ و $(x_w, y_w, z_w)$: الضرب الثلاثي من القسم 11.3. **تحقق للكروية**: المحدد يساوي $\rho^2\sin\phi$.
+
+<QuickCheck
+  client:visible
+  id="14.4-sph"
+  question="ما الإحداثيات الكروية $(\rho, \phi, \theta)$ للنقطة $(0, 0, -2)$؟"
+  options={["$(2, 0, 0)$", "$(2, \\pi, \\text{أي زاوية})$", "$(-2, 0, 0)$", "$(2, \\tfrac\\pi2, \\pi)$"]}
+  answer={1}
+  explain="$\rho = 2$ (البعد عن الأصل دائماً موجب). النقطة على المحور $z$ السالب، فالزاوية من المحور الموجب $\phi = \pi$ (القطب الجنوبي). و $\theta$ أي قيمة، لأن $\rho\sin\phi = 0$: كل الزوايا تعطي النقطة نفسها. (التمرين 3)"
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={627} label="ص 627" />
+
+- أوجد الإحداثيات الكروية للنقاط: **(1)** $(D, 0, 0)$ **(2)** $(0, D, 0)$ **(3)** $(0, 0, D)$ (انتبه لـ $\theta$) **(4)** $(3, 4, 5)$
+- أوجد $(x, y, z)$: **(5)** $\rho = 4$، $\phi = \pi/4$ **(6)** $\rho = 2$، $\phi = \pi/3$، $\theta = \pi/6$ **(7)** $\rho = 1$، $\phi = \pi$، $\theta$ أي زاوية.
+- **(24)** أوجد كتلة كوكب نصف قطره $R$ إذا كانت كثافته عند كل نقطة تعتمد على بعدها عن المركز.
+- **(25)** للمخروط حتى $r = 1$، أوجد حجمه ومركزه بالإحداثيات الأسطوانية.
