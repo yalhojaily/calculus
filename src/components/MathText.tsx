@@ -1,5 +1,6 @@
 import katex from 'katex';
 import { useMemo } from 'react';
+import { LONG_INLINE, mathLen } from '../lib/mathwidth.mjs';
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
 
@@ -17,7 +18,7 @@ export function renderMathText(src: string) {
   const out = src
     .split(/(\$[^$]+\$)/g)
     .map((part) => {
-      if (part.startsWith('$') && part.endsWith('$') && part.length > 1) return tex(part.slice(1, -1));
+      if (part.startsWith('$') && part.endsWith('$') && part.length > 1) { const m = part.slice(1, -1); return tex(m, mathLen(m) > LONG_INLINE); }
       return esc(part)
         .replace(/\*\*/g, () => ((bold = !bold) ? '<strong>' : '</strong>'))
         .replace(/\n\n/g, '<br/><br/>');

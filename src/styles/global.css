@@ -36,6 +36,8 @@
   --font-sans: 'IBM Plex Sans Arabic', system-ui, sans-serif;
   --font-head: 'Noto Kufi Arabic Variable', 'IBM Plex Sans Arabic', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --math-bg: rgb(36 87 197 / 7%);
+  --math-line: rgb(36 87 197 / 16%);
   color-scheme: light;
 }
 
@@ -63,6 +65,8 @@
     --teal-soft: #15343a;
     --navy: #8fb0ea;
     --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 28%);
+    --math-bg: rgb(111 157 255 / 11%);
+    --math-line: rgb(111 157 255 / 22%);
     color-scheme: dark;
   }
 }
@@ -89,6 +93,8 @@
   --teal-soft: #15343a;
   --navy: #8fb0ea;
   --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 28%);
+  --math-bg: rgb(111 157 255 / 11%);
+  --math-line: rgb(111 157 255 / 22%);
   color-scheme: dark;
 }
 
@@ -114,6 +120,17 @@ button { font: inherit; }
 /* المعادلات تُكتب دائماً من اليسار إلى اليمين داخل النص العربي */
 .katex { direction: ltr; unicode-bidi: isolate; font-size: 1.05em; }
 .katex .katex-mathml { left: 0; top: 0; }
+/* الرياضيات داخل السطر: خلفية خفيفة تفصلها عن النص العربي، ولا تنكسر على سطرين */
+.lesson-main .katex:not(.katex-display > .katex):not(:is(button, .choice, .readout, .controls, label) .katex),
+.lesson-summary .katex {
+  white-space: nowrap;
+  background: var(--math-bg);
+  box-shadow: inset 0 0 0 1px var(--math-line);
+  border-radius: 6px;
+  padding: 0.08em 0.38em;
+  margin: 0 0.12em;
+}
+.lesson-main .katex.math-wrap { white-space: normal; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 .katex-display { direction: ltr; margin: 1.1em 0; overflow-x: auto; overflow-y: hidden; padding: 6px 0; }
 .ltr { direction: ltr; unicode-bidi: isolate; }
 bdi[dir='ltr'] { white-space: nowrap; }

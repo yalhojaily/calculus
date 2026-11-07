@@ -5,6 +5,23 @@ import react from '@astrojs/react';
 import { unified } from '@astrojs/markdown-remark';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { mathLen, LONG_INLINE } from './src/lib/mathwidth.mjs';
+
+/** الصيغة الطويلة داخل السطر تُعرض في سطر مستقل، فلا تنكسر أجزاؤها على الشاشات الصغيرة. */
+function rehypeLongInlineMath() {
+  /** @param {any} n @returns {string} */
+  const text = (n) => (n.type === 'text' ? n.value : (n.children || []).map(text).join(''));
+  /** @param {any} n */
+  const walk = (n) => {
+    if (n.type === 'element' && n.tagName === 'code') {
+      const cls = n.properties?.className;
+      if (Array.isArray(cls) && cls.includes('math-inline') && mathLen(text(n)) > LONG_INLINE)
+        n.properties.className = cls.filter((c) => c !== 'math-inline').concat('math-display');
+    }
+    (n.children || []).forEach(walk);
+  };
+  return (/** @type {any} */ tree) => walk(tree);
+}
 
 /** @type {import('katex').KatexOptions} */
 const katexOptions = {
@@ -22,7 +39,7 @@ export default defineConfig({
   markdown: {
     processor: unified({
       remarkPlugins: [remarkMath],
-      rehypePlugins: [[rehypeKatex, katexOptions]],
+      rehypePlugins: [rehypeLongInlineMath, [rehypeKatex, katexOptions]],
     }),
   },
 });

@@ -101,6 +101,20 @@ const [p0, p1] = section.pages;
     </main>
   </div>
   <BookPanel client:idle src={`${baseNoSlash}/book.pdf`} pagesDir={`${baseNoSlash}/pages`} pages={section.pages} offset={PDF_OFFSET} sectionId={id} />
+  <script>
+    // احتياط للشاشات الضيقة جداً: صيغة داخل السطر أعرض من فقرتها يُسمح لها بالانكسار بدل أن تخرج عن الصفحة
+    const fit = () => {
+      for (const k of document.querySelectorAll<HTMLElement>('.lesson-main .katex')) {
+        if (k.parentElement?.classList.contains('katex-display') || k.closest('td, th')) continue;
+        k.classList.remove('math-wrap');
+        const host = k.parentElement?.closest('p, li, div');
+        if (host && k.getBoundingClientRect().width > host.clientWidth + 1) k.classList.add('math-wrap');
+      }
+    };
+    addEventListener('load', fit);
+    let tm = 0;
+    addEventListener('resize', () => { clearTimeout(tm); tm = window.setTimeout(fit, 150); });
+  </script>
 </Base>
 
 <style>
