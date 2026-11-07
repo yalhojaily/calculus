@@ -73,3 +73,62 @@ export function useOrbit(ref: RefObject<HTMLCanvasElement | null>, setCam: (f: (
     return () => { el.removeEventListener('pointerdown', down); window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
   }, [ref, setCam]);
 }
+
+/** سطح z = f(x, y) بأوجه ملونة حسب الارتفاع، مرتبة من الأبعد إلى الأقرب (رسم الرسام). */
+export function surface(p: Plot, c: Cam, f: (x: number, y: number) => number, [x0, x1]: [number, number], [y0, y1]: [number, number], { n = 22, zMin = -Infinity, zMax = Infinity, alpha = 0.85, clip = true } = {}) {
+  const P = proj(c);
+  const quads: { d: number; pts: V3[]; z: number }[] = [];
+  const val = (x: number, y: number) => { const z = f(x, y); return clip ? Math.max(zMin, Math.min(zMax, z)) : z; };
+  let lo = Infinity, hi = -Infinity;
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+    const xa = x0 + ((x1 - x0) * i) / n, xb = x0 + ((x1 - x0) * (i + 1)) / n, ya = y0 + ((y1 - y0) * j) / n, yb = y0 + ((y1 - y0) * (j + 1)) / n;
+    const pts: V3[] = [[xa, ya, val(xa, ya)], [xb, ya, val(xb, ya)], [xb, yb, val(xb, yb)], [xa, yb, val(xa, yb)]];
+    if (pts.some((q) => !Number.isFinite(q[2]))) continue;
+    const zc = (pts[0][2] + pts[1][2] + pts[2][2] + pts[3][2]) / 4;
+    lo = Math.min(lo, zc); hi = Math.max(hi, zc);
+    const ctr: V3 = [(xa + xb) / 2, (ya + yb) / 2, zc];
+    quads.push({ d: depth(c, ctr), pts, z: zc });
+  }
+  quads.sort((a, b) => a.d - b.d);
+  const ctx = p.ctx;
+  for (const q of quads) {
+    const s = hi > lo ? (q.z - lo) / (hi - lo) : 0.5;
+    const hue = 220 - 190 * s; // أزرق منخفض ← برتقالي مرتفع
+    ctx.beginPath();
+    q.pts.forEach((v, i) => { const [x, y] = P(v); if (i) ctx.lineTo(p.X(x), p.Y(y)); else ctx.moveTo(p.X(x), p.Y(y)); });
+    ctx.closePath();
+    ctx.fillStyle = `hsla(${hue}, 65%, ${52 + 8 * s}%, ${alpha})`; ctx.fill();
+    ctx.strokeStyle = `hsla(${hue}, 40%, 30%, 0.35)`; ctx.lineWidth = 0.6; ctx.stroke();
+  }
+}
+
+/** خطوط تساوي f = c على المستوى (خوارزمية المربعات الزاحفة المبسطة). ترجع قطعاً مستقيمة. */
+export function contourSegs(f: (x: number, y: number) => number, c: number, [x0, x1]: [number, number], [y0, y1]: [number, number], n = 80): [number, number, number, number][] {
+  const segs: [number, number, number, number][] = [];
+  const hx = (x1 - x0) / n, hy = (y1 - y0) / n;
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+    const x = x0 + i * hx, y = y0 + j * hy;
+    const v = [f(x, y) - c, f(x + hx, y) - c, f(x + hx, y + hy) - c, f(x, y + hy) - c];
+    if (v.some((q) => !Number.isFinite(q))) continue;
+    const corners: [number, number][] = [[x, y], [x + hx, y], [x + hx, y + hy], [x, y + hy]];
+    const cross: [number, number][] = [];
+    for (let e = 0; e < 4; e++) {
+      const a = v[e], b = v[(e + 1) % 4];
+      if ((a < 0) !== (b < 0)) { const t = a / (a - b); const [ax, ay] = corners[e], [bx, by] = corners[(e + 1) % 4]; cross.push([ax + t * (bx - ax), ay + t * (by - ay)]); }
+    }
+    if (cross.length === 2) segs.push([cross[0][0], cross[0][1], cross[1][0], cross[1][1]]);
+    else if (cross.length === 4) { segs.push([cross[0][0], cross[0][1], cross[1][0], cross[1][1]]); segs.push([cross[2][0], cross[2][1], cross[3][0], cross[3][1]]); }
+  }
+  return segs;
+}
+
+/** خريطة خطوط تساوٍ على مستوى ثنائي الأبعاد، ملونة من الأزرق (منخفض) إلى البرتقالي (مرتفع). */
+export function contourMap(p: Plot, f: (x: number, y: number) => number, levels: number[], xr: [number, number], yr: [number, number], { n = 90, width = 1.4, highlight }: { n?: number; width?: number; highlight?: number } = {}) {
+  const lo = Math.min(...levels), hi = Math.max(...levels);
+  for (const c of levels) {
+    const s = hi > lo ? (c - lo) / (hi - lo) : 0.5;
+    const col = `hsl(${220 - 190 * s}, 62%, 45%)`;
+    const hl = highlight !== undefined && Math.abs(c - highlight) < 1e-9;
+    for (const [a, b, c2, d] of contourSegs(f, c, xr, yr, n)) p.line(a, b, c2, d, hl ? p.c.red : col, { width: hl ? 3 : width });
+  }
+}

@@ -1,0 +1,92 @@
+---
+id: "13.7"
+summary: 'لتصغير $f(x, y)$ بشرط $g(x, y) = k$: عند الحل يمس خط تساوي $f$ منحنى القيد، فالتدرّجان متوازيان: $\nabla f = \lambda\nabla g$. مع القيد نفسه هذه ثلاث معادلات في $x, y, \lambda$. دالة لاغرانج $L = f - \lambda(g - k)$ تجمعها: مشتقاتها صفر. والمضاعف $\lambda$ معدل تغير القيمة المثلى إذا تغير $k$. ومع قيدين $\nabla f = \lambda_1\nabla g + \lambda_2\nabla h$.'
+minutes: 35
+objectives:
+  - 'تفهم لماذا يتوازى $\nabla f$ و $\nabla g$ عند القيمة القصوى على قيد.'
+  - 'تحل مسائل القيود بمعادلات $\nabla f = \lambda\nabla g$ و $g = k$.'
+  - 'تستعمل دالة لاغرانج $L = f - \lambda(g - k)$.'
+  - 'تفسر $\lambda$ حساسيةً للقيمة المثلى، وتتعامل مع قيدين.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import LagrangeWidget from '../../components/LagrangeWidget.tsx';
+
+<Callout type="big">
+في القسم السابق تحركت $x$ و $y$ بحرية في المستوى. **الآن هما مقيّدتان**: يجب أن تبقى النقطة على منحنى $g(x, y) = k$. أصغر مسافة من الأصل إلى مستقيم؛ أكبر حجم بمساحة سطح ثابتة؛ أقل تكلفة لإنتاج ثابت. **القيد يحوّل المسألة إلى مسألة على منحنى.**
+</Callout>
+
+## الفكرة الهندسية
+
+تحرّك على منحنى القيد وراقب خطوط تساوي $f$ التي تعبرها. **ما دمت تعبر خطوط التساوي، فإن $f$ يزيد أو ينقص**: لم تصل بعد إلى القيمة القصوى. **عند القيمة القصوى لا تعبر، بل تمس**: منحنى القيد يمس خط التساوي.
+
+حين يتماس منحنيان يكون لهما المماس نفسه، **وبالتالي العمودي نفسه**. عمودي خط تساوي $f$ هو $\nabla f$، وعمودي منحنى القيد $g = k$ هو $\nabla g$:
+
+<Callout type="definition" title="13N">
+عند أصغر (أو أكبر) $f(x, y)$ بشرط $g(x, y) = k$، يكون تدرّج $f$ مضاعفاً لتدرّج $g$:
+$$
+\nabla f = \lambda\nabla g \qquad\text{أي}\qquad \frac{\partial f}{\partial x} = \lambda\frac{\partial g}{\partial x},\quad \frac{\partial f}{\partial y} = \lambda\frac{\partial g}{\partial y}
+$$
+مع القيد $g = k$: **ثلاث معادلات في ثلاثة مجاهيل** $x, y, \lambda$. العدد $\lambda$ هو **مضاعف لاغرانج**.
+</Callout>
+
+<LagrangeWidget client:visible />
+
+<StepReveal
+  client:visible
+  title="المثال 1: أصغر x² + y² على المستقيم 2x + y = k"
+  problem="أقرب نقطة على المستقيم إلى الأصل."
+  steps={[
+    { show: "$\\nabla f = (2x, 2y)$ و $\\nabla g = (2, 1)$. المعادلتان: $2x = 2\\lambda$ و $2y = \\lambda$" },
+    { show: "فـ $x = \\lambda$ و $y = \\tfrac12\\lambda$. في القيد: $2\\lambda + \\tfrac12\\lambda = k$، أي $\\lambda = \\tfrac25k$" },
+    { show: "النقطة $(x, y) = \\left(\\tfrac25k, \\tfrac15k\\right)$ والقيمة الصغرى $f = \\tfrac{4}{25}k^2 + \\tfrac{1}{25}k^2 = \\tfrac15k^2$", why: "تحقق: البعد $|k|/\\sqrt5$ من صيغة البعد إلى مستقيم، ومربعه $k^2/5$ ✓. ومع $k = 5$: $(2, 1)$ و $f = 5$." },
+    { show: "**لاحظ:** $\\dfrac{df_{\\min}}{dk} = \\tfrac25k = \\lambda$", why: "**المضاعف $\\lambda$ معدل تغير القيمة المثلى بالنسبة إلى $k$.** في الاقتصاد يسمى «سعر الظل»: كم تساوي وحدة إضافية من المورد المقيّد." },
+  ]}
+/>
+
+## دالة لاغرانج
+
+<Callout type="definition" title="13O">
+**دالة لاغرانج** $L(x, y, \lambda) = f(x, y) - \lambda\big(g(x, y) - k\big)$. مشتقاتها الثلاث صفر:
+$$
+\frac{\partial L}{\partial x} = f_x - \lambda g_x = 0 \qquad \frac{\partial L}{\partial y} = f_y - \lambda g_y = 0 \qquad \frac{\partial L}{\partial\lambda} = -(g - k) = 0
+$$
+**المسألة المقيّدة صارت مسألة نقاط حرجة بلا قيد**، في متغير إضافي واحد.
+</Callout>
+
+**المثال 2 (التمرين 12):** أكبر $f = xy$ على الدائرة $x^2 + y^2 = 2$. المعادلات $y = 2\lambda x$ و $x = 2\lambda y$. اضربهما: $xy = 4\lambda^2xy$، فإما $xy = 0$، وعندها تعطي المعادلتان $x = y = 0$ وهذه ليست على الدائرة، وإما $\lambda = \pm\tfrac12$. مع $\lambda = \tfrac12$: $y = x$، والقيد يعطي $x = \pm 1$. **العظمى $f = 1$ عند $(1, 1)$ و $(-1, -1)$.** ومع $\lambda = -\tfrac12$: $y = -x$، **والصغرى $-1$**.
+
+## قيدان
+
+<Callout type="definition" title="13P">
+لتصغير $f(x, y, z)$ بشرط $g = k_1$ **و** $h = k_2$: حل
+$$
+\nabla f = \lambda_1\nabla g + \lambda_2\nabla h, \qquad g = k_1, \qquad h = k_2
+$$
+خمس معادلات في خمسة مجاهيل $x, y, z, \lambda_1, \lambda_2$. القيدان معاً منحنى (تقاطع سطحين)، و $\nabla f$ يجب أن يقع في المستوى العمودي على ذلك المنحنى، الذي يمتد بـ $\nabla g$ و $\nabla h$.
+</Callout>
+
+<QuickCheck
+  client:visible
+  id="13.7-lambda"
+  question="بأي معادلات تبدأ لإيجاد أكبر $f = 3x + y$ على القطع الناقص $x^2 + 9y^2 = 1$؟ (التمرين 4)"
+  options={["$3 = 2\\lambda x$ و $1 = 18\\lambda y$", "$3 = \\lambda$ و $1 = \\lambda$", "$3x = 2x$ و $y = 18y$", "$f_x = 0$ و $f_y = 0$"]}
+  answer={0}
+  explain="$\nabla f = (3, 1)$ و $\nabla g = (2x, 18y)$، فـ $\nabla f = \lambda\nabla g$ تعطي $3 = 2\lambda x$ و $1 = 18\lambda y$، ومعهما القيد. ($f_x = f_y = 0$ مستحيل هنا: $f$ خطية بلا نقاط حرجة، فالقصوى على الحد.)"
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={596} label="ص 596" />
+
+- **(1)** صغّر المثال 1 $f = x^2 + y^2$ بشرط $2x + y = k$، وتحقق أن $\lambda = df_{\min}/dk$.
+- أوجد القيم العظمى والصغرى: **(2)** $f = x^2y$ بشرط $g = x^2 + y^2 = 1$ **(4)** $f = 3x + y$ بشرط $x^2 + 9y^2 = 1$ **(5)** $f = x^2 + y^2$ بشرط $x^6 + y^6 = 2$
+- **(7)** أوجد النقطة على الدائرة $x^2 + y^2 = 13$ التي يكون عندها $f = 2x + 3y$ أكبر ما يمكن.
+- **(8)** كبّر $ax + by + cz$ بشرط $x^2 + y^2 + z^2 = k^2$. اكتب الجواب بدلالة $\mathbf v = (a, b, c)$ وفسّره (كوشي–شفارتز).
+- **(12)** أوجد أكبر $f = xy$ على الدائرة $g = x^2 + y^2 = 2$ بطريقتين: لاغرانج، والتعويض $x = \sqrt2\cos\theta$، $y = \sqrt2\sin\theta$.
+- **(13)** ارسم خطوط تساوي $f = x^2 + y^2$ ومنحنى مغلقاً $C$. أين يقع أصغر وأكبر $f$ على $C$؟
+- **(15)** (الحساسية) أثبت أن $dL/dk = \lambda$ عند الحل.

@@ -1,0 +1,82 @@
+---
+id: "13.5"
+summary: 'حين يعتمد $x$ و $y$ على $t$، فإن $f(x(t), y(t))$ دالة في $t$ وحده، ومشتقتها مجموع أثرين: $\tfrac{df}{dt} = f_x\tfrac{dx}{dt} + f_y\tfrac{dy}{dt} = \nabla f\cdot\mathbf v$. ومع متغيرين $t$ و $u$ نحصل على قاعدتين للمشتقتين الجزئيتين. والسؤال الحاسم دائماً: ما المتغيرات المستقلة، وأيها يبقى ثابتاً؟'
+minutes: 35
+objectives:
+  - 'تطبق قاعدة السلسلة $df/dt = f_x\,dx/dt + f_y\,dy/dt$.'
+  - 'تفسرها ضرباً نقطياً للتدرّج والسرعة.'
+  - 'تحسب $\partial f/\partial t$ و $\partial f/\partial u$ حين $x$ و $y$ دالتان في $t$ و $u$.'
+  - 'تنتبه لأي المتغيرات ثابت، مثل $(\partial P/\partial V)_T$ في قانون الغاز.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import ChainPath from '../../components/ChainPath.tsx';
+
+<Callout type="big">
+قاعدة السلسلة في متغير واحد تقول: إذا تغير $x$ بمعدل $dx/dt$، وتغير $f$ بمعدل $df/dx$، فإن $f$ يتغير بالنسبة إلى $t$ بالمعدل $(df/dx)(dx/dt)$. **ومع متغيرين يأتي التغيّر من مصدرين**: تغيّر $x$ يساهم $f_x\,dx/dt$، وتغيّر $y$ يساهم $f_y\,dy/dt$. والمجموع هو المعدل الكلي.
+</Callout>
+
+<Callout type="definition" title="13H قاعدة السلسلة لـ f(x(t), y(t))">
+$$
+\frac{df}{dt} = \frac{\partial f}{\partial x}\frac{dx}{dt} + \frac{\partial f}{\partial y}\frac{dy}{dt} = \nabla f\cdot\mathbf v
+$$
+</Callout>
+
+**البرهان بالتقريب الخطي:** $\Delta f \approx f_x\,\Delta x + f_y\,\Delta y$. اقسم على $\Delta t$ ودع $\Delta t \to 0$. (البرهان الدقيق يحتاج أن تكون $f_x$ و $f_y$ متصلتين.) **والصورة:** نقطة تتحرك على مسار فوق خريطة كنتورية، و $df/dt$ معدل عبورها لخطوط التساوي:
+
+<ChainPath client:visible />
+
+**المثال 1:** درجة الحرارة $T = x^2 + y^2$ وأنت تسير على $x = t$، $y = t^2$. **بالتعويض:** $T = t^2 + t^4$ و $dT/dt = 2t + 4t^3$. **بالقاعدة:** $(2x)(1) + (2y)(2t) = 2t + 4t^3$. النتيجة نفسها، والقاعدة تعمل حتى حين لا نستطيع التعويض بسهولة.
+
+## متغيران مستقلان
+
+إذا اعتمد $x$ و $y$ على متغيرين $t$ و $u$، فلـ $f$ مشتقتان جزئيتان بالنسبة إليهما:
+
+<Callout type="definition" title="13I">
+$$
+\frac{\partial f}{\partial t} = \frac{\partial f}{\partial x}\frac{\partial x}{\partial t} + \frac{\partial f}{\partial y}\frac{\partial y}{\partial t} \qquad \frac{\partial f}{\partial u} = \frac{\partial f}{\partial x}\frac{\partial x}{\partial u} + \frac{\partial f}{\partial y}\frac{\partial y}{\partial u}
+$$
+</Callout>
+
+<StepReveal
+  client:visible
+  title="الإحداثيات القطبية"
+  problem="x = r cos θ، y = r sin θ. أوجد ∂f/∂r و ∂f/∂θ."
+  steps={[
+    { show: "$\\dfrac{\\partial f}{\\partial r} = f_x\\cos\\theta + f_y\\sin\\theta$", why: "هذا $\\nabla f\\cdot\\mathbf u_r$: الميل إلى الخارج على الشعاع." },
+    { show: "$\\dfrac{\\partial f}{\\partial \\theta} = f_x(-r\\sin\\theta) + f_y(r\\cos\\theta)$", why: "هذا $r\\,\\nabla f\\cdot\\mathbf u_\\theta$: الميل حول المركز، مضروباً في $r$ لأن الزاوية ليست مسافة." },
+    { show: "**تحقق** بـ $f = x^2 + y^2 = r^2$: $\\partial f/\\partial r = 2x\\cos\\theta + 2y\\sin\\theta = 2r$ ✓ و $\\partial f/\\partial\\theta = -2xr\\sin\\theta + 2yr\\cos\\theta = 0$ ✓" },
+  ]}
+/>
+
+## ما الذي يبقى ثابتاً؟
+
+<Callout type="warning" title="السؤال الأهم في المشتقات الجزئية">
+**المثال 6:** $f = 3x + 2y + z$. ما $\partial f/\partial x$؟ **يعتمد على ما يبقى ثابتاً!** إذا كانت $x, y, z$ مستقلة فالجواب 3. **لكن على المستوى $z = 4x + y$** يصير $f = 3x + 2y + 4x + y = 7x + 3y$، ومع ثبات $y$ يكون $\partial f/\partial x = 7$. الرمز $\partial f/\partial x$ وحده لا يكفي؛ نكتب $(\partial f/\partial x)_y$ لنقول من ثابت.
+</Callout>
+
+**المثال 5 (قانون الغاز):** $PV = nRT$ يربط الضغط والحجم والحرارة، **فهي ليست مستقلة**. ما معنى $\partial V/\partial P$؟ هل تساوي $1/(\partial P/\partial V)$؟ نعم، **إذا بقيت $T$ ثابتة في الحالتين**. **والمثال 8** أعجب: من $PV = T$، حاصل الضرب $(\partial P/\partial V)_T(\partial V/\partial T)_P(\partial T/\partial P)_V = -1$، **لا $+1$** كما يوحي «إلغاء» الرموز.
+
+<QuickCheck
+  client:visible
+  id="13.5-chain"
+  question="$f = xy$ و $x = \cos t$ و $y = \sin t$. ما $df/dt$؟"
+  options={["$\\cos 2t$", "$-\\sin 2t$", "$\\sin t\\cos t$", "$1$"]}
+  answer={0}
+  explain="$f_x\,x' + f_y\,y' = (y)(-\sin t) + (x)(\cos t) = -\sin^2 t + \cos^2 t = \cos 2t$. وتحقق: $f = \sin t\cos t = \tfrac12\sin 2t$، ومشتقتها $\cos 2t$. (التمرين 6)"
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={578} label="ص 578" />
+
+- أوجد $df/dt$ على مسار $(x(t), y(t))$ بقاعدة السلسلة: **(1)** $f = \sin(x + cy)$ **(2)** $f = (ax + by)^{10}$ **(3)** $f = e^{x + 7y}$ **(4)** $f = \ln(x + 7y)$
+- **(5)** أوجد الحدين في مشتقة $(g(x(t), y(t)))^3$ بالنسبة إلى $t$.
+- **(6)** إذا كان $f = xy$ و $x = u(t)$ و $y = v(t)$، فما $df/dt$؟ (هذه قاعدة الضرب!)
+- **(20)** إذا كان لصاروخ انطلاق $dx/dt = 6$ في المدى و $dy/dt = 2t$ إلى أعلى، فبأي معدل يبتعد عن نقطة الإطلاق؟
+- **(21)** قطار يقترب من تقاطع بسرعة 60 ميلاً في الساعة، وسيارة تقترب على الطريق العمودي. أوجد معدل تغير المسافة بينهما.
+- **(25)** لـ $f(x, y, t) = x + y + t$ أوجد $\partial f/\partial t$ و $df/dt$ حين يعتمد $x$ و $y$ على $t$ (مثلاً $x = 2t$، $y = 3t$).

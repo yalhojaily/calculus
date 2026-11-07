@@ -1,0 +1,86 @@
+---
+id: "13.4"
+summary: 'المشتقة الاتجاهية $D_{\mathbf u}f$ ميل السطح في اتجاه أي متجه وحدة $\mathbf u$. وهي ضرب نقطي: $D_{\mathbf u}f = \nabla f\cdot\mathbf u$، حيث التدرّج $\nabla f = (f_x, f_y)$. التدرّج يشير إلى أشد صعود وطوله أكبر ميل، وهو عمودي على خطوط التساوي. وفي ثلاثة أبعاد $\nabla f = (f_x, f_y, f_z)$ عمودي على سطوح التساوي.'
+minutes: 35
+objectives:
+  - 'تحسب المشتقة الاتجاهية $D_{\mathbf u}f = f_xu_1 + f_yu_2$.'
+  - 'تعرّف التدرّج $\nabla f$ وتعرف أن $D_{\mathbf u}f = \nabla f\cdot\mathbf u = |\nabla f|\cos\theta$.'
+  - 'تعرف أن التدرّج يشير إلى أشد صعود، وأنه عمودي على خطوط التساوي.'
+  - 'تحسب التدرّج في ثلاثة أبعاد وتستعمله عمودياً على السطوح.'
+---
+
+import Callout from '../../components/Callout.astro';
+import Term from '../../components/Term.astro';
+import BookRef from '../../components/BookRef.astro';
+import QuickCheck from '../../components/QuickCheck.tsx';
+import StepReveal from '../../components/StepReveal.tsx';
+import GradientMap from '../../components/GradientMap.tsx';
+
+<Callout type="big">
+المشتقتان الجزئيتان ميلان في اتجاهين خاصين: على المحور $x$ وعلى المحور $y$. **لكن ماذا عن الاتجاهات الأخرى؟** نقف على جبل وننظر حولنا في كل الاتجاهات: الشمال الشرقي، الجنوب الغربي... ولكل اتجاه ميل. **أي اتجاه أشد صعوداً؟ وفي أي اتجاه يبقى الارتفاع ثابتاً؟**
+</Callout>
+
+**المثال 1:** ابقَ على السطح $z = xy$. حين تتحرك $(x, y)$ مسافة $s$ في اتجاه $45°$ من $(1, 2)$، تصير $x = 1 + s/\sqrt2$ و $y = 2 + s/\sqrt2$. الارتفاع $(1 + s/\sqrt2)(2 + s/\sqrt2)$، ومشتقته بالنسبة إلى $s$ عند $s = 0$ هي $(2 + 1)/\sqrt2 = 3/\sqrt2$.
+
+<Callout type="definition" title="التعريف و 13E">
+مشتقة $f$ في اتجاه متجه الوحدة $\mathbf u = (u_1, u_2)$ عند $P$:
+$$
+D_{\mathbf u}f = \lim_{s\to 0}\frac{f(x_0 + su_1, y_0 + su_2) - f(x_0, y_0)}{s} = \frac{\partial f}{\partial x}u_1 + \frac{\partial f}{\partial y}u_2
+$$
+للاتجاه $\mathbf u = (1, 0)$ نحصل على $f_x$، ولـ $(0, 1)$ على $f_y$.
+</Callout>
+
+لماذا؟ تقريب خطي: $\Delta f \approx f_x\,\Delta x + f_y\,\Delta y$ مع $\Delta x = su_1$ و $\Delta y = su_2$. اقسم على $s$.
+
+## التدرّج
+
+<Callout type="definition" title="التعريف و 13F">
+**التدرّج** $\nabla f$ (يُقرأ «grad f») متجه مركّبتاه المشتقتان الجزئيتان:
+$$
+\nabla f = \frac{\partial f}{\partial x}\mathbf i + \frac{\partial f}{\partial y}\mathbf j \qquad\qquad D_{\mathbf u}f = \nabla f\cdot\mathbf u = |\nabla f|\cos\theta
+$$
+**الاتجاه المستوي** عمودي على $\nabla f$ (حيث $D_{\mathbf u}f = 0$). **وأشد اتجاه** هو $\nabla f$ نفسه، والميل فيه $|\nabla f|$.
+</Callout>
+
+**هذا هو البرهان الموعود** في القسم 13.1: $\cos\theta$ أكبره 1 حين يتجه $\mathbf u$ مع التدرّج. وأشد نزول في الاتجاه المعاكس $-\nabla f$. **وعلى خط التساوي لا يتغير $f$**، فالميل صفر و $\mathbf u$ عمودي على $\nabla f$: **التدرّج عمودي على خطوط التساوي**.
+
+<GradientMap client:visible />
+
+<StepReveal
+  client:visible
+  title="المثال 2: f = 3x² + 2y²"
+  problem="أوجد التدرّج والاتجاه الأشد واتجاه التساوي عند (1, 1)."
+  steps={[
+    { show: "$\\nabla f = 6x\\,\\mathbf i + 4y\\,\\mathbf j = (6, 4)$ عند $(1, 1)$" },
+    { show: "أشد ميل $|\\nabla f| = \\sqrt{36 + 16} = \\sqrt{52}$، في اتجاه $\\mathbf u = (6, 4)/\\sqrt{52}$" },
+    { show: "اتجاه التساوي عمودي: $\\mathbf u = (-4, 6)/\\sqrt{52}$، و $D_{\\mathbf u}f = (6)(-4) + (4)(6) = 0$ ✓", why: "خط التساوي $3x^2 + 2y^2 = 5$ قطع ناقص يمر بـ $(1, 1)$، ومماسه هناك في هذا الاتجاه." },
+  ]}
+/>
+
+## ثلاثة أبعاد
+
+لـ $f(x, y, z)$ ثلاث مشتقات جزئية، والتدرّج $\nabla f = f_x\mathbf i + f_y\mathbf j + f_z\mathbf k$. **و «خطوط» التساوي صارت سطوح تساوٍ** $f(x, y, z) = c$. التدرّج عمودي عليها، فهو العمودي $\mathbf N$ الذي استعملناه في 13B. مثلاً $f = x^2 + y^2 + z^2$: سطوح التساوي كرات، و $\nabla f = 2(x, y, z)$ يشير على نصف القطر.
+
+<Callout type="key" title="المشتقة على امتداد منحنى">
+إذا تحركت النقطة على مسار $(x(t), y(t))$ بسرعة $\mathbf v$، فإن $df/dt = \nabla f\cdot\mathbf v$، **وبالنسبة إلى طول القوس** $df/ds = \nabla f\cdot\mathbf T$. هذه قاعدة السلسلة، موضوع القسم التالي.
+</Callout>
+
+<QuickCheck
+  client:visible
+  id="13.4-max"
+  question="ما أكبر مشتقة اتجاهية لـ $f = x^2 + y^2$ عند $(3, 4)$؟"
+  options={["7", "10", "5", "14"]}
+  answer={1}
+  explain="$\nabla f = (2x, 2y) = (6, 8)$، وأكبر ميل طوله $\sqrt{36 + 64} = 10$، في اتجاه $(0.6, 0.8)$: إلى الخارج على نصف القطر، عمودياً على الدائرة $x^2 + y^2 = 25$."
+/>
+
+## تمارين من الكتاب
+
+<BookRef page={570} label="ص 570" />
+
+أوجد $\nabla f$ و $D_{\mathbf u}f$:
+
+- **(2)** $f = 3x + 4y + 7$ **(3)** $f = e^x\cos y$ **(7)** $\ln(x^2 + y^2)$ (مصدر خطي على المحور $z$)
+- **(9)** لـ $f = 3x^2 + 2y^2$ أوجد أشد اتجاه واتجاه التساوي عند $(1, 1)$. وأوجد خط التساوي المار بها.
+- **(12)** ما تدرّج $f(x)$ (مركّبة واحدة)؟ وما الاتجاهان الممكنان لـ $\mathbf u$؟
+- **(26)** خط تساوي $f = y/x$ المار بـ $(1, 1)$ هو ______. ارسم التدرّج هناك.
