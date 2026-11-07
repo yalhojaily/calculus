@@ -4,7 +4,7 @@
 
 الكتاب منشور مجاناً على [MIT OpenCourseWare](https://ocw.mit.edu) بترخيص CC BY-NC-SA.
 
-**الحالة:** الفصول 0 إلى 15 مكتملة (91 درساً). خريطة الكتاب كاملة (17 فصلاً، 92 قسماً)، وكل قسم لم يُشرح بعد له صفحة تعرض صفحاته من الكتاب.
+**الحالة:** الكتاب مكتمل: الفصول 0 إلى 16، وكل الأقسام الـ 92 لها دروس تفاعلية.
 
 ## فكرة كل درس
 
@@ -53,7 +53,8 @@ src/
     Osculating, KeplerOrbit, SurfaceContour, PartialPlane, GradientMap,
     ChainPath, QuadForm, LagrangeWidget, StickSum, RegionStrips,
     JacobianMap, TripleSlices, SphericalBox, VectorField,
-    WorkPath, GreenCells, SurfacePatch, FluxCube, PaddleWheel, StokesCap    ← محاكاة قابلة لإعادة الاستخدام
+    WorkPath, GreenCells, SurfacePatch, FluxCube, PaddleWheel, StokesCap,
+    FourierSeries, WaveSplit    ← محاكاة قابلة لإعادة الاستخدام
   lib/plot.ts             محرك رسم صغير على canvas (محاور، منحنيات، مساحات، مماسات، أسهم، منحنيات بارامترية)
   lib/polar.ts            مقياس متساوٍ للمحورين، شبكة قطبية، ورسم r = F(θ) بلون للجزء السالب
   lib/three.ts            إسقاط ثلاثي الأبعاد ودوران بالسحب، المتجهات، رسم السطوح z = f(x, y) وخطوط التساوي
